@@ -1,5 +1,6 @@
 const WORDPRESS_SITE_URL = "https://emytrends.com";
 const WORDPRESS_API_BASE = "https://cms.emytrends.com/wp/index.php?rest_route=/wp/v2";
+const WORDPRESS_API_BACKUP = "https://cms.emytrends.com/wp-json/wp/v2";
 
 export interface WordPressPost {
   id: number;
@@ -49,18 +50,23 @@ export interface WordPressCategory {
 
 export const fetchPosts = async (categorySlug?: string, perPage: number = 10): Promise<WordPressPost[]> => {
   try {
-    let url = `${WORDPRESS_API_BASE}/posts?_embed&per_page=${perPage}`;
-    
+    let path = `/posts?_embed&per_page=${perPage}`;
+
     if (categorySlug) {
       const categories = await fetchCategories();
       const category = categories.find(cat => cat.slug === categorySlug);
       if (category) {
-        url += `&categories=${category.id}`;
+        path += `&categories=${category.id}`;
       }
     }
-    
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Failed to fetch posts');
+
+    let response = await fetch(`${WORDPRESS_API_BASE}${path}`);
+    if (!response.ok) {
+      // Fallback only if the provided route isn't available
+      response = await fetch(`${WORDPRESS_API_BACKUP}${path}`);
+      if (!response.ok) throw new Error('Failed to fetch posts');
+    }
+
     return response.json();
   } catch (error) {
     console.error('Error fetching posts:', error);
@@ -70,8 +76,12 @@ export const fetchPosts = async (categorySlug?: string, perPage: number = 10): P
 
 export const fetchPostBySlug = async (slug: string): Promise<WordPressPost | null> => {
   try {
-    const response = await fetch(`${WORDPRESS_API_BASE}/posts?slug=${slug}&_embed`);
-    if (!response.ok) throw new Error('Failed to fetch post');
+    const path = `/posts?slug=${slug}&_embed`;
+    let response = await fetch(`${WORDPRESS_API_BASE}${path}`);
+    if (!response.ok) {
+      response = await fetch(`${WORDPRESS_API_BACKUP}${path}`);
+      if (!response.ok) throw new Error('Failed to fetch post');
+    }
     const posts = await response.json();
     return posts[0] || null;
   } catch (error) {
@@ -82,8 +92,12 @@ export const fetchPostBySlug = async (slug: string): Promise<WordPressPost | nul
 
 export const fetchCategories = async (): Promise<WordPressCategory[]> => {
   try {
-    const response = await fetch(`${WORDPRESS_API_BASE}/categories?per_page=100`);
-    if (!response.ok) throw new Error('Failed to fetch categories');
+    const path = `/categories?per_page=100`;
+    let response = await fetch(`${WORDPRESS_API_BASE}${path}`);
+    if (!response.ok) {
+      response = await fetch(`${WORDPRESS_API_BACKUP}${path}`);
+      if (!response.ok) throw new Error('Failed to fetch categories');
+    }
     return response.json();
   } catch (error) {
     console.error('Error fetching categories:', error);
