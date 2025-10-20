@@ -1,4 +1,5 @@
-const WORDPRESS_API_URL = "https://cms.emytrends.com/wp/index.php?rest_route=/wp/v2";
+const WORDPRESS_SITE_URL = "https://emytrends.com";
+const WORDPRESS_API_BASE = "https://cms.emytrends.com";
 
 export interface WordPressPost {
   id: number;
@@ -48,7 +49,7 @@ export interface WordPressCategory {
 
 export const fetchPosts = async (categorySlug?: string, perPage: number = 10): Promise<WordPressPost[]> => {
   try {
-    let url = `${WORDPRESS_API_URL}/posts?_embed&per_page=${perPage}`;
+    let url = `${WORDPRESS_API_BASE}/wp-json/wp/v2/posts?_embed&per_page=${perPage}`;
     
     if (categorySlug) {
       const categories = await fetchCategories();
@@ -69,7 +70,7 @@ export const fetchPosts = async (categorySlug?: string, perPage: number = 10): P
 
 export const fetchPostBySlug = async (slug: string): Promise<WordPressPost | null> => {
   try {
-    const response = await fetch(`${WORDPRESS_API_URL}/posts?slug=${slug}&_embed`);
+    const response = await fetch(`${WORDPRESS_API_BASE}/wp-json/wp/v2/posts?slug=${slug}&_embed`);
     if (!response.ok) throw new Error('Failed to fetch post');
     const posts = await response.json();
     return posts[0] || null;
@@ -81,7 +82,7 @@ export const fetchPostBySlug = async (slug: string): Promise<WordPressPost | nul
 
 export const fetchCategories = async (): Promise<WordPressCategory[]> => {
   try {
-    const response = await fetch(`${WORDPRESS_API_URL}/categories?per_page=100`);
+    const response = await fetch(`${WORDPRESS_API_BASE}/wp-json/wp/v2/categories?per_page=100`);
     if (!response.ok) throw new Error('Failed to fetch categories');
     return response.json();
   } catch (error) {
