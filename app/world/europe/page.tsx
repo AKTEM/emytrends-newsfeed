@@ -29,7 +29,7 @@ export default async function EuropePage() {
             <nav className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
               <Link href="/" className="hover:text-red-600 transition-colors">Home</Link>
               <ChevronRight className="w-4 h-4" />
-              <span className="text-gray-900 dark:text-white">Europe</span>
+              <span className="text-gray-900 dark:text-white">Scholarships</span>
             </nav>
           </div>
         </div>
@@ -38,10 +38,10 @@ export default async function EuropePage() {
         <div className="bg-gradient-to-r from-blue-600 to-blue-700 text-white py-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">Europe News</h1>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">Scholarships</h1>
               <p className="text-xl opacity-90 max-w-2xl mx-auto">
-                Latest news and developments from across Europe. 
-                Politics, economics, culture, and society from the European continent.
+                Discover scholarship opportunities, funding programs, grants, 
+                and financial aid for students worldwide.
               </p>
             </div>
           </div>
@@ -66,7 +66,7 @@ export default async function EuropePage() {
                     
                     <div className="absolute top-3 left-3 flex space-x-2">
                       <Badge className="bg-blue-600 hover:bg-blue-700 text-white">
-                        EUROPE
+                        SCHOLARSHIPS
                       </Badge>
                       {article.isTrending && (
                         <Badge className="bg-purple-500 hover:bg-purple-600 text-white">
@@ -120,13 +120,13 @@ export default async function EuropePage() {
           ) : (
             <div className="text-center py-16">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                No Europe News Available
+                No Scholarships Available
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-8">
-                We're working to bring you the latest news from Europe. Please check back soon.
+                We're working to bring you the latest scholarship opportunities. Please check back soon.
               </p>
               <Button asChild>
-                <Link href="/world">Back to World News</Link>
+                <Link href="/world">Back to Education</Link>
               </Button>
             </div>
           )}

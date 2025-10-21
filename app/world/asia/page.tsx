@@ -29,7 +29,7 @@ export default async function AsiaPage() {
             <nav className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
               <Link href="/" className="hover:text-red-600 transition-colors">Home</Link>
               <ChevronRight className="w-4 h-4" />
-              <span className="text-gray-900 dark:text-white">Asia</span>
+              <span className="text-gray-900 dark:text-white">Learning/Career Guide</span>
             </nav>
           </div>
         </div>
@@ -38,10 +38,10 @@ export default async function AsiaPage() {
         <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">Asia News</h1>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">Learning & Career Guide</h1>
               <p className="text-xl opacity-90 max-w-2xl mx-auto">
-                Latest news and developments from across Asia. 
-                Politics, economics, culture, and society from the world's largest continent.
+                Expert guidance on learning paths, career development, skill-building, 
+                and professional growth opportunities.
               </p>
             </div>
           </div>
@@ -66,7 +66,7 @@ export default async function AsiaPage() {
                     
                     <div className="absolute top-3 left-3 flex space-x-2">
                       <Badge className="bg-red-600 hover:bg-red-700 text-white">
-                        ASIA
+                        CAREER GUIDE
                       </Badge>
                       {article.isTrending && (
                         <Badge className="bg-yellow-500 hover:bg-yellow-600 text-white">
@@ -120,13 +120,13 @@ export default async function AsiaPage() {
           ) : (
             <div className="text-center py-16">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                No Asia News Available
+                No Career Guides Available
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-8">
-                We're working to bring you the latest news from Asia. Please check back soon.
+                We're working to bring you the latest career guidance. Please check back soon.
               </p>
               <Button asChild>
-                <Link href="/world">Back to World News</Link>
+                <Link href="/world">Back to Education</Link>
               </Button>
             </div>
           )}
