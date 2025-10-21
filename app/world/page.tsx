@@ -10,8 +10,7 @@ import {
   getAustraliaNews,
   getAsiaNews,
   getEuropeNews,
-  getUKNews,
-  getCanadaNews
+  getUKNews
 } from '@/lib/wordpress';
 
 export const metadata: Metadata = {
@@ -42,16 +41,14 @@ async function getWorldData() {
       australiaNews,
       asiaNews,
       europeNews,
-      ukNews,
-      canadaNews
+      ukNews
     ] = await Promise.allSettled([
       getAfricaNews(3),
       getAmericasNews(3),
       getAustraliaNews(3),
       getAsiaNews(3),
       getEuropeNews(3),
-      getUKNews(3),
-      getCanadaNews(3)
+      getUKNews(3)
     ]);
 
     return {
@@ -60,19 +57,17 @@ async function getWorldData() {
       australiaNews: australiaNews.status === 'fulfilled' ? australiaNews.value : [],
       asiaNews: asiaNews.status === 'fulfilled' ? asiaNews.value : [],
       europeNews: europeNews.status === 'fulfilled' ? europeNews.value : [],
-      ukNews: ukNews.status === 'fulfilled' ? ukNews.value : [],
-      canadaNews: canadaNews.status === 'fulfilled' ? canadaNews.value : []
+      ukNews: ukNews.status === 'fulfilled' ? ukNews.value : []
     };
   } catch (error) {
-    console.error('Error fetching world data:', error);
+    console.error('Error fetching education data:', error);
     return {
       africaNews: [],
       americasNews: [],
       australiaNews: [],
       asiaNews: [],
       europeNews: [],
-      ukNews: [],
-      canadaNews: []
+      ukNews: []
     };
   }
 }
@@ -124,7 +119,7 @@ export default async function WorldPage() {
              asiaNews: Array.isArray(data.asiaNews) ? data.asiaNews : [],
              europeNews: Array.isArray(data.europeNews) ? data.europeNews : [],
              ukNews: Array.isArray(data.ukNews) ? data.ukNews : [],
-             canadaNews: Array.isArray(data.canadaNews) ? data.canadaNews : []
+             canadaNews: []
            }}
           />
         </div>

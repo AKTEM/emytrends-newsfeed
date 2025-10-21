@@ -22,7 +22,7 @@ interface WorldNewsProps {
     asiaNews: TransformedPost[];
     europeNews: TransformedPost[];
     ukNews: TransformedPost[];
-    canadaNews: TransformedPost[];
+    canadaNews?: TransformedPost[];
   };
 }
 
@@ -191,15 +191,14 @@ export const WorldNews: React.FC<WorldNewsProps> = ({
     }
   ];
 
-  // Combine all WordPress articles from all regions
+  // Combine all WordPress articles from all regions (now Education categories)
   const allWordPressArticles = [
-    ...(allArticles.africaNews || []).map(article => ({ ...article, region: "Africa" })),
-    ...(allArticles.americasNews || []).map(article => ({ ...article, region: "Americas" })),
-    ...(allArticles.australiaNews || []).map(article => ({ ...article, region: "Australia" })),
-    ...(allArticles.asiaNews || []).map(article => ({ ...article, region: "Asia" })),
-    ...(allArticles.europeNews || []).map(article => ({ ...article, region: "Europe" })),
-    ...(allArticles.ukNews || []).map(article => ({ ...article, region: "UK" })),
-    ...(allArticles.canadaNews || []).map(article => ({ ...article, region: "Canada" }))
+    ...(allArticles.africaNews || []).map(article => ({ ...article, region: "Academics" })),
+    ...(allArticles.americasNews || []).map(article => ({ ...article, region: "Migration" })),
+    ...(allArticles.australiaNews || []).map(article => ({ ...article, region: "Exam/Admission" })),
+    ...(allArticles.asiaNews || []).map(article => ({ ...article, region: "Learning/Career Guide" })),
+    ...(allArticles.europeNews || []).map(article => ({ ...article, region: "Scholarships" })),
+    ...(allArticles.ukNews || []).map(article => ({ ...article, region: "Student Life" }))
   ];
 
   // Sort by date (newest first) and use fallback if needed
@@ -215,21 +214,21 @@ export const WorldNews: React.FC<WorldNewsProps> = ({
   return (
     <section className="space-y-8">
       <div className="flex items-center space-x-3">
-        <Globe className="w-8 h-8 text-red-600" />
+        <Globe className="w-8 h-8 text-indigo-600" />
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-          World News
+          Education Hub
         </h2>
-        <div className="flex-1 h-1 bg-red-600 rounded-full ml-4"></div>
+        <div className="flex-1 h-1 bg-indigo-600 rounded-full ml-4"></div>
       </div>
 
       <div className="bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950 dark:to-indigo-950 rounded-xl p-6 mb-8">
         <div className="text-center">
-          <MapPin className="w-12 h-12 text-red-600 mx-auto mb-3" />
+          <MapPin className="w-12 h-12 text-indigo-600 mx-auto mb-3" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            Global News from Every Continent
+            Comprehensive Education Resources
           </h3>
           <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Stay informed with breaking news and important developments from Africa, Americas, Australia, Asia, Canada, Europe, and the United Kingdom.
+            Explore academics, migration guides, exam preparation, learning resources, scholarships, and student life experiences from around the world.
           </p>
         </div>
       </div>
@@ -251,9 +250,9 @@ export const WorldNews: React.FC<WorldNewsProps> = ({
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 
                 <div className="absolute top-3 left-3 flex space-x-2">
-                  <Badge className="bg-red-600 hover:bg-red-700 text-white">
+                  <Badge className="bg-indigo-600 hover:bg-indigo-700 text-white">
                     <Globe className="w-3 h-3 mr-1" />
-                    WORLD
+                    EDUCATION
                   </Badge>
                   <Badge variant="secondary" className="bg-white/90 text-gray-900 hover:bg-white text-xs">
                     {article.region || article.category}
@@ -291,10 +290,10 @@ export const WorldNews: React.FC<WorldNewsProps> = ({
                 <Button 
                   asChild
                   variant="outline"
-                  className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
+                  className="w-full border-indigo-200 text-indigo-600 hover:bg-indigo-50 hover:border-indigo-300 dark:border-indigo-800 dark:text-indigo-400 dark:hover:bg-indigo-950"
                 >
                   <Link href={`/article/${article.slug}`}>
-                    Read World News
+                    Read Article
                   </Link>
                 </Button>
               </div>
@@ -309,9 +308,9 @@ export const WorldNews: React.FC<WorldNewsProps> = ({
             <Button
               onClick={() => setShowAll(!showAll)}
               size="lg"
-              className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-3 flex items-center space-x-2 mx-auto"
+              className="bg-gradient-to-r from-indigo-600 to-indigo-700 hover:from-indigo-700 hover:to-indigo-800 text-white px-8 py-3 flex items-center space-x-2 mx-auto"
             >
-              <span>{showAll ? 'Show Less' : 'View All World News'}</span>
+              <span>{showAll ? 'Show Less' : 'View All Education Content'}</span>
               {showAll ? (
                 <ChevronUp className="w-5 h-5" />
               ) : (
