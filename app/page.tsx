@@ -3,6 +3,7 @@ import { HeroSection } from '@/components/hero-section';
 import { LatestHeadlines } from '@/components/latest-headlines';
 import { EditorsPicks } from '@/components/editors-picks';
 import { YouMayHaveMissed } from '@/components/you-may-have-missed';
+import { JapaRoutes } from '@/components/japa-routes';
 import { DailyMaple } from '@/components/daily-maple';
 import { FeaturedArticles } from '@/components/featured-articles';
 import { CategoryGrid } from '@/components/category-grid';
@@ -69,6 +70,7 @@ async function getHomePageData() {
       dailyMaple,
       featuredArticles,
       youMayHaveMissed,
+      japaRoutes,
       bookNook,
       theFridayPost,
       heroArticles,
@@ -86,6 +88,7 @@ async function getHomePageData() {
       getDailyMaple(20),
       getFeaturedArticles(20),
       getYouMayHaveMissed(20),
+      getPostsByCategory('japa-routes', 20).then(posts => posts.map(transformPost).filter(Boolean)),
       getBookNook(20),
       getTheFridayPost(20),
       getPosts({ per_page: 9, _embed: true }).then(posts => posts.map(transformPost).filter(Boolean)),
@@ -113,6 +116,7 @@ async function getHomePageData() {
       dailyMaple: dailyMaple.status === 'fulfilled' ? dailyMaple.value : [],
       featuredArticles: featuredArticles.status === 'fulfilled' ? featuredArticles.value : [],
       youMayHaveMissed: youMayHaveMissed.status === 'fulfilled' ? youMayHaveMissed.value : [],
+      japaRoutes: japaRoutes.status === 'fulfilled' ? japaRoutes.value : [],
       bookNook: bookNook.status === 'fulfilled' ? bookNook.value : [],
       theFridayPost: theFridayPost.status === 'fulfilled' ? theFridayPost.value : [],
       heroArticles: combinedHeroArticles.length > 0 ? combinedHeroArticles : (heroArticles.status === 'fulfilled' ? (heroArticles.value || []) : []),
@@ -132,6 +136,7 @@ async function getHomePageData() {
       dailyMaple: [],
       featuredArticles: [],
       youMayHaveMissed: [],
+      japaRoutes: [],
       bookNook: [],
       theFridayPost: [],
       heroArticles: [],
@@ -173,8 +178,9 @@ export default async function Home() {
                 canadaNews: Array.isArray(data.canadaNews) ? data.canadaNews : []
               }}
             />
-            <LatestHeadlines articles={data.latestHeadlines} />
-            <EditorsPicks articles={data.editorsPicks} />
+      <LatestHeadlines articles={data.latestHeadlines} />
+      <JapaRoutes articles={data.japaRoutes} />
+      <EditorsPicks articles={data.editorsPicks} />
             <YouMayHaveMissed articles={data.youMayHaveMissed} />
             <DailyMaple articles={data.dailyMaple} />
             <FeaturedArticles articles={data.featuredArticles} />
