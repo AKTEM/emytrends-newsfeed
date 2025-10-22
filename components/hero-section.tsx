@@ -74,7 +74,7 @@ export function HeroSection({ articles }: HeroSectionProps) {
     fetchBusinessNews();
   }, []);
 
-  const targetCategories = ['Politics', 'Business', 'Technology', 'Health', 'Sports', 'Entertainment'];
+  const targetCategories = ['Politics', 'Business', 'Technology', 'News', 'Sports', 'Entertainment'];
 
   const categorizedArticles = targetCategories.reduce((acc, category) => {
     const categoryArticles = articles.filter(article =>
@@ -185,29 +185,51 @@ export function HeroSection({ articles }: HeroSectionProps) {
               </div>
             </div>
 
-            {/* Bottom Articles */}
+            {/* Bottom Articles - 4 New Categories */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {bottomArticles.map(article => (
-                <div key={article.id} className="group rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-xl transition">
-                  <div className="aspect-video relative">
-                    <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute top-3 left-3">
-                      <Badge className="bg-white/90 text-gray-900 text-xs">{article.category}</Badge>
+              {['japa-routes', 'life-after-japa', 'tech-gadget', 'vibes-n-cruise'].map((category, index) => {
+                const categoryArticle = articles.find(a => 
+                  a.category.toLowerCase().replace(/\s+/g, '-') === category ||
+                  a.tags?.some(tag => tag.toLowerCase().replace(/\s+/g, '-') === category)
+                );
+                
+                const displayArticle = categoryArticle || {
+                  id: 9000 + index,
+                  title: `Latest in ${category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`,
+                  excerpt: `Stay updated with the latest news and articles in ${category.split('-').join(' ')}.`,
+                  content: "",
+                  category: category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+                  image: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=400",
+                  author: "Editorial Team",
+                  readTime: "5 min read",
+                  views: "1.2k views",
+                  publishDate: new Date().toISOString(),
+                  slug: category,
+                  tags: [category]
+                };
+
+                return (
+                  <div key={category} className="group rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-xl transition">
+                    <div className="aspect-video relative">
+                      <img src={displayArticle.image} alt={displayArticle.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute top-3 left-3">
+                        <Badge className="bg-white/90 text-gray-900 text-xs">{displayArticle.category}</Badge>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-2 hover:text-red-600">
+                        <Link href={`/article/${displayArticle.slug}`}>{displayArticle.title}</Link>
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">{displayArticle.excerpt}</p>
+                      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                        <span><User className="inline w-3 h-3" /> {displayArticle.author}</span>
+                        <span><Clock className="inline w-3 h-3" /> {displayArticle.readTime}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-2 hover:text-red-600">
-                      <Link href={`/article/${article.slug}`}>{article.title}</Link>
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">{article.excerpt}</p>
-                    <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-                      <span><User className="inline w-3 h-3" /> {article.author}</span>
-                      <span><Clock className="inline w-3 h-3" /> {article.readTime}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 

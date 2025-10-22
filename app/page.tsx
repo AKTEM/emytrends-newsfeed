@@ -4,13 +4,7 @@ import { LatestHeadlines } from '@/components/latest-headlines';
 import { EditorsPicks } from '@/components/editors-picks';
 import { YouMayHaveMissed } from '@/components/you-may-have-missed';
 import { DailyMaple } from '@/components/daily-maple';
-import { MapleTravel } from '@/components/maple-travel';
-import { ThroughTheLens } from '@/components/through-the-lens';
 import { FeaturedArticles } from '@/components/featured-articles';
-import { MapleVoices } from '@/components/maple-voices';
-import { ExploreCanada } from '@/components/explore-canada';
-import { Resources } from '@/components/resources';
-import { Events } from '@/components/events';
 import { CategoryGrid } from '@/components/category-grid';
 import { WorldNews } from '@/components/world-news';
 import { BookNook } from '@/components/booknook';
@@ -21,13 +15,7 @@ import {
   getLatestHeadlines,
   getEditorsPicks,
   getDailyMaple,
-  getMapleTravel,
-  getThroughTheLens,
   getFeaturedArticles,
-  getMapleVoices,
-  getExploreCanada,
-  getResources,
-  getEvents,
   getYouMayHaveMissed,
   getBookNook,
   getTheFridayPost,
@@ -67,7 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
 async function getHomePageData() {
   try {
     // Fetch articles from specific categories for hero section
-    const targetCategories = ['politics', 'business', 'technology', 'health', 'sports', 'entertainment'];
+    const targetCategories = ['politics', 'business', 'technology', 'news', 'sports', 'entertainment', 'japa-routes', 'life-after-japa', 'tech-gadget', 'vibes-n-cruise'];
     const heroArticlesPromises = targetCategories.map(category => 
       getPostsByCategory(category, 3).then(posts => posts.map(transformPost).filter(Boolean))
     );
@@ -79,13 +67,7 @@ async function getHomePageData() {
       latestHeadlines,
       editorsPicks,
       dailyMaple,
-      mapleTravel,
-      throughTheLens,
       featuredArticles,
-      mapleVoices,
-      exploreCanada,
-      resources,
-      events,
       youMayHaveMissed,
       bookNook,
       theFridayPost,
@@ -102,13 +84,7 @@ async function getHomePageData() {
       getLatestHeadlines(3),
       editorsPicksPromise,
       getDailyMaple(20),
-      getMapleTravel(20),
-      getThroughTheLens(20),
       getFeaturedArticles(20),
-      getMapleVoices(20),
-      getExploreCanada(20),
-      getResources(20),
-      getEvents(20),
       getYouMayHaveMissed(20),
       getBookNook(20),
       getTheFridayPost(20),
@@ -135,13 +111,7 @@ async function getHomePageData() {
       latestHeadlines: latestHeadlines.status === 'fulfilled' ? latestHeadlines.value : [],
       editorsPicks: editorsPicks.status === 'fulfilled' ? editorsPicks.value : [],
       dailyMaple: dailyMaple.status === 'fulfilled' ? dailyMaple.value : [],
-      mapleTravel: mapleTravel.status === 'fulfilled' ? mapleTravel.value : [],
-      throughTheLens: throughTheLens.status === 'fulfilled' ? throughTheLens.value : [],
       featuredArticles: featuredArticles.status === 'fulfilled' ? featuredArticles.value : [],
-      mapleVoices: mapleVoices.status === 'fulfilled' ? mapleVoices.value : [],
-      exploreCanada: exploreCanada.status === 'fulfilled' ? exploreCanada.value : [],
-      resources: resources.status === 'fulfilled' ? resources.value : [],
-      events: events.status === 'fulfilled' ? events.value : [],
       youMayHaveMissed: youMayHaveMissed.status === 'fulfilled' ? youMayHaveMissed.value : [],
       bookNook: bookNook.status === 'fulfilled' ? bookNook.value : [],
       theFridayPost: theFridayPost.status === 'fulfilled' ? theFridayPost.value : [],
@@ -160,13 +130,7 @@ async function getHomePageData() {
       latestHeadlines: [],
       editorsPicks: [],
       dailyMaple: [],
-      mapleTravel: [],
-      throughTheLens: [],
       featuredArticles: [],
-      mapleVoices: [],
-      exploreCanada: [],
-      resources: [],
-      events: [],
       youMayHaveMissed: [],
       bookNook: [],
       theFridayPost: [],
@@ -213,13 +177,7 @@ export default async function Home() {
             <EditorsPicks articles={data.editorsPicks} />
             <YouMayHaveMissed articles={data.youMayHaveMissed} />
             <DailyMaple articles={data.dailyMaple} />
-            <MapleTravel articles={data.mapleTravel} />
-            <ThroughTheLens articles={data.throughTheLens} />
             <FeaturedArticles articles={data.featuredArticles} />
-            <MapleVoices articles={data.mapleVoices} />
-            <ExploreCanada articles={data.exploreCanada} />
-            <Resources articles={data.resources} />
-            <Events articles={data.events} />
             <BookNook articles={data.bookNook} />
             <TheFridayPost articles={data.theFridayPost} />
             <div className="mt-16">
