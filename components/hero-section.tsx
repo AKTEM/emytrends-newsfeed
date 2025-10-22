@@ -187,29 +187,35 @@ export function HeroSection({ articles }: HeroSectionProps) {
 
             {/* Bottom Articles - 4 New Categories */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {['japa-routes', 'life-after-japa', 'tech-gadget', 'vibes-n-cruise'].map((category, index) => {
+              {[
+                { slug: 'japa-routes', display: 'Japa Routes', wpCategory: 'japa-routes' },
+                { slug: 'life-after-japa', display: 'Life After Japa', wpCategory: 'life-after-japa' },
+                { slug: 'tech-gadget', display: 'Tech/Gadget', wpCategory: 'tech-gadget' },
+                { slug: 'vibes-n-cruise', display: 'Vibes N Cruise', wpCategory: 'vibes-n-cruise' }
+              ].map((category, index) => {
                 const categoryArticle = articles.find(a => 
-                  a.category.toLowerCase().replace(/\s+/g, '-') === category ||
-                  a.tags?.some(tag => tag.toLowerCase().replace(/\s+/g, '-') === category)
+                  a.category.toLowerCase().replace(/\s+/g, '-') === category.wpCategory.toLowerCase() ||
+                  a.category.toLowerCase() === category.wpCategory.toLowerCase() ||
+                  a.tags?.some(tag => tag.toLowerCase().replace(/\s+/g, '-') === category.wpCategory.toLowerCase())
                 );
                 
                 const displayArticle = categoryArticle || {
                   id: 9000 + index,
-                  title: `Latest in ${category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`,
-                  excerpt: `Stay updated with the latest news and articles in ${category.split('-').join(' ')}.`,
+                  title: `Latest in ${category.display}`,
+                  excerpt: `Stay updated with the latest news and articles in ${category.display}.`,
                   content: "",
-                  category: category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+                  category: category.display,
                   image: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=400",
                   author: "Editorial Team",
                   readTime: "5 min read",
                   views: "1.2k views",
                   publishDate: new Date().toISOString(),
-                  slug: category,
-                  tags: [category]
+                  slug: category.slug,
+                  tags: [category.wpCategory]
                 };
 
                 return (
-                  <div key={category} className="group rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-xl transition">
+                  <div key={category.slug} className="group rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-xl transition">
                     <div className="aspect-video relative">
                       <img src={displayArticle.image} alt={displayArticle.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
@@ -235,33 +241,36 @@ export function HeroSection({ articles }: HeroSectionProps) {
 
           {/* Side Column */}
           <div className="flex flex-col gap-6">
-            {/* Business Article */}
-            {/* {businessArticle && (
+            {/* Business/Economy Article */}
+            {businessArticle && (
               <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
                 <div className="aspect-video relative">
                   <img 
                     src={businessArticle.image || 'https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg?auto=compress&cs=tinysrgb&w=400'} 
-                    alt={businessArticle.title || 'Business News'} 
+                    alt={businessArticle.title || 'Business/Economy News'} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute top-3 left-3 flex gap-2">
-                    <Badge className="bg-blue-600 text-white">BUSINESS</Badge>
-                    <Badge className="bg-green-500 text-white text-xs">LIVE</Badge>
+                    <Badge className="bg-blue-600 text-white">BUSINESS/ECONOMY</Badge>
                   </div>
                 </div>
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white hover:text-red-600 line-clamp-2">
                     <Link href={`/article/${businessArticle.slug}`}>
-                      {businessArticle.title || 'Business News Update'}
+                      {businessArticle.title || 'Business/Economy News Update'}
                     </Link>
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
-                    {businessArticle.excerpt || 'Latest business developments and market insights.'}
+                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mt-2">
+                    {businessArticle.excerpt || 'Latest business and economy developments.'}
                   </p>
+                  <div className="flex items-center gap-3 mt-3 text-xs text-gray-500 dark:text-gray-400">
+                    <span className="flex items-center gap-1"><User className="w-3 h-3" />{businessArticle.author}</span>
+                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{businessArticle.readTime}</span>
+                  </div>
                 </div>
               </div>
-            )} */}
+            )}
 
             {/* Trending Business (Static Card) */}
             {trendingBusinessArticle && (
