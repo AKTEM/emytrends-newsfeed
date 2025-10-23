@@ -16,6 +16,9 @@ export function HeroSection({ articles }: HeroSectionProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [businessArticle, setBusinessArticle] = useState<TransformedPost | null>(null);
   const [trendingBusinessArticle, setTrendingBusinessArticle] = useState<TransformedPost | null>(null);
+  const [lifeAfterJapaArticle, setLifeAfterJapaArticle] = useState<TransformedPost | null>(null);
+  const [techGadgetArticle, setTechGadgetArticle] = useState<TransformedPost | null>(null);
+  const [vibesNCruiseArticle, setVibesNCruiseArticle] = useState<TransformedPost | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
@@ -71,7 +74,42 @@ export function HeroSection({ articles }: HeroSectionProps) {
         });
       }
     }
+    
+    async function fetchCategoryArticles() {
+      try {
+        // Fetch Life After Japa
+        const lifeAfterJapaPosts = await getPostsByCategory('life-after-japa', 1);
+        if (lifeAfterJapaPosts.length > 0) {
+          const transformed = transformPost(lifeAfterJapaPosts[0]);
+          if (transformed) {
+            setLifeAfterJapaArticle(transformed);
+          }
+        }
+
+        // Fetch Tech/Gadget
+        const techGadgetPosts = await getPostsByCategory('tech-gadget', 1);
+        if (techGadgetPosts.length > 0) {
+          const transformed = transformPost(techGadgetPosts[0]);
+          if (transformed) {
+            setTechGadgetArticle(transformed);
+          }
+        }
+
+        // Fetch Vibes N Cruise
+        const vibesNCruisePosts = await getPostsByCategory('vibes-n-cruise', 1);
+        if (vibesNCruisePosts.length > 0) {
+          const transformed = transformPost(vibesNCruisePosts[0]);
+          if (transformed) {
+            setVibesNCruiseArticle(transformed);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching category articles:', error);
+      }
+    }
+    
     fetchBusinessNews();
+    fetchCategoryArticles();
   }, []);
 
   const targetCategories = ['Politics', 'Business', 'Technology', 'News', 'Sports', 'Entertainment'];
@@ -188,18 +226,35 @@ export function HeroSection({ articles }: HeroSectionProps) {
             {/* Bottom Articles - 4 New Categories */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {[
-                { slug: 'japa-routes', display: 'Japa Routes', wpCategory: 'japa-routes' },
-                { slug: 'life-after-japa', display: 'Life After Japa', wpCategory: 'life-after-japa' },
-                { slug: 'tech-gadget', display: 'Tech/Gadget', wpCategory: 'tech-gadget' },
-                { slug: 'vibes-n-cruise', display: 'Vibes N Cruise', wpCategory: 'vibes-n-cruise' }
+                { 
+                  slug: 'japa-routes', 
+                  display: 'Japa Routes', 
+                  wpCategory: 'japa-routes',
+                  article: articles.find(a => 
+                    a.category.toLowerCase().replace(/\s+/g, '-') === 'japa-routes' ||
+                    a.tags?.some(tag => tag.toLowerCase().replace(/\s+/g, '-') === 'japa-routes')
+                  )
+                },
+                { 
+                  slug: 'life-after-japa', 
+                  display: 'Life After Japa', 
+                  wpCategory: 'life-after-japa',
+                  article: lifeAfterJapaArticle
+                },
+                { 
+                  slug: 'tech-gadget', 
+                  display: 'Tech/Gadget', 
+                  wpCategory: 'tech-gadget',
+                  article: techGadgetArticle
+                },
+                { 
+                  slug: 'vibes-n-cruise', 
+                  display: 'Vibes N Cruise', 
+                  wpCategory: 'vibes-n-cruise',
+                  article: vibesNCruiseArticle
+                }
               ].map((category, index) => {
-                const categoryArticle = articles.find(a => 
-                  a.category.toLowerCase().replace(/\s+/g, '-') === category.wpCategory.toLowerCase() ||
-                  a.category.toLowerCase() === category.wpCategory.toLowerCase() ||
-                  a.tags?.some(tag => tag.toLowerCase().replace(/\s+/g, '-') === category.wpCategory.toLowerCase())
-                );
-                
-                const displayArticle = categoryArticle || {
+                const displayArticle = category.article || {
                   id: 9000 + index,
                   title: `Latest in ${category.display}`,
                   excerpt: `Stay updated with the latest news and articles in ${category.display}.`,
