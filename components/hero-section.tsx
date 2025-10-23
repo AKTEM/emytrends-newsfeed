@@ -43,35 +43,6 @@ export function HeroSection({ articles }: HeroSectionProps) {
         }
       } catch (error) {
         console.error('Error fetching business news:', error);
-        // Set fallback articles to prevent null errors
-        setBusinessArticle({
-          id: 999,
-          title: "Business News Update",
-          excerpt: "Stay informed with the latest business developments and market insights.",
-          content: "<p>Business news content...</p>",
-          category: "Business",
-          image: "https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg?auto=compress&cs=tinysrgb&w=400",
-          author: "Business Desk",
-          readTime: "5 min read",
-          views: "2.1k views",
-          publishDate: new Date().toISOString(),
-          slug: "business-update",
-          tags: ["business", "markets"]
-        });
-        setTrendingBusinessArticle({
-          id: 998,
-          title: "Market Trends Analysis",
-          excerpt: "Comprehensive analysis of current market trends and economic indicators.",
-          content: "<p>Market trends analysis...</p>",
-          category: "Business",
-          image: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=400",
-          author: "Market Analyst",
-          readTime: "6 min read",
-          views: "3.4k views",
-          publishDate: new Date().toISOString(),
-          slug: "market-trends",
-          tags: ["business", "analysis"]
-        });
       }
     }
     
@@ -253,21 +224,11 @@ export function HeroSection({ articles }: HeroSectionProps) {
                   wpCategory: 'vibes-n-cruise',
                   article: vibesNCruiseArticle
                 }
-              ].map((category, index) => {
-                const displayArticle = category.article || {
-                  id: 9000 + index,
-                  title: `Latest in ${category.display}`,
-                  excerpt: `Stay updated with the latest news and articles in ${category.display}.`,
-                  content: "",
-                  category: category.display,
-                  image: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=400",
-                  author: "Editorial Team",
-                  readTime: "5 min read",
-                  views: "1.2k views",
-                  publishDate: new Date().toISOString(),
-                  slug: category.slug,
-                  tags: [category.wpCategory]
-                };
+              ].map((category) => {
+                // Only render if article exists
+                if (!category.article) return null;
+                
+                const displayArticle = category.article;
 
                 return (
                   <div key={category.slug} className="group rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-xl transition">
