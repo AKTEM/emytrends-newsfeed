@@ -4,7 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock, Eye, User, TrendingUp, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
-import { getPostsByCategory, transformPost, fallbackPosts } from '@/lib/wordpress';
+import { getPostsByCategory, transformPost } from '@/lib/wordpress';
 import { getCategoryYoastSEO, yoastToNextMetadata } from '@/lib/yoast-seo';
 import { Metadata } from 'next';
 import { ArticlesGrid } from '@/components/articles-grid';
@@ -26,14 +26,10 @@ export async function generateMetadata(): Promise<Metadata> {
 async function getLifeAfterJapaData() {
   try {
     const posts = await getPostsByCategory('life-after-japa');
-    return posts.length > 0 ? posts.map(transformPost).filter(Boolean) : fallbackPosts.filter(post =>
-      post.category.toLowerCase() === 'life after japa'
-    );
+    return posts.map(transformPost).filter(Boolean);
   } catch (error) {
     console.error('Error fetching life after japa data:', error);
-    return fallbackPosts.filter(post =>
-      post.category.toLowerCase() === 'life after japa'
-    );
+    return [];
   }
 }
 
