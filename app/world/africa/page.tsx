@@ -6,6 +6,9 @@ import { Clock, Eye, User, TrendingUp, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { getAfricaNews } from '@/lib/wordpress';
 
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
+
 async function getAfricaData() {
   try {
     const posts = await getAfricaNews(12);

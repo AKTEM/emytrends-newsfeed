@@ -13,6 +13,9 @@ import {
   getUKNews
 } from '@/lib/wordpress';
 
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
+
 export const metadata: Metadata = {
   title: 'Education - The Maple Epoch',
   description: 'Explore educational opportunities, study abroad programs, academic insights, and learning resources from institutions worldwide.',

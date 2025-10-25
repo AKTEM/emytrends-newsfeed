@@ -9,6 +9,9 @@ import { getCategoryYoastSEO, yoastToNextMetadata } from '@/lib/yoast-seo';
 import { Metadata } from 'next';
 import { ArticlesGrid } from '@/components/articles-grid';
 
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
+
 export async function generateMetadata(): Promise<Metadata> {
   try {
     const yoastData = await getCategoryYoastSEO('health');

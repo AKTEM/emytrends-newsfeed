@@ -5,6 +5,9 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { processContentForGallery, validateImages } from '@/lib/image-parser';
 
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
+
 // Generate static params for permalinks
 export async function generateStaticParams() {
   try {

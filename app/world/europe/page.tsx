@@ -6,6 +6,9 @@ import { Clock, Eye, User, TrendingUp, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { getEuropeNews } from '@/lib/wordpress';
 
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
+
 async function getEuropeData() {
   try {
     const posts = await getEuropeNews(12);
