@@ -20,7 +20,7 @@ export const BookNook: React.FC<BookNookProps> = ({ articles }) => {
       <div className="flex items-center space-x-3">
         <BookOpen className="w-8 h-8 text-red-600" />
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-          BookNook
+          Finance
         </h2>
         <div className="flex-1 h-1 bg-red-600 rounded-full ml-4"></div>
       </div>
@@ -29,10 +29,10 @@ export const BookNook: React.FC<BookNookProps> = ({ articles }) => {
         <div className="text-center">
           <BookOpen className="w-12 h-12 text-red-600 mx-auto mb-3" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-             Discover the tales
+           Money Matters
           </h3>
           <p className="text-gray-600 dark:text-gray-300">
-            and pages that move you — Canada and beyond
+           Smart money talk, saving hacks, crypto trends, and investment ideas to help you stay ahead.
 
           </p>
         </div>
@@ -56,7 +56,7 @@ export const BookNook: React.FC<BookNookProps> = ({ articles }) => {
                 <div className="absolute top-3 left-3 flex space-x-2">
                   <Badge className="bg-red-600 hover:bg-red-700 text-white">
                     <BookOpen className="w-3 h-3 mr-1" />
-                    BOOKNOOK
+                   Finance 
                   </Badge>
                   {article.featured && (
                     <Badge className="bg-amber-500 hover:bg-amber-600 text-white">
@@ -114,10 +114,10 @@ export const BookNook: React.FC<BookNookProps> = ({ articles }) => {
         <div className="text-center py-16">
           <BookOpen className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            No Book Reviews Available
+            No Finance Post Available
           </h3>
           <p className="text-gray-600 dark:text-gray-300">
-            Check back soon for literary reviews and book recommendations.
+            Check back soon for Finance Posts and articles.
           </p>
         </div>
       )}

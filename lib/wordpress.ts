@@ -366,11 +366,11 @@ export async function getEditorsPicks(limit: number = 3): Promise<TransformedPos
 
 // Section-specific functions
 export async function getDailyMaple(limit: number = 3): Promise<TransformedPost[]> {
-  return getPostsByCategory('daily-maple', Math.max(limit, 20)).then(posts => posts.map(transformPost));
+  return getPostsByCategory('business-economy', Math.max(limit, 20)).then(posts => posts.map(transformPost));
 }
 
 export async function getMapleTravel(limit: number = 3): Promise<TransformedPost[]> {
-  return getPostsByCategory('maple-travel', Math.max(limit, 20)).then(posts => posts.map(transformPost));
+  return getPostsByCategory('vibes-n-cruise', Math.max(limit, 20)).then(posts => posts.map(transformPost));
 }
 
 export async function getThroughTheLens(limit: number = 3): Promise<TransformedPost[]> {
@@ -409,34 +409,34 @@ export async function getYouMayHaveMissed(limit: number = 3): Promise<Transforme
   return getPostsByCategory('you-may-have-missed', Math.max(limit, 20)).then(posts => posts.map(transformPost));
 }
 
-// World News functions for specific regions
+// World News functions for specific regions (now Education categories)
 export async function getAfricaNews(limit: number = 1): Promise<TransformedPost[]> {
-  return getPostsByCategory('africa', Math.max(limit, 20)).then(posts => posts.map(transformPost));
+  return getPostsByCategory('academics', Math.max(limit, 20)).then(posts => posts.map(transformPost));
 }
 
 export async function getAmericasNews(limit: number = 1): Promise<TransformedPost[]> {
-  return getPostsByCategory('americas', Math.max(limit, 20)).then(posts => posts.map(transformPost));
+  return getPostsByCategory('migration', Math.max(limit, 20)).then(posts => posts.map(transformPost));
 }
 
 export async function getAustraliaNews(limit: number = 1): Promise<TransformedPost[]> {
-  return getPostsByCategory('australia', Math.max(limit, 20)).then(posts => posts.map(transformPost));
+  return getPostsByCategory('exam-admission', Math.max(limit, 20)).then(posts => posts.map(transformPost));
 }
 
 export async function getAsiaNews(limit: number = 1): Promise<TransformedPost[]> {
-  return getPostsByCategory('asia', Math.max(limit, 20)).then(posts => posts.map(transformPost));
+  return getPostsByCategory('learning-career-guide', Math.max(limit, 20)).then(posts => posts.map(transformPost));
 }
 
 export async function getEuropeNews(limit: number = 1): Promise<TransformedPost[]> {
-  return getPostsByCategory('europe', Math.max(limit, 20)).then(posts => posts.map(transformPost));
+  return getPostsByCategory('scholarships', Math.max(limit, 20)).then(posts => posts.map(transformPost));
 }
 
 export async function getUKNews(limit: number = 1): Promise<TransformedPost[]> {
-  return getPostsByCategory('uk', Math.max(limit, 20)).then(posts => posts.map(transformPost));
+  return getPostsByCategory('student-life', Math.max(limit, 20)).then(posts => posts.map(transformPost));
 }
 
 // BookNook and Lifestyle Wire functions
 export async function getBookNook(limit: number = 3): Promise<TransformedPost[]> {
-  return getPostsByCategory('booknook', Math.max(limit, 20)).then(posts => posts.map(transformPost));
+  return getPostsByCategory('finance', Math.max(limit, 20)).then(posts => posts.map(transformPost));
 }
 
 export async function getTheFridayPost(limit?: number): Promise<TransformedPost[]> {

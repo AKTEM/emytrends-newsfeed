@@ -131,9 +131,6 @@ export function Header() {
             <Link href="/lifestyle" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
               News
             </Link>
-            <Link href="/the-friday-post" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
-              The Friday Post
-            </Link>
 
             {/* Education Dropdown */}
             <DropdownMenu>
@@ -143,26 +140,26 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem>
-                  <Link href="/world/africa">Africa</Link>
+                  <Link href="/world/africa">Academics</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/world/americas">Americas</Link>
+                  <Link href="/world/americas">Migration</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/world/australia">Australia</Link>
+                  <Link href="/world/australia">Exam/Admission</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/world/asia">Asia</Link>
+                  <Link href="/world/asia">Learning/Career Guide</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/world/europe">Europe</Link>
+                  <Link href="/world/europe">Scholarships</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/world/uk">UK</Link>
+                  <Link href="/world/uk">Student Life</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <Link href="/world/canada">Canada</Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
 
@@ -175,20 +172,20 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem>
-                  <Link href="/daily-maple">Daily Maple</Link>
+                  <Link href="/daily-maple">Business/Economy</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/maple-travel">Maple Travel</Link>
+                  <Link href="/maple-travel">Vibes N Cruise</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <Link href="/maple-voices">Maple Voices</Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem>
-                  <Link href="/booknook">BookNook</Link>
+                  <Link href="/booknook">Finance</Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem>
+                {/* <DropdownMenuItem>
                   <Link href="/through-the-lens">Through the Lens</Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
               </DropdownMenuContent>
             </DropdownMenu>
           </div>
@@ -325,9 +322,6 @@ export function Header() {
               <Link href="/lifestyle" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
                 News
               </Link>
-              <Link href="/the-friday-post" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
-                The Friday Post
-              </Link>
               
               {/* Education Section with Collapsible Subsections */}
               <div className="border-t border-gray-200 dark:border-gray-800 pt-4">
@@ -349,50 +343,50 @@ export function Header() {
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      Africa
+                      Academics
                     </Link>
                     <Link 
                       href="/world/americas" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      Americas
+                      Migration
                     </Link>
                     <Link 
                       href="/world/australia" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      Australia
+                      Exam/Admission
                     </Link>
                     <Link 
                       href="/world/asia" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      Asia
+                      Learning/Career Guide
                     </Link>
                     <Link 
                       href="/world/europe" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      Europe
+                      Scholarships
                     </Link>
                     <Link 
                       href="/world/uk" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      UK
+                      Student Life
                     </Link>
-                    <Link 
+                    {/* <Link 
                       href="/world/canada" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Canada
-                    </Link>
+                    </Link> */}
                   </div>
                 )}
               </div>
@@ -413,25 +407,32 @@ export function Header() {
                 {mobileMoreOpen && (
                   <div className="pl-4 space-y-2 border-l-2 border-red-200 dark:border-red-800">
                     <Link 
-                      href="/booknook" 
-                      className="block text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors"
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      BookNook
-                    </Link>
-                    <Link 
                       href="/daily-maple" 
                       className="block text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      Daily Maple
+                      Business/Economy
                     </Link>
                     <Link 
                       href="/maple-travel" 
                       className="block text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      Maple Travel
+                      Vibes N Cruise
+                    </Link>
+                    <Link 
+                      href="/booknook" 
+                      className="block text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Finance
+                    </Link>
+                    <Link 
+                      href="/maple-travel" 
+                      className="block text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                    Vibes N cruise
                     </Link>
                     <Link 
                       href="/through-the-lens" 

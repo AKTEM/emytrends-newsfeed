@@ -5,6 +5,9 @@ import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { getMapleTravel } from '@/lib/wordpress';
 
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
+
 async function getMapleTravelData() {
   try {
     const posts = await getMapleTravel(12);
@@ -28,7 +31,7 @@ export default async function MapleTravelPage() {
             <nav className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
               <Link href="/" className="hover:text-red-600 transition-colors">Home</Link>
               <ChevronRight className="w-4 h-4" />
-              <span className="text-gray-900 dark:text-white">Maple Travel</span>
+              <span className="text-gray-900 dark:text-white">Vibes N Cruise</span>
             </nav>
           </div>
         </div>
@@ -37,10 +40,9 @@ export default async function MapleTravelPage() {
         <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">Maple Travel</h1>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">Vibes N Cruise</h1>
               <p className="text-xl opacity-90 max-w-2xl mx-auto">
-                Discover Canada's breathtaking destinations with expert guides, insider tips, 
-                and unforgettable travel experiences from coast to coast to coast.
+                Where laughter meets trending memes, banter, and good vibes only.
               </p>
             </div>
           </div>

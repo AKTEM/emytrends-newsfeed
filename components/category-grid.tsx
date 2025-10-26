@@ -58,60 +58,12 @@ const categories = [
     gradient: "from-orange-500 to-red-500"
   },
   {
-    id: 13,
-    title: "Maple Travel",
-    description: "Discover Canada's breathtaking destinations",
-    icon: Mountain,
-    href: "/maple-travel",
-    gradient: "from-blue-500 to-green-500"
-  },
-  {
-    id: 14,
-    title: "Through the Lens",
-    description: "Photography insights and local secrets",
-    icon: Camera,
-    href: "/through-the-lens",
-    gradient: "from-purple-500 to-pink-500"
-  },
-  {
     id: 15,
     title: "Featured Articles",
     description: "In-depth Canadian culture and current events",
     icon: FileText,
     href: "/featured-articles",
     gradient: "from-amber-500 to-yellow-500"
-  },
-  {
-    id: 16,
-    title: "Maple Voices",
-    description: "Stories from Canadians across the nation",
-    icon: MessageSquare,
-    href: "/maple-voices",
-    gradient: "from-green-500 to-teal-500"
-  },
-  {
-    id: 17,
-    title: "Explore Canada",
-    description: "Hidden gems and iconic landmarks",
-    icon: Compass,
-    href: "/explore-canada",
-    gradient: "from-indigo-500 to-cyan-500"
-  },
-  {
-    id: 18,
-    title: "Resources",
-    description: "Canadian history, culture, and travel guides",
-    icon: BookOpen,
-    href: "/resources",
-    gradient: "from-slate-500 to-gray-500"
-  },
-  {
-    id: 19,
-    title: "Events",
-    description: "Canadian festivals, conferences, and celebrations",
-    icon: Calendar,
-    href: "/events",
-    gradient: "from-rose-500 to-pink-500"
   },
   {
     id: 20,

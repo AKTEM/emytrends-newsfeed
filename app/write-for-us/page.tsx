@@ -43,7 +43,7 @@ export default function WriteForUsPage() {
     const data = new FormData(form);
 
     // ✅ Use new Formspree endpoint
-    const res = await fetch("https://formspree.io/f/mjkonyjp", {
+    const res = await fetch("https://formspree.io/f/meopqjqr", {
       method: "POST",
       body: data,
       headers: { Accept: "application/json" },
@@ -95,7 +95,7 @@ export default function WriteForUsPage() {
             <div className="space-y-8">
               <div>
                 <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                  Why Write for The Maple Epoch?
+                  Why Write for Emytrends?
                 </h2>
                 <p className="text-gray-600 dark:text-gray-300 mb-6">
                   We're always looking for talented writers who can contribute fresh perspectives
@@ -106,13 +106,13 @@ export default function WriteForUsPage() {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="text-center p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
                     <Users className="w-8 h-8 text-red-600 mx-auto mb-2" />
-                    <h3 className="font-semibold text-gray-900 dark:text-white">250K+ Readers</h3>
+                    <h3 className="font-semibold text-gray-900 dark:text-white">1000+ Readers</h3>
                     <p className="text-sm text-gray-600 dark:text-gray-300">Monthly audience</p>
                   </div>
                   <div className="text-center p-6 bg-gray-50 dark:bg-gray-800 rounded-lg">
                     <Globe className="w-8 h-8 text-red-600 mx-auto mb-2" />
                     <h3 className="font-semibold text-gray-900 dark:text-white">50+ Countries</h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300">Global reach</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-300">Nigeria & Global reach</p>
                   </div>
                 </div>
               </div>

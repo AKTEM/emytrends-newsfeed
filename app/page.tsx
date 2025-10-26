@@ -2,35 +2,23 @@ import { Header } from '@/components/header';
 import { HeroSection } from '@/components/hero-section';
 import { LatestHeadlines } from '@/components/latest-headlines';
 import { EditorsPicks } from '@/components/editors-picks';
-import { YouMayHaveMissed } from '@/components/you-may-have-missed';
+import { VibesNCruise } from '@/components/vibes-n-cruise';
+import { JapaRoutes } from '@/components/japa-routes';
+import { LifeAfterJapa } from '@/components/life-after-japa';
+import { HealthHub } from '@/components/health-hub';
+import { TechGadget } from '@/components/tech-gadget';
+import { SportsHub } from '@/components/sports-hub';
 import { DailyMaple } from '@/components/daily-maple';
-import { MapleTravel } from '@/components/maple-travel';
-import { ThroughTheLens } from '@/components/through-the-lens';
-import { FeaturedArticles } from '@/components/featured-articles';
-import { MapleVoices } from '@/components/maple-voices';
-import { ExploreCanada } from '@/components/explore-canada';
-import { Resources } from '@/components/resources';
-import { Events } from '@/components/events';
-import { CategoryGrid } from '@/components/category-grid';
+
 import { WorldNews } from '@/components/world-news';
 import { BookNook } from '@/components/booknook';
-import { TheFridayPost } from '@/components/the-friday-post';
 import { Footer } from '@/components/footer';
 import { Continent } from '@/components/continent';
 import { 
   getLatestHeadlines,
   getEditorsPicks,
   getDailyMaple,
-  getMapleTravel,
-  getThroughTheLens,
-  getFeaturedArticles,
-  getMapleVoices,
-  getExploreCanada,
-  getResources,
-  getEvents,
-  getYouMayHaveMissed,
   getBookNook,
-  getTheFridayPost,
   getPosts,
   transformPost,
   getPostsByCategory,
@@ -46,8 +34,8 @@ import {
 import { getHomepageYoastSEO, yoastToNextMetadata } from '@/lib/yoast-seo';
 import { Metadata } from 'next';
 
-// Force dynamic rendering - no caching
-export const revalidate = 60; // Revalidate every 60 seconds
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
 
 // Generate metadata using Yoast SEO
 export async function generateMetadata(): Promise<Metadata> {
@@ -67,7 +55,7 @@ export async function generateMetadata(): Promise<Metadata> {
 async function getHomePageData() {
   try {
     // Fetch articles from specific categories for hero section
-    const targetCategories = ['politics', 'business', 'technology', 'health', 'sports', 'entertainment'];
+    const targetCategories = ['politics', 'business', 'technology', 'news', 'sports', 'entertainment', 'japa-routes', 'life-after-japa', 'tech-gadget', 'vibes-n-cruise'];
     const heroArticlesPromises = targetCategories.map(category => 
       getPostsByCategory(category, 3).then(posts => posts.map(transformPost).filter(Boolean))
     );
@@ -79,16 +67,13 @@ async function getHomePageData() {
       latestHeadlines,
       editorsPicks,
       dailyMaple,
-      mapleTravel,
-      throughTheLens,
-      featuredArticles,
-      mapleVoices,
-      exploreCanada,
-      resources,
-      events,
-      youMayHaveMissed,
+      japaRoutes,
+      lifeAfterJapa,
+      healthHub,
+      techGadget,
+      sportsHub,
+      vibesNCruise,
       bookNook,
-      theFridayPost,
       heroArticles,
       africaNews,
       americasNews,
@@ -102,16 +87,13 @@ async function getHomePageData() {
       getLatestHeadlines(3),
       editorsPicksPromise,
       getDailyMaple(20),
-      getMapleTravel(20),
-      getThroughTheLens(20),
-      getFeaturedArticles(20),
-      getMapleVoices(20),
-      getExploreCanada(20),
-      getResources(20),
-      getEvents(20),
-      getYouMayHaveMissed(20),
+      getPostsByCategory('japa-routes', 20).then(posts => posts.map(transformPost).filter(Boolean)),
+      getPostsByCategory('life-after-japa', 20).then(posts => posts.map(transformPost).filter(Boolean)),
+      getPostsByCategory('health', 20).then(posts => posts.map(transformPost).filter(Boolean)),
+      getPostsByCategory('tech-gadget', 20).then(posts => posts.map(transformPost).filter(Boolean)),
+      getPostsByCategory('sports', 20).then(posts => posts.map(transformPost).filter(Boolean)),
+      getPostsByCategory('vibes-n-cruise', 20).then(posts => posts.map(transformPost).filter(Boolean)),
       getBookNook(20),
-      getTheFridayPost(20),
       getPosts({ per_page: 9, _embed: true }).then(posts => posts.map(transformPost).filter(Boolean)),
       getAfricaNews(20),
       getAmericasNews(20),
@@ -135,16 +117,13 @@ async function getHomePageData() {
       latestHeadlines: latestHeadlines.status === 'fulfilled' ? latestHeadlines.value : [],
       editorsPicks: editorsPicks.status === 'fulfilled' ? editorsPicks.value : [],
       dailyMaple: dailyMaple.status === 'fulfilled' ? dailyMaple.value : [],
-      mapleTravel: mapleTravel.status === 'fulfilled' ? mapleTravel.value : [],
-      throughTheLens: throughTheLens.status === 'fulfilled' ? throughTheLens.value : [],
-      featuredArticles: featuredArticles.status === 'fulfilled' ? featuredArticles.value : [],
-      mapleVoices: mapleVoices.status === 'fulfilled' ? mapleVoices.value : [],
-      exploreCanada: exploreCanada.status === 'fulfilled' ? exploreCanada.value : [],
-      resources: resources.status === 'fulfilled' ? resources.value : [],
-      events: events.status === 'fulfilled' ? events.value : [],
-      youMayHaveMissed: youMayHaveMissed.status === 'fulfilled' ? youMayHaveMissed.value : [],
+      japaRoutes: japaRoutes.status === 'fulfilled' ? japaRoutes.value : [],
+      lifeAfterJapa: lifeAfterJapa.status === 'fulfilled' ? lifeAfterJapa.value : [],
+      healthHub: healthHub.status === 'fulfilled' ? healthHub.value : [],
+      techGadget: techGadget.status === 'fulfilled' ? techGadget.value : [],
+      sportsHub: sportsHub.status === 'fulfilled' ? sportsHub.value : [],
+      vibesNCruise: vibesNCruise.status === 'fulfilled' ? vibesNCruise.value : [],
       bookNook: bookNook.status === 'fulfilled' ? bookNook.value : [],
-      theFridayPost: theFridayPost.status === 'fulfilled' ? theFridayPost.value : [],
       heroArticles: combinedHeroArticles.length > 0 ? combinedHeroArticles : (heroArticles.status === 'fulfilled' ? (heroArticles.value || []) : []),
       africaNews: africaNews.status === 'fulfilled' ? africaNews.value : [],
       americasNews: americasNews.status === 'fulfilled' ? americasNews.value : [],
@@ -160,16 +139,13 @@ async function getHomePageData() {
       latestHeadlines: [],
       editorsPicks: [],
       dailyMaple: [],
-      mapleTravel: [],
-      throughTheLens: [],
-      featuredArticles: [],
-      mapleVoices: [],
-      exploreCanada: [],
-      resources: [],
-      events: [],
-      youMayHaveMissed: [],
+      japaRoutes: [],
+      lifeAfterJapa: [],
+      healthHub: [],
+      techGadget: [],
+      sportsHub: [],
+      vibesNCruise: [],
       bookNook: [],
-      theFridayPost: [],
       heroArticles: [],
       africaNews: [],
       americasNews: [],
@@ -209,22 +185,16 @@ export default async function Home() {
                 canadaNews: Array.isArray(data.canadaNews) ? data.canadaNews : []
               }}
             />
-            <LatestHeadlines articles={data.latestHeadlines} />
-            <EditorsPicks articles={data.editorsPicks} />
-            <YouMayHaveMissed articles={data.youMayHaveMissed} />
+      <LatestHeadlines articles={data.latestHeadlines} />
+      <JapaRoutes articles={data.japaRoutes} />
+      <LifeAfterJapa articles={data.lifeAfterJapa} />
+      <HealthHub articles={data.healthHub} />
+      <TechGadget articles={data.techGadget} />
+      <SportsHub articles={data.sportsHub} />
+      <EditorsPicks articles={data.editorsPicks} />
+      <VibesNCruise articles={data.vibesNCruise} />
             <DailyMaple articles={data.dailyMaple} />
-            <MapleTravel articles={data.mapleTravel} />
-            <ThroughTheLens articles={data.throughTheLens} />
-            <FeaturedArticles articles={data.featuredArticles} />
-            <MapleVoices articles={data.mapleVoices} />
-            <ExploreCanada articles={data.exploreCanada} />
-            <Resources articles={data.resources} />
-            <Events articles={data.events} />
             <BookNook articles={data.bookNook} />
-            <TheFridayPost articles={data.theFridayPost} />
-            <div className="mt-16">
-              <CategoryGrid />
-            </div>
           </div>
         </div>
       </main>

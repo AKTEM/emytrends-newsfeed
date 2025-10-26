@@ -5,6 +5,9 @@ import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { getYouMayHaveMissed } from '@/lib/wordpress';
 
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
+
 async function getYouMayHaveMissedData() {
   try {
     const posts = await getYouMayHaveMissed(12);

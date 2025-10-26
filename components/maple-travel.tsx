@@ -20,7 +20,7 @@ export const MapleTravel: React.FC<MapleTravel> = ({ articles }) => {
       <div className="flex items-center space-x-3">
         <Mountain className="w-8 h-8 text-red-600" />
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Maple Travel
+          Vibes N Cruise
         </h2>
         <div className="flex-1 h-1 bg-red-600 rounded-full ml-4"></div>
       </div>
@@ -29,11 +29,10 @@ export const MapleTravel: React.FC<MapleTravel> = ({ articles }) => {
         <div className="text-center">
           <Mountain className="w-12 h-12 text-red-600 mx-auto mb-3" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            Discover Canada's Natural Wonders
+           Watch N laugh
           </h3>
           <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            From the Rocky Mountains to the Atlantic shores, explore Canada's breathtaking destinations 
-            with expert guides, insider tips, and unforgettable travel experiences.
+            From savage memes to viral comedy, it’s all vibes, all cruise, all the time.
           </p>
         </div>
       </div>
@@ -56,7 +55,7 @@ export const MapleTravel: React.FC<MapleTravel> = ({ articles }) => {
                 <div className="absolute top-3 left-3 flex space-x-2">
                   <Badge className="bg-red-600 hover:bg-red-700 text-white">
                     <Mountain className="w-3 h-3 mr-1" />
-                    MAPLE TRAVEL
+                   Vibes N Cruise
                   </Badge>
                   {article.featured && (
                     <Badge className="bg-blue-500 hover:bg-blue-600 text-white">
@@ -102,7 +101,7 @@ export const MapleTravel: React.FC<MapleTravel> = ({ articles }) => {
                   className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
                 >
                   <Link href={`/article/${article.slug}`}>
-                    Explore Destination
+                    Watch N laugh
                   </Link>
                 </Button>
               </div>
@@ -113,10 +112,10 @@ export const MapleTravel: React.FC<MapleTravel> = ({ articles }) => {
         <div className="text-center py-16">
           <Mountain className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            No Travel Articles Available
+            No Memes, Comedy posts available
           </h3>
           <p className="text-gray-600 dark:text-gray-300">
-            Check back soon for the latest travel guides and destination insights.
+            Check back soon for the latest savage memes and viral comedy
           </p>
         </div>
       )}

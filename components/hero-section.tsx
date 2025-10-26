@@ -16,6 +16,9 @@ export function HeroSection({ articles }: HeroSectionProps) {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [businessArticle, setBusinessArticle] = useState<TransformedPost | null>(null);
   const [trendingBusinessArticle, setTrendingBusinessArticle] = useState<TransformedPost | null>(null);
+  const [lifeAfterJapaArticle, setLifeAfterJapaArticle] = useState<TransformedPost | null>(null);
+  const [techGadgetArticle, setTechGadgetArticle] = useState<TransformedPost | null>(null);
+  const [vibesNCruiseArticle, setVibesNCruiseArticle] = useState<TransformedPost | null>(null);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrentTime(new Date()), 60000);
@@ -40,41 +43,47 @@ export function HeroSection({ articles }: HeroSectionProps) {
         }
       } catch (error) {
         console.error('Error fetching business news:', error);
-        // Set fallback articles to prevent null errors
-        setBusinessArticle({
-          id: 999,
-          title: "Business News Update",
-          excerpt: "Stay informed with the latest business developments and market insights.",
-          content: "<p>Business news content...</p>",
-          category: "Business",
-          image: "https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg?auto=compress&cs=tinysrgb&w=400",
-          author: "Business Desk",
-          readTime: "5 min read",
-          views: "2.1k views",
-          publishDate: new Date().toISOString(),
-          slug: "business-update",
-          tags: ["business", "markets"]
-        });
-        setTrendingBusinessArticle({
-          id: 998,
-          title: "Market Trends Analysis",
-          excerpt: "Comprehensive analysis of current market trends and economic indicators.",
-          content: "<p>Market trends analysis...</p>",
-          category: "Business",
-          image: "https://images.pexels.com/photos/3184292/pexels-photo-3184292.jpeg?auto=compress&cs=tinysrgb&w=400",
-          author: "Market Analyst",
-          readTime: "6 min read",
-          views: "3.4k views",
-          publishDate: new Date().toISOString(),
-          slug: "market-trends",
-          tags: ["business", "analysis"]
-        });
       }
     }
+    
+    async function fetchCategoryArticles() {
+      try {
+        // Fetch Life After Japa
+        const lifeAfterJapaPosts = await getPostsByCategory('life-after-japa', 1);
+        if (lifeAfterJapaPosts.length > 0) {
+          const transformed = transformPost(lifeAfterJapaPosts[0]);
+          if (transformed) {
+            setLifeAfterJapaArticle(transformed);
+          }
+        }
+
+        // Fetch Tech/Gadget
+        const techGadgetPosts = await getPostsByCategory('tech-gadget', 1);
+        if (techGadgetPosts.length > 0) {
+          const transformed = transformPost(techGadgetPosts[0]);
+          if (transformed) {
+            setTechGadgetArticle(transformed);
+          }
+        }
+
+        // Fetch Vibes N Cruise
+        const vibesNCruisePosts = await getPostsByCategory('vibes-n-cruise', 1);
+        if (vibesNCruisePosts.length > 0) {
+          const transformed = transformPost(vibesNCruisePosts[0]);
+          if (transformed) {
+            setVibesNCruiseArticle(transformed);
+          }
+        }
+      } catch (error) {
+        console.error('Error fetching category articles:', error);
+      }
+    }
+    
     fetchBusinessNews();
+    fetchCategoryArticles();
   }, []);
 
-  const targetCategories = ['Politics', 'Business', 'Technology', 'Health', 'Sports', 'Entertainment'];
+  const targetCategories = ['Politics', 'Business', 'Technology', 'News', 'Sports', 'Entertainment'];
 
   const categorizedArticles = targetCategories.reduce((acc, category) => {
     const categoryArticles = articles.filter(article =>
@@ -132,10 +141,10 @@ export function HeroSection({ articles }: HeroSectionProps) {
         {/* Header */}
         <div className="text-center mb-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
-            Breaking News & <span className="text-red-600">Latest Updates</span>
+            Breaking News <span className="text-red-600">& Latest Updates</span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            Stay informed with real-time coverage from trusted sources.
+          Where Information Meets Entertainment
           </p>
           <div className="flex justify-center items-center gap-4">
             <span className="flex items-center gap-2 text-sm text-red-600 animate-pulse">
@@ -185,61 +194,99 @@ export function HeroSection({ articles }: HeroSectionProps) {
               </div>
             </div>
 
-            {/* Bottom Articles */}
+            {/* Bottom Articles - 4 New Categories */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              {bottomArticles.map(article => (
-                <div key={article.id} className="group rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-xl transition">
-                  <div className="aspect-video relative">
-                    <img src={article.image} alt={article.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                    <div className="absolute top-3 left-3">
-                      <Badge className="bg-white/90 text-gray-900 text-xs">{article.category}</Badge>
+              {[
+                { 
+                  slug: 'japa-routes', 
+                  display: 'Japa Routes', 
+                  wpCategory: 'japa-routes',
+                  article: articles.find(a => 
+                    a.category.toLowerCase().replace(/\s+/g, '-') === 'japa-routes' ||
+                    a.tags?.some(tag => tag.toLowerCase().replace(/\s+/g, '-') === 'japa-routes')
+                  )
+                },
+                { 
+                  slug: 'life-after-japa', 
+                  display: 'Life After Japa', 
+                  wpCategory: 'life-after-japa',
+                  article: lifeAfterJapaArticle
+                },
+                { 
+                  slug: 'tech-gadget', 
+                  display: 'Tech/Gadget', 
+                  wpCategory: 'tech-gadget',
+                  article: techGadgetArticle
+                },
+                { 
+                  slug: 'vibes-n-cruise', 
+                  display: 'Vibes N Cruise', 
+                  wpCategory: 'vibes-n-cruise',
+                  article: vibesNCruiseArticle
+                }
+              ].map((category) => {
+                // Only render if article exists
+                if (!category.article) return null;
+                
+                const displayArticle = category.article;
+
+                return (
+                  <div key={category.slug} className="group rounded-xl overflow-hidden bg-white dark:bg-gray-800 shadow-md hover:shadow-xl transition">
+                    <div className="aspect-video relative">
+                      <img src={displayArticle.image} alt={displayArticle.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                      <div className="absolute top-3 left-3">
+                        <Badge className="bg-white/90 text-gray-900 text-xs">{displayArticle.category}</Badge>
+                      </div>
+                    </div>
+                    <div className="p-4">
+                      <h3 className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-2 hover:text-red-600">
+                        <Link href={`/article/${displayArticle.slug}`}>{displayArticle.title}</Link>
+                      </h3>
+                      <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">{displayArticle.excerpt}</p>
+                      <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
+                        <span><User className="inline w-3 h-3" /> {displayArticle.author}</span>
+                        <span><Clock className="inline w-3 h-3" /> {displayArticle.readTime}</span>
+                      </div>
                     </div>
                   </div>
-                  <div className="p-4">
-                    <h3 className="font-semibold text-lg text-gray-900 dark:text-white line-clamp-2 hover:text-red-600">
-                      <Link href={`/article/${article.slug}`}>{article.title}</Link>
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mb-2">{article.excerpt}</p>
-                    <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-                      <span><User className="inline w-3 h-3" /> {article.author}</span>
-                      <span><Clock className="inline w-3 h-3" /> {article.readTime}</span>
-                    </div>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
 
           {/* Side Column */}
           <div className="flex flex-col gap-6">
-            {/* Business Article */}
-            {/* {businessArticle && (
+            {/* Business/Economy Article */}
+            {businessArticle && (
               <div className="group bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden">
                 <div className="aspect-video relative">
                   <img 
                     src={businessArticle.image || 'https://images.pexels.com/photos/3861972/pexels-photo-3861972.jpeg?auto=compress&cs=tinysrgb&w=400'} 
-                    alt={businessArticle.title || 'Business News'} 
+                    alt={businessArticle.title || 'Business/Economy News'} 
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform" 
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   <div className="absolute top-3 left-3 flex gap-2">
-                    <Badge className="bg-blue-600 text-white">BUSINESS</Badge>
-                    <Badge className="bg-green-500 text-white text-xs">LIVE</Badge>
+                    <Badge className="bg-blue-600 text-white">BUSINESS/ECONOMY</Badge>
                   </div>
                 </div>
                 <div className="p-4">
                   <h3 className="text-lg font-semibold text-gray-900 dark:text-white hover:text-red-600 line-clamp-2">
                     <Link href={`/article/${businessArticle.slug}`}>
-                      {businessArticle.title || 'Business News Update'}
+                      {businessArticle.title || 'Business/Economy News Update'}
                     </Link>
                   </h3>
-                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2">
-                    {businessArticle.excerpt || 'Latest business developments and market insights.'}
+                  <p className="text-sm text-gray-600 dark:text-gray-300 line-clamp-2 mt-2">
+                    {businessArticle.excerpt || 'Latest business and economy developments.'}
                   </p>
+                  <div className="flex items-center gap-3 mt-3 text-xs text-gray-500 dark:text-gray-400">
+                    <span className="flex items-center gap-1"><User className="w-3 h-3" />{businessArticle.author}</span>
+                    <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{businessArticle.readTime}</span>
+                  </div>
                 </div>
               </div>
-            )} */}
+            )}
 
             {/* Trending Business (Static Card) */}
             {trendingBusinessArticle && (

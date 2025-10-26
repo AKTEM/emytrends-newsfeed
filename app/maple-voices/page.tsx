@@ -5,6 +5,9 @@ import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { getMapleVoices } from '@/lib/wordpress';
 
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
+
 async function getMapleVoicesData() {
   try {
     const posts = await getMapleVoices(12);

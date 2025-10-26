@@ -20,7 +20,7 @@ export function DailyMaple({ articles }: DailyMapleProps) {
       <div className="flex items-center space-x-3">
         <Leaf className="w-8 h-8 text-red-600" />
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Daily Maple
+          Business/Economy
         </h2>
         <div className="flex-1 h-1 bg-red-600 rounded-full ml-4"></div>
       </div>
@@ -29,10 +29,11 @@ export function DailyMaple({ articles }: DailyMapleProps) {
         <div className="text-center">
           <Leaf className="w-12 h-12 text-red-600 mx-auto mb-3" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            Your daily dose of news and insights.
+            Where business meets opportunity
           </h3>
           <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            From Canada’s coasts to global headlines, start your day with the stories shaping our world.
+            Get the latest updates on markets, startups, policies, and the economy. 
+            Stay informed with insights that shape business and financial decisions.
 
           </p>
         </div>
@@ -56,7 +57,7 @@ export function DailyMaple({ articles }: DailyMapleProps) {
                 <div className="absolute top-3 left-3 flex space-x-2">
                   <Badge className="bg-red-600 hover:bg-red-700 text-white">
                     <Leaf className="w-3 h-3 mr-1" />
-                    DAILY MAPLE
+                     Business/Economy
                   </Badge>
                   {article.featured && (
                     <Badge className="bg-orange-500 hover:bg-orange-600 text-white">
@@ -102,7 +103,7 @@ export function DailyMaple({ articles }: DailyMapleProps) {
                   className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
                 >
                   <Link href={`/article/${article.slug}`}>
-                    Read Today's Maple
+                    Read Today's Business/Economy Posts
                   </Link>
                 </Button>
               </div>
@@ -113,10 +114,10 @@ export function DailyMaple({ articles }: DailyMapleProps) {
         <div className="text-center py-16">
           <Leaf className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            No Daily Maple Articles Available
+            No Business/Economy Post Available
           </h3>
           <p className="text-gray-600 dark:text-gray-300">
-            Check back soon for the latest Canadian news and insights.
+            Check back soon for the latest Business/Economy Posts
           </p>
         </div>
       )}
@@ -129,7 +130,7 @@ export function DailyMaple({ articles }: DailyMapleProps) {
               size="lg"
               className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-3 flex items-center space-x-2 mx-auto"
             >
-              <span>{showAll ? 'Show Less' : 'View All Daily Maple Stories'}</span>
+              <span>{showAll ? 'Show Less' : 'View All  Business/Economy contents'}</span>
               {showAll ? (
                 <ChevronUp className="w-5 h-5" />
               ) : (

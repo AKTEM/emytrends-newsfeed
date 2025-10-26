@@ -5,6 +5,9 @@ import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { getDailyMaple } from '@/lib/wordpress';
 
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
+
 async function getDailyMapleData() {
   try {
     const posts = await getDailyMaple(12);
@@ -28,7 +31,7 @@ export default async function DailyMaplePage() {
             <nav className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
               <Link href="/" className="hover:text-red-600 transition-colors">Home</Link>
               <ChevronRight className="w-4 h-4" />
-              <span className="text-gray-900 dark:text-white">Daily Maple</span>
+              <span className="text-gray-900 dark:text-white"> Business/Economy</span>
             </nav>
           </div>
         </div>
@@ -37,10 +40,10 @@ export default async function DailyMaplePage() {
         <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white py-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">Daily Maple</h1>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">Business/Economy</h1>
               <p className="text-xl opacity-90 max-w-2xl mx-auto">
-                Your daily dose of Canadian news and insights. Start your day with the most 
-                important Canadian stories, from coast to coast and beyond.
+                Get the latest updates on markets, startups, policies, and the economy. 
+                Stay informed with insights that shape business and financial decisions.
 
               </p>
             </div>

@@ -6,6 +6,9 @@ import { Clock, Eye, User, TrendingUp, ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { getAfricaNews } from '@/lib/wordpress';
 
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
+
 async function getAfricaData() {
   try {
     const posts = await getAfricaNews(12);
@@ -29,7 +32,7 @@ export default async function AfricaPage() {
             <nav className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
               <Link href="/" className="hover:text-red-600 transition-colors">Home</Link>
               <ChevronRight className="w-4 h-4" />
-              <span className="text-gray-900 dark:text-white">Africa</span>
+              <span className="text-gray-900 dark:text-white">Academics</span>
             </nav>
           </div>
         </div>
@@ -38,10 +41,10 @@ export default async function AfricaPage() {
         <div className="bg-gradient-to-r from-amber-600 to-amber-700 text-white py-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">Africa News</h1>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">Academics</h1>
               <p className="text-xl opacity-90 max-w-2xl mx-auto">
-                Latest news and developments from across the African continent. 
-                Politics, economics, culture, and society from all African nations.
+                Latest academic news, research insights, educational trends, 
+                and scholarly developments from institutions worldwide.
               </p>
             </div>
           </div>
@@ -66,7 +69,7 @@ export default async function AfricaPage() {
                     
                     <div className="absolute top-3 left-3 flex space-x-2">
                       <Badge className="bg-amber-600 hover:bg-amber-700 text-white">
-                        AFRICA
+                        ACADEMICS
                       </Badge>
                       {article.isTrending && (
                         <Badge className="bg-orange-500 hover:bg-orange-600 text-white">
@@ -120,13 +123,13 @@ export default async function AfricaPage() {
           ) : (
             <div className="text-center py-16">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-                No Africa News Available
+                No Academic News Available
               </h2>
               <p className="text-gray-600 dark:text-gray-300 mb-8">
-                We're working to bring you the latest news from Africa. Please check back soon.
+                We're working to bring you the latest academic news. Please check back soon.
               </p>
               <Button asChild>
-                <Link href="/world">Back to World News</Link>
+                <Link href="/world">Back to Education</Link>
               </Button>
             </div>
           )}

@@ -4,10 +4,13 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Clock, Eye, User, TrendingUp, ChevronRight, ChevronDown, ChevronUp } from 'lucide-react';
 import Link from 'next/link';
-import { getPostsByCategory, transformPost, fallbackPosts } from '@/lib/wordpress';
+import { getPostsByCategory, transformPost } from '@/lib/wordpress';
 import { getCategoryYoastSEO, yoastToNextMetadata } from '@/lib/yoast-seo';
 import { Metadata } from 'next';
 import { ArticlesGrid } from '@/components/articles-grid';
+
+// ISR: Revalidate every 10 minutes
+export const revalidate = 600;
 
 export async function generateMetadata(): Promise<Metadata> {
   try {
@@ -26,14 +29,10 @@ export async function generateMetadata(): Promise<Metadata> {
 async function getSportsData() {
   try {
     const posts = await getPostsByCategory('sports');
-    return posts.length > 0 ? posts.map(transformPost).filter(Boolean) : fallbackPosts.filter(post =>
-      post.category.toLowerCase() === 'sports'
-    );
+    return posts.map(transformPost).filter(Boolean);
   } catch (error) {
     console.error('Error fetching sports data:', error);
-    return fallbackPosts.filter(post =>
-      post.category.toLowerCase() === 'sports'
-    );
+    return [];
   }
 }
 

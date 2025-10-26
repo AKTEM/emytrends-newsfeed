@@ -196,7 +196,7 @@ export function generateFallbackMetadata(title?: string, description?: string, s
         url: `${FRONTEND_URL}/img/Maple.png`,
         width: 1200,
         height: 630,
-        alt: 'The Maple Epoch News',
+        alt: 'Emytrends News',
       }],
       locale: 'en_US',
       type: slug ? 'article' : 'website',
