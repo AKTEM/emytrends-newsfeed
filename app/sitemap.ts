@@ -1,8 +1,7 @@
 import { MetadataRoute } from 'next';
 
-const API_URL = process.env.WORDPRESS_API_URL || process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://api.mapleepoch.com/wp-json/wp/v2';
-const API_URL_NEW = 'https://api.www.mapleepoch.com/wp-json/wp/v2';
-const FRONTEND_URL = 'https://www.mapleepoch.com';
+const API_URL = process.env.WORDPRESS_API_URL || process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://cms.emytrends.com/wp/wp-json/wp/v2';
+const FRONTEND_URL = 'https://www.emytrends.com';
 
 interface WordPressPost {
   slug: string;
@@ -104,25 +103,25 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.8,
     },
     {
-      url: `${FRONTEND_URL}/world`,
+      url: `${FRONTEND_URL}/education`,
       lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
-      url: `${FRONTEND_URL}/politics`,
+      url: `${FRONTEND_URL}/japa-routes`,
       lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
-      url: `${FRONTEND_URL}/business`,
+      url: `${FRONTEND_URL}/life-after-japa`,
       lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
-      url: `${FRONTEND_URL}/technology`,
+      url: `${FRONTEND_URL}/tech-gadget`,
       lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 0.9,
@@ -140,16 +139,46 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       priority: 0.9,
     },
     {
-      url: `${FRONTEND_URL}/entertainment`,
+      url: `${FRONTEND_URL}/finance`,
       lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 0.9,
     },
     {
-      url: `${FRONTEND_URL}/lifestyle`,
+      url: `${FRONTEND_URL}/business-economy`,
+      lastModified: currentDate,
+      changeFrequency: 'daily',
+      priority: 0.9,
+    },
+    {
+      url: `${FRONTEND_URL}/vibesncruise`,
       lastModified: currentDate,
       changeFrequency: 'daily',
       priority: 0.8,
+    },
+    {
+      url: `${FRONTEND_URL}/maple-voices`,
+      lastModified: currentDate,
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    {
+      url: `${FRONTEND_URL}/through-the-lens`,
+      lastModified: currentDate,
+      changeFrequency: 'daily',
+      priority: 0.8,
+    },
+    {
+      url: `${FRONTEND_URL}/shop-a-tale`,
+      lastModified: currentDate,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    {
+      url: `${FRONTEND_URL}/write-for-us`,
+      lastModified: currentDate,
+      changeFrequency: 'monthly',
+      priority: 0.6,
     },
     {
       url: `${FRONTEND_URL}/search`,

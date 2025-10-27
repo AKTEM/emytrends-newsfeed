@@ -113,26 +113,23 @@ export function Header() {
             <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
               Home
             </Link>
-            <Link href="/politics" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
+            <Link href="/japa-routes" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
               Japa Routes
             </Link>
-            <Link href="/business" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
+            <Link href="/life-after-japa" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
               Life After Japa
             </Link>
             <Link href="/health" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
               Health
             </Link>
-            <Link href="/entertainment" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
+            <Link href="/tech-gadget" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
               Tech/Gadget
             </Link>
             <Link href="/sports" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
               Sports
             </Link>
-            <Link href="/lifestyle" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
+            <Link href="/news" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
               News
-            </Link>
-            <Link href="/the-friday-post" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
-              The Friday Post
             </Link>
 
             {/* Education Dropdown */}
@@ -143,22 +140,22 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem>
-                  <Link href="/world/africa">Academics</Link>
+                  <Link href="/education/academics">Academics</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/world/americas">Migration</Link>
+                  <Link href="/education/migration">Migration</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/world/australia">Exam/Admission</Link>
+                  <Link href="/education/exam-admission">Exam/Admission</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/world/asia">Learning/Career Guide</Link>
+                  <Link href="/education/learning-career-guide">Learning/Career Guide</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/world/europe">Scholarships</Link>
+                  <Link href="/education/scholarships">Scholarships</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/world/uk">Student Life</Link>
+                  <Link href="/education/student-life">Student Life</Link>
                 </DropdownMenuItem>
                 {/* <DropdownMenuItem>
                   <Link href="/world/canada">Canada</Link>
@@ -175,16 +172,16 @@ export function Header() {
               </DropdownMenuTrigger>
               <DropdownMenuContent>
                 <DropdownMenuItem>
-                  <Link href="/daily-maple">Business/Economy</Link>
+                  <Link href="/business-economy">Business/Economy</Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem>
-                  <Link href="/maple-travel">Vibes N Cruise</Link>
+                  <Link href="/vibesncruise">Vibes N Cruise</Link>
                 </DropdownMenuItem>
                 {/* <DropdownMenuItem>
                   <Link href="/maple-voices">Maple Voices</Link>
                 </DropdownMenuItem> */}
                 <DropdownMenuItem>
-                  <Link href="/booknook">Finance</Link>
+                  <Link href="/finance">Finance</Link>
                 </DropdownMenuItem>
                 {/* <DropdownMenuItem>
                   <Link href="/through-the-lens">Through the Lens</Link>
@@ -307,26 +304,23 @@ export function Header() {
               <Link href="/" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
                 Home
               </Link>
-              <Link href="/politics" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
+              <Link href="/japa-routes" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
                 Japa Routes
               </Link>
-              <Link href="/business" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
+              <Link href="/life-after-japa" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
                 Life After Japa
               </Link>
               <Link href="/health" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
                 Health
               </Link>
-              <Link href="/entertainment" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
+              <Link href="/tech-gadget" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
                 Tech/Gadget
               </Link>
               <Link href="/sports" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
                 Sports
               </Link>
-              <Link href="/lifestyle" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
+              <Link href="/news" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
                 News
-              </Link>
-              <Link href="/the-friday-post" className="text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors">
-                The Friday Post
               </Link>
               
               {/* Education Section with Collapsible Subsections */}
@@ -345,42 +339,42 @@ export function Header() {
                 {mobileWorldOpen && (
                   <div className="pl-4 mt-2 space-y-2 border-l-2 border-red-200 dark:border-red-800">
                     <Link 
-                      href="/world/africa" 
+                      href="/education/academics" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Academics
                     </Link>
                     <Link 
-                      href="/world/americas" 
+                      href="/education/migration" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Migration
                     </Link>
                     <Link 
-                      href="/world/australia" 
+                      href="/education/exam-admission" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Exam/Admission
                     </Link>
                     <Link 
-                      href="/world/asia" 
+                      href="/education/learning-career-guide" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Learning/Career Guide
                     </Link>
                     <Link 
-                      href="/world/europe" 
+                      href="/education/scholarships" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Scholarships
                     </Link>
                     <Link 
-                      href="/world/uk" 
+                      href="/education/student-life" 
                       className="block text-gray-600 dark:text-gray-400 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -413,21 +407,21 @@ export function Header() {
                 {mobileMoreOpen && (
                   <div className="pl-4 space-y-2 border-l-2 border-red-200 dark:border-red-800">
                     <Link 
-                      href="/daily-maple" 
+                      href="/business-economy" 
                       className="block text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Business/Economy
                     </Link>
                     <Link 
-                      href="/maple-travel" 
+                      href="/vibesncruise" 
                       className="block text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
                       Vibes N Cruise
                     </Link>
                     <Link 
-                      href="/booknook" 
+                      href="/finance" 
                       className="block text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
@@ -438,7 +432,7 @@ export function Header() {
                       className="block text-gray-700 dark:text-gray-300 hover:text-red-600 transition-colors"
                       onClick={() => setIsMenuOpen(false)}
                     >
-                      Maple Travel
+                    Vibes N cruise
                     </Link>
                     <Link 
                       href="/through-the-lens" 

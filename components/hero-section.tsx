@@ -141,10 +141,10 @@ export function HeroSection({ articles }: HeroSectionProps) {
         {/* Header */}
         <div className="text-center mb-12 bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
           <h1 className="text-4xl md:text-6xl font-bold mb-4 text-gray-900 dark:text-white">
-            Breaking News & <span className="text-red-600">Latest Updates</span>
+            Breaking News <span className="text-red-600">& Latest Updates</span>
           </h1>
           <p className="text-xl text-gray-600 dark:text-gray-300 mb-8 max-w-3xl mx-auto">
-            Stay informed with real-time coverage from trusted sources.
+          Where Information Meets Entertainment
           </p>
           <div className="flex justify-center items-center gap-4">
             <span className="flex items-center gap-2 text-sm text-red-600 animate-pulse">

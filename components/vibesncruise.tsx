@@ -4,36 +4,35 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Globe2, Clock, Eye, User, Flag, ChevronDown, ChevronUp } from 'lucide-react';
+import { MapPin, Clock, Eye, User, Mountain, ChevronDown, ChevronUp } from 'lucide-react';
 import { TransformedPost } from '@/lib/wordpress';
 
-interface ContinentProps {
+interface MapleTravel {
   articles: TransformedPost[];
 }
 
-export const Continent: React.FC<ContinentProps> = ({ articles }) => {
+export const MapleTravel: React.FC<MapleTravel> = ({ articles }) => {
   const [showAll, setShowAll] = useState(false); // Default to "Show Less" mode
   const displayedArticles = showAll ? articles : articles.slice(0, 3);
 
   return (
     <section className="space-y-8">
       <div className="flex items-center space-x-3">
-        <Globe2 className="w-8 h-8 text-red-600" />
+        <Mountain className="w-8 h-8 text-red-600" />
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Continent
+          Vibes N Cruise
         </h2>
         <div className="flex-1 h-1 bg-red-600 rounded-full ml-4"></div>
       </div>
 
-      <div className="bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-950 dark:to-teal-950 rounded-xl p-6 mb-8">
+      <div className="bg-gradient-to-r from-blue-50 to-green-50 dark:from-blue-950 dark:to-green-950 rounded-xl p-6 mb-8">
         <div className="text-center">
-          <Flag className="w-12 h-12 text-red-600 mx-auto mb-3" />
+          <Mountain className="w-12 h-12 text-red-600 mx-auto mb-3" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            Canada's Continental & Global Presence
+           Watch N laugh
           </h3>
           <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Discover Canada's influence across North America and around the world. 
-            From regional partnerships to global leadership in international affairs.
+            From savage memes to viral comedy, it’s all vibes, all cruise, all the time.
           </p>
         </div>
       </div>
@@ -55,11 +54,11 @@ export const Continent: React.FC<ContinentProps> = ({ articles }) => {
                 
                 <div className="absolute top-3 left-3 flex space-x-2">
                   <Badge className="bg-red-600 hover:bg-red-700 text-white">
-                    <Globe2 className="w-3 h-3 mr-1" />
-                    CONTINENT
+                    <Mountain className="w-3 h-3 mr-1" />
+                   Vibes N Cruise
                   </Badge>
                   {article.featured && (
-                    <Badge className="bg-emerald-500 hover:bg-emerald-600 text-white">
+                    <Badge className="bg-blue-500 hover:bg-blue-600 text-white">
                       FEATURED
                     </Badge>
                   )}
@@ -102,7 +101,7 @@ export const Continent: React.FC<ContinentProps> = ({ articles }) => {
                   className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
                 >
                   <Link href={`/article/${article.slug}`}>
-                    Read Analysis
+                    Watch N laugh
                   </Link>
                 </Button>
               </div>
@@ -111,12 +110,12 @@ export const Continent: React.FC<ContinentProps> = ({ articles }) => {
         </div>
       ) : (
         <div className="text-center py-16">
-          <Globe2 className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+          <Mountain className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            No Continental News Available
+            No Memes, Comedy posts available
           </h3>
           <p className="text-gray-600 dark:text-gray-300">
-            Check back soon for Canada's global impact stories.
+            Check back soon for the latest savage memes and viral comedy
           </p>
         </div>
       )}
@@ -129,7 +128,7 @@ export const Continent: React.FC<ContinentProps> = ({ articles }) => {
               size="lg"
               className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-3 flex items-center space-x-2 mx-auto"
             >
-              <span>{showAll ? 'Show Less' : 'Explore Global Impact'}</span>
+              <span>{showAll ? 'Show Less' : 'View All Travel Guides'}</span>
               {showAll ? (
                 <ChevronUp className="w-5 h-5" />
               ) : (
@@ -149,4 +148,4 @@ export const Continent: React.FC<ContinentProps> = ({ articles }) => {
       </div>
     </section>
   );
-}
+};

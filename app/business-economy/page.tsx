@@ -1,25 +1,25 @@
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { MapleTravel } from '@/components/maple-travel';
+import { BusinessEconomy } from '@/components/business-economy';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
-import { getMapleTravel } from '@/lib/wordpress';
+import { getDailyMaple } from '@/lib/wordpress';
 
 // ISR: Revalidate every 10 minutes
 export const revalidate = 600;
 
-async function getMapleTravelData() {
+async function getDailyMapleData() {
   try {
-    const posts = await getMapleTravel(12);
+    const posts = await getDailyMaple(12);
     return posts;
   } catch (error) {
-    console.error('Error fetching Maple Travel data:', error);
+    console.error('Error fetching Daily Maple data:', error);
     return [];
   }
 }
 
-export default async function MapleTravelPage() {
-  const articles = await getMapleTravelData();
+export default async function DailyMaplePage() {
+  const articles = await getDailyMapleData();
 
   return (
     <div className="min-h-screen bg-white dark:bg-gray-900">
@@ -31,27 +31,28 @@ export default async function MapleTravelPage() {
             <nav className="flex items-center space-x-2 text-sm text-gray-600 dark:text-gray-400">
               <Link href="/" className="hover:text-red-600 transition-colors">Home</Link>
               <ChevronRight className="w-4 h-4" />
-              <span className="text-gray-900 dark:text-white">Maple Travel</span>
+              <span className="text-gray-900 dark:text-white"> Business/Economy</span>
             </nav>
           </div>
         </div>
 
         {/* Page Header */}
-        <div className="bg-gradient-to-r from-blue-600 to-green-600 text-white py-16">
+        <div className="bg-gradient-to-r from-red-600 to-orange-600 text-white py-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">Maple Travel</h1>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">Business/Economy</h1>
               <p className="text-xl opacity-90 max-w-2xl mx-auto">
-                Discover Canada's breathtaking destinations with expert guides, insider tips, 
-                and unforgettable travel experiences from coast to coast to coast.
+                Get the latest updates on markets, startups, policies, and the economy. 
+                Stay informed with insights that shape business and financial decisions.
+
               </p>
             </div>
           </div>
         </div>
 
-        {/* Maple Travel Content */}
+        {/* Business Economy Content */}
         <div className="container mx-auto px-4 py-12">
-          <MapleTravel articles={articles} />
+          <BusinessEconomy articles={articles} />
         </div>
       </main>
       <Footer />

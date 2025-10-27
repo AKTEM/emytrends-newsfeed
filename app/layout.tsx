@@ -13,7 +13,7 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   // Basic metadata - pages will override with Yoast SEO data
-  metadataBase: new URL('https://www.mapleepoch.com'),
+  metadataBase: new URL('https://www.emytrends.com'),
   viewport: {
     width: 'device-width',
     initialScale: 1,

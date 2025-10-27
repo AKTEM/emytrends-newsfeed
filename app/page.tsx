@@ -2,28 +2,22 @@ import { Header } from '@/components/header';
 import { HeroSection } from '@/components/hero-section';
 import { LatestHeadlines } from '@/components/latest-headlines';
 import { EditorsPicks } from '@/components/editors-picks';
-import { YouMayHaveMissed } from '@/components/you-may-have-missed';
+import { VibesNCruise } from '@/components/vibes-n-cruise';
 import { JapaRoutes } from '@/components/japa-routes';
 import { LifeAfterJapa } from '@/components/life-after-japa';
 import { HealthHub } from '@/components/health-hub';
 import { TechGadget } from '@/components/tech-gadget';
 import { SportsHub } from '@/components/sports-hub';
-import { DailyMaple } from '@/components/daily-maple';
-import { FeaturedArticles } from '@/components/featured-articles';
-import { CategoryGrid } from '@/components/category-grid';
-import { WorldNews } from '@/components/world-news';
-import { BookNook } from '@/components/booknook';
-import { TheFridayPost } from '@/components/the-friday-post';
+import { BusinessEconomy } from '@/components/business-economy';
+import { Education } from '@/components/education';
+import { Finance } from '@/components/finance';
 import { Footer } from '@/components/footer';
-import { Continent } from '@/components/continent';
 import { 
   getLatestHeadlines,
   getEditorsPicks,
   getDailyMaple,
-  getFeaturedArticles,
-  getYouMayHaveMissed,
   getBookNook,
-  getTheFridayPost,
+  getMapleTravel,
   getPosts,
   transformPost,
   getPostsByCategory,
@@ -71,38 +65,34 @@ async function getHomePageData() {
     const [
       latestHeadlines,
       editorsPicks,
-      dailyMaple,
-      featuredArticles,
-      youMayHaveMissed,
+      businessEconomy,
       japaRoutes,
       lifeAfterJapa,
       healthHub,
       techGadget,
       sportsHub,
-      bookNook,
-      theFridayPost,
+      vibesNCruise,
+      finance,
       heroArticles,
-      africaNews,
-      americasNews,
-      australiaNews,
-      asiaNews,
-      europeNews,
-      ukNews,
+      academics,
+      migration,
+      examAdmission,
+      learningCareer,
+      scholarships,
+      studentLife,
       canadaNews,
       ...categoryArticles
     ] = await Promise.allSettled([
       getLatestHeadlines(3),
       editorsPicksPromise,
       getDailyMaple(20),
-      getFeaturedArticles(20),
-      getYouMayHaveMissed(20),
       getPostsByCategory('japa-routes', 20).then(posts => posts.map(transformPost).filter(Boolean)),
       getPostsByCategory('life-after-japa', 20).then(posts => posts.map(transformPost).filter(Boolean)),
       getPostsByCategory('health', 20).then(posts => posts.map(transformPost).filter(Boolean)),
       getPostsByCategory('tech-gadget', 20).then(posts => posts.map(transformPost).filter(Boolean)),
       getPostsByCategory('sports', 20).then(posts => posts.map(transformPost).filter(Boolean)),
+      getPostsByCategory('vibes-n-cruise', 20).then(posts => posts.map(transformPost).filter(Boolean)),
       getBookNook(20),
-      getTheFridayPost(20),
       getPosts({ per_page: 9, _embed: true }).then(posts => posts.map(transformPost).filter(Boolean)),
       getAfricaNews(20),
       getAmericasNews(20),
@@ -125,23 +115,21 @@ async function getHomePageData() {
     return {
       latestHeadlines: latestHeadlines.status === 'fulfilled' ? latestHeadlines.value : [],
       editorsPicks: editorsPicks.status === 'fulfilled' ? editorsPicks.value : [],
-      dailyMaple: dailyMaple.status === 'fulfilled' ? dailyMaple.value : [],
-      featuredArticles: featuredArticles.status === 'fulfilled' ? featuredArticles.value : [],
-      youMayHaveMissed: youMayHaveMissed.status === 'fulfilled' ? youMayHaveMissed.value : [],
+      businessEconomy: businessEconomy.status === 'fulfilled' ? businessEconomy.value : [],
       japaRoutes: japaRoutes.status === 'fulfilled' ? japaRoutes.value : [],
       lifeAfterJapa: lifeAfterJapa.status === 'fulfilled' ? lifeAfterJapa.value : [],
       healthHub: healthHub.status === 'fulfilled' ? healthHub.value : [],
       techGadget: techGadget.status === 'fulfilled' ? techGadget.value : [],
       sportsHub: sportsHub.status === 'fulfilled' ? sportsHub.value : [],
-      bookNook: bookNook.status === 'fulfilled' ? bookNook.value : [],
-      theFridayPost: theFridayPost.status === 'fulfilled' ? theFridayPost.value : [],
+      vibesNCruise: vibesNCruise.status === 'fulfilled' ? vibesNCruise.value : [],
+      finance: finance.status === 'fulfilled' ? finance.value : [],
       heroArticles: combinedHeroArticles.length > 0 ? combinedHeroArticles : (heroArticles.status === 'fulfilled' ? (heroArticles.value || []) : []),
-      africaNews: africaNews.status === 'fulfilled' ? africaNews.value : [],
-      americasNews: americasNews.status === 'fulfilled' ? americasNews.value : [],
-      australiaNews: australiaNews.status === 'fulfilled' ? australiaNews.value : [],
-      asiaNews: asiaNews.status === 'fulfilled' ? asiaNews.value : [],
-      europeNews: europeNews.status === 'fulfilled' ? europeNews.value : [],
-      ukNews: ukNews.status === 'fulfilled' ? ukNews.value : [],
+      academics: academics.status === 'fulfilled' ? academics.value : [],
+      migration: migration.status === 'fulfilled' ? migration.value : [],
+      examAdmission: examAdmission.status === 'fulfilled' ? examAdmission.value : [],
+      learningCareer: learningCareer.status === 'fulfilled' ? learningCareer.value : [],
+      scholarships: scholarships.status === 'fulfilled' ? scholarships.value : [],
+      studentLife: studentLife.status === 'fulfilled' ? studentLife.value : [],
       canadaNews: canadaNews.status === 'fulfilled' ? canadaNews.value : [],
     };
   } catch (error) {
@@ -149,23 +137,21 @@ async function getHomePageData() {
     return {
       latestHeadlines: [],
       editorsPicks: [],
-      dailyMaple: [],
-      featuredArticles: [],
-      youMayHaveMissed: [],
+      businessEconomy: [],
       japaRoutes: [],
       lifeAfterJapa: [],
       healthHub: [],
       techGadget: [],
       sportsHub: [],
-      bookNook: [],
-      theFridayPost: [],
+      vibesNCruise: [],
+      finance: [],
       heroArticles: [],
-      africaNews: [],
-      americasNews: [],
-      australiaNews: [],
-      asiaNews: [],
-      europeNews: [],
-      ukNews: [],
+      academics: [],
+      migration: [],
+      examAdmission: [],
+      learningCareer: [],
+      scholarships: [],
+      studentLife: [],
       canadaNews: [],
     };
   }
@@ -181,20 +167,20 @@ export default async function Home() {
         <HeroSection articles={data.heroArticles} />
         <div className="container mx-auto px-4 py-8">
           <div className="space-y-12">
-            <WorldNews 
-              africaArticle={Array.isArray(data.africaNews) ? data.africaNews[0] || null : data.africaNews}
-              americasArticle={Array.isArray(data.americasNews) ? data.americasNews[0] || null : data.americasNews}
-              australiaArticle={Array.isArray(data.australiaNews) ? data.australiaNews[0] || null : data.australiaNews}
-              asiaArticle={Array.isArray(data.asiaNews) ? data.asiaNews[0] || null : data.asiaNews}
-              europeArticle={Array.isArray(data.europeNews) ? data.europeNews[0] || null : data.europeNews}
-              ukArticle={Array.isArray(data.ukNews) ? data.ukNews[0] || null : data.ukNews}
+            <Education 
+              africaArticle={Array.isArray(data.academics) ? data.academics[0] || null : data.academics}
+              americasArticle={Array.isArray(data.migration) ? data.migration[0] || null : data.migration}
+              australiaArticle={Array.isArray(data.examAdmission) ? data.examAdmission[0] || null : data.examAdmission}
+              asiaArticle={Array.isArray(data.learningCareer) ? data.learningCareer[0] || null : data.learningCareer}
+              europeArticle={Array.isArray(data.scholarships) ? data.scholarships[0] || null : data.scholarships}
+              ukArticle={Array.isArray(data.studentLife) ? data.studentLife[0] || null : data.studentLife}
               allArticles={{
-                africaNews: Array.isArray(data.africaNews) ? data.africaNews : [],
-                americasNews: Array.isArray(data.americasNews) ? data.americasNews : [],
-                australiaNews: Array.isArray(data.australiaNews) ? data.australiaNews : [],
-                asiaNews: Array.isArray(data.asiaNews) ? data.asiaNews : [],
-                europeNews: Array.isArray(data.europeNews) ? data.europeNews : [],
-                ukNews: Array.isArray(data.ukNews) ? data.ukNews : [],
+                africaNews: Array.isArray(data.academics) ? data.academics : [],
+                americasNews: Array.isArray(data.migration) ? data.migration : [],
+                australiaNews: Array.isArray(data.examAdmission) ? data.examAdmission : [],
+                asiaNews: Array.isArray(data.learningCareer) ? data.learningCareer : [],
+                europeNews: Array.isArray(data.scholarships) ? data.scholarships : [],
+                ukNews: Array.isArray(data.studentLife) ? data.studentLife : [],
                 canadaNews: Array.isArray(data.canadaNews) ? data.canadaNews : []
               }}
             />
@@ -205,14 +191,9 @@ export default async function Home() {
       <TechGadget articles={data.techGadget} />
       <SportsHub articles={data.sportsHub} />
       <EditorsPicks articles={data.editorsPicks} />
-            <YouMayHaveMissed articles={data.youMayHaveMissed} />
-            <DailyMaple articles={data.dailyMaple} />
-            <FeaturedArticles articles={data.featuredArticles} />
-            <BookNook articles={data.bookNook} />
-            <TheFridayPost articles={data.theFridayPost} />
-            <div className="mt-16">
-              <CategoryGrid />
-            </div>
+      <VibesNCruise articles={data.vibesNCruise} />
+            <BusinessEconomy articles={data.businessEconomy} />
+            <Finance articles={data.finance} />
           </div>
         </div>
       </main>

@@ -1,6 +1,6 @@
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { WorldNews } from '@/components/world-news';
+import { Education } from '@/components/education';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { Metadata } from 'next';
@@ -106,9 +106,9 @@ export default async function WorldPage() {
           </div>
         </div>
 
-        {/* World News Content */}
+        {/* Education Content */}
         <div className="container mx-auto px-4 py-12">
-          <WorldNews 
+          <Education
             africaArticle={data.africaNews[0] || null}
             americasArticle={data.americasNews[0] || null}
             australiaArticle={data.australiaNews[0] || null}

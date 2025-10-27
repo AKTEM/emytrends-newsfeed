@@ -7,50 +7,50 @@ import Link from 'next/link';
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'About Us - The Maple Epoch',
-  description: 'Learn about The Maple Epoch, our mission, values, and commitment to delivering accurate, unbiased, and comprehensive news coverage.',
+  title: 'About Us - Emytrends',
+  description: 'Learn about Emytrends, our mission, values, and commitment to delivering accurate, unbiased, and comprehensive news coverage.',
   alternates: {
     canonical: 'https://www.mapleepoch.com/about',
   },
   openGraph: {
-    title: 'About Us - The Maple Epoch',
-    description: 'Learn about The Maple Epoch, our mission, values, and commitment to delivering accurate, unbiased, and comprehensive news coverage.',
+    title: 'About Us - Emytrends',
+    description: 'Learn about Emytrends, our mission, values, and commitment to delivering accurate, unbiased, and comprehensive news coverage.',
     url: 'https://www.mapleepoch.com/about',
-    siteName: 'The Maple Epoch',
+    siteName: 'Emytrends',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'About Us - The Maple Epoch',
-    description: 'Learn about The Maple Epoch, our mission, values, and commitment to delivering accurate, unbiased, and comprehensive news coverage.',
+    title: 'About Us - Emytrends',
+    description: 'Learn about Emytrends, our mission, values, and commitment to delivering accurate, unbiased, and comprehensive news coverage.',
   },
 };
 
 const teamMembers = [
-  {
-    name: "Sarah Mitchell",
-    role: "Editor-in-Chief",
-    image: "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=300",
-    bio: "Award-winning journalist with 15+ years covering Canadian politics and international affairs."
-  },
-  {
-    name: "Michael Chen",
-    role: "Senior Technology Reporter",
-    image: "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=300",
-    bio: "Tech industry expert specializing in AI, cybersecurity, and digital transformation."
-  },
-  {
-    name: "Dr. Amanda Rodriguez",
-    role: "Health & Science Correspondent",
-    image: "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=300",
-    bio: "Medical doctor turned journalist, covering healthcare policy and medical breakthroughs."
-  },
-  {
-    name: "David Park",
-    role: "Sports Editor",
-    image: "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=300",
-    bio: "Former Olympic athlete covering sports from grassroots to professional levels."
-  }
+  // {
+  //   name: "Sarah Mitchell",
+  //   role: "Editor-in-Chief",
+  //   image: "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=300",
+  //   bio: "Award-winning journalist with 15+ years covering Canadian politics and international affairs."
+  // },
+  // {
+  //   name: "Michael Chen",
+  //   role: "Senior Technology Reporter",
+  //   image: "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=300",
+  //   bio: "Tech industry expert specializing in AI, cybersecurity, and digital transformation."
+  // },
+  // {
+  //   name: "Dr. Amanda Rodriguez",
+  //   role: "Health & Science Correspondent",
+  //   image: "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=300",
+  //   bio: "Medical doctor turned journalist, covering healthcare policy and medical breakthroughs."
+  // },
+  // {
+  //   name: "David Park",
+  //   role: "Sports Editor",
+  //   image: "https://images.pexels.com/photos/3763188/pexels-photo-3763188.jpeg?auto=compress&cs=tinysrgb&w=300",
+  //   bio: "Former Olympic athlete covering sports from grassroots to professional levels."
+  // }
 ];
 
 const values = [
@@ -96,7 +96,7 @@ export default function AboutPage() {
         <div className="bg-gradient-to-r from-red-600 to-red-700 text-white py-16">
           <div className="container mx-auto px-4">
             <div className="text-center">
-              <h1 className="text-4xl md:text-6xl font-bold mb-4">About The Maple Epoch</h1>
+              <h1 className="text-4xl md:text-6xl font-bold mb-4">About Emytrends</h1>
               <p className="text-xl opacity-90 max-w-3xl mx-auto">
                 Your trusted source for breaking news, in-depth analysis, and stories that matter. 
                 We're committed to delivering accurate, timely, and comprehensive news coverage.
@@ -110,12 +110,12 @@ export default function AboutPage() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6">Our Mission</h2>
             <p className="text-lg text-gray-600 dark:text-gray-300 mb-8">
-              At The Maple Epoch, we believe in the power of informed citizens and the importance of quality journalism. 
+              At Emytrends, we believe in the power of informed citizens and the importance of quality journalism. 
               Our mission is to provide accurate, unbiased, and comprehensive news coverage that helps our readers 
               understand the world around them and make informed decisions.
             </p>
             <p className="text-lg text-gray-600 dark:text-gray-300">
-              We cover everything from breaking news and politics to business, technology, health, sports, and entertainment, 
+              We cover everything from breaking news and Japa Informations to Business, Tech/Gadgets, Health, Sports, and Educational Contents, 
               ensuring our readers stay informed about the issues that matter most to them and their communities.
             </p>
           </div>

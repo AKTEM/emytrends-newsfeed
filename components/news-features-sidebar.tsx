@@ -24,71 +24,71 @@ const newsFeatures = [
     id: 1,
     title: "Breaking News",
     icon: Zap,
-    href: "/",
-    description: "Latest breaking stories"
+    href: "/lifestyle",
+    description: "Latest Breaking News"
   },
   {
     id: 2,
-    title: "Latest Updates",
+    title: "Life After Japa",
     icon: Clock,
-    href: "/",
-    description: "Most recent news"
+    href: "/business",
+    description: "Abroad: Stories & Tips"
   },
   {
     id: 3,
-    title: "Global News",
+    title: "Sports",
     icon: Globe,
-    href: "/world",
-    description: "International coverage"
+    href: "/sports",
+    description: "Sport Activities"
   },
   {
     id: 4,
-    title: "Regional News",
+    title: "Japa Routes",
     icon: MapPin,
-    href: "/world/canada",
-    description: "Local and regional stories"
+    href: "/politics",
+    description: "Your Guide to International Migration"
   },
   {
     id: 5,
-    title: "Category-Specific",
+    title: "Health",
     icon: Grid3X3,
-    href: "/politics",
-    description: "Browse by topic"
+    href: "/health",
+    description: "Wellness & Healthy Living"
   },
   {
     id: 6,
-    title: "Events Calendar",
+    title: "Education",
     icon: Calendar,
     href: "/events",
     description: "Upcoming events"
   },
   {
     id: 7,
-    title: "Canadian Content",
+    title: "Tech/Gadget",
     icon: Leaf,
-    href: "/daily-maple",
-    description: "Stories from Canada"
+    href: "/entertainment",
+    description: "Tech News, Gadget Reviews"
   },
   {
     id: 8,
-    title: "Literary Reviews",
+    title: "Finance",
     icon: BookOpen,
     href: "/booknook",
-    description: "Book reviews & recommendations"
+    description: "Money talks & Investment"
   },
   {
     id: 9,
-    title: "Photographic Insight/Guides",
+    title: "Business/Economy",
     icon: Camera,
-    href: "/through-the-lens",
-    description: "Photography tips & guides"
+    href: "/daily-maple",
+    description: "Business & Economy"
   },
   {
     id: 10,
-    title: "Podcast Series",
+    title: "Academics",
     icon: Headphones,
-    href: "/the-friday-post",
-    description: "Audio content & interviews"
+    href: "/world/africa",
+    description: "Educational Content"
   }
 ];
 
@@ -96,31 +96,31 @@ const socialLinks = [
   {
     name: "Facebook",
     icon: Facebook,
-    href: "https://facebook.com/mapleepoch",
+    href: "https://www.facebook.com/share/1Ey1ho7SQw/?mibextid=wwXIfr",
     color: "hover:text-blue-600"
   },
   {
     name: "Twitter",
     icon: Twitter,
-    href: "https://x.com/mapleepoch",
+    href: "https://x.com/emytrends/",
     color: "hover:text-blue-400"
   },
   {
     name: "Instagram",
     icon: Instagram,
-    href: "https://www.instagram.com/themapleepoch",
+    href: "https://www.instagram.com/emytrends_",
     color: "hover:text-pink-600"
   },
   {
     name: "YouTube",
     icon: Youtube,
-    href: "https://www.youtube.com/@mapleepoch",
+    href: "https://www.youtube.com/@emytrendsmedia",
     color: "hover:text-red-600"
   },
   {
     name: "TikTok",
     icon: SiTiktok,
-    href: "https://tiktok.me/mapleepoch",
+    href: "https://www.tiktok.com/@emytrends01",
     color: "hover:text-black dark:hover:text-white"
   }
 ];
@@ -131,7 +131,7 @@ export function NewsFeaturesSidebar() {
       {/* Header */}
       <div className="text-center border-b border-gray-200 dark:border-gray-700 pb-4">
         <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-          News Features
+         Content Features
         </h3>
         <p className="text-sm text-gray-600 dark:text-gray-300">
           Quick access to all our content
