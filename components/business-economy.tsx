@@ -1,39 +1,40 @@
 "use client";
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Compass, Clock, Eye, User, MapPin, ChevronDown, ChevronUp } from 'lucide-react';
+import { Leaf, Clock, Eye, User, ChevronDown, ChevronUp } from 'lucide-react';
 import { TransformedPost } from '@/lib/wordpress';
 
-interface ExploreCandaProps {
+interface DailyMapleProps {
   articles: TransformedPost[];
 }
 
-export const ExploreCanada: React.FC<ExploreCandaProps> = ({ articles }) => {
+export function BusinessEconomy({ articles }: DailyMapleProps) {
   const [showAll, setShowAll] = useState(false); // Default to "Show Less" mode
   const displayedArticles = showAll ? articles : articles.slice(0, 3);
 
   return (
     <section className="space-y-8">
       <div className="flex items-center space-x-3">
-        <Compass className="w-8 h-8 text-red-600" />
+        <Leaf className="w-8 h-8 text-red-600" />
         <h2 className="text-3xl font-bold text-gray-900 dark:text-white">
-          Explore Canada
+          Business/Economy
         </h2>
         <div className="flex-1 h-1 bg-red-600 rounded-full ml-4"></div>
       </div>
 
-      <div className="bg-gradient-to-r from-indigo-50 to-cyan-50 dark:from-indigo-950 dark:to-cyan-950 rounded-xl p-6 mb-8">
+      <div className="bg-gradient-to-r from-red-50 to-orange-50 dark:from-red-950 dark:to-orange-950 rounded-xl p-6 mb-8">
         <div className="text-center">
-          <MapPin className="w-12 h-12 text-red-600 mx-auto mb-3" />
+          <Leaf className="w-12 h-12 text-red-600 mx-auto mb-3" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            Discover Canada's Treasures
+            Where business meets opportunity
           </h3>
           <p className="text-gray-600 dark:text-gray-300 max-w-2xl mx-auto">
-            Uncover Canada's most spectacular destinations, from hidden gems off the beaten path 
-            to iconic landmarks that define our nation's natural beauty.
+            Get the latest updates on markets, startups, policies, and the economy. 
+            Stay informed with insights that shape business and financial decisions.
+
           </p>
         </div>
       </div>
@@ -55,12 +56,12 @@ export const ExploreCanada: React.FC<ExploreCandaProps> = ({ articles }) => {
                 
                 <div className="absolute top-3 left-3 flex space-x-2">
                   <Badge className="bg-red-600 hover:bg-red-700 text-white">
-                    <Compass className="w-3 h-3 mr-1" />
-                    EXPLORE CANADA
+                    <Leaf className="w-3 h-3 mr-1" />
+                     Business/Economy
                   </Badge>
                   {article.featured && (
-                    <Badge className="bg-indigo-500 hover:bg-indigo-600 text-white">
-                      FEATURED
+                    <Badge className="bg-orange-500 hover:bg-orange-600 text-white">
+                      TODAY
                     </Badge>
                   )}
                   <Badge variant="secondary" className="bg-white/90 text-gray-900 hover:bg-white text-xs">
@@ -102,7 +103,7 @@ export const ExploreCanada: React.FC<ExploreCandaProps> = ({ articles }) => {
                   className="w-full border-red-200 text-red-600 hover:bg-red-50 hover:border-red-300 dark:border-red-800 dark:text-red-400 dark:hover:bg-red-950"
                 >
                   <Link href={`/article/${article.slug}`}>
-                    Explore Destination
+                    Read Today's Business/Economy Posts
                   </Link>
                 </Button>
               </div>
@@ -111,12 +112,12 @@ export const ExploreCanada: React.FC<ExploreCandaProps> = ({ articles }) => {
         </div>
       ) : (
         <div className="text-center py-16">
-          <Compass className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
+          <Leaf className="w-16 h-16 text-gray-300 dark:text-gray-600 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-            No Destinations Available
+            No Business/Economy Post Available
           </h3>
           <p className="text-gray-600 dark:text-gray-300">
-            Check back soon for exciting Canadian destinations and travel guides.
+            Check back soon for the latest Business/Economy Posts
           </p>
         </div>
       )}
@@ -129,7 +130,7 @@ export const ExploreCanada: React.FC<ExploreCandaProps> = ({ articles }) => {
               size="lg"
               className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-3 flex items-center space-x-2 mx-auto"
             >
-              <span>{showAll ? 'Show Less' : 'Discover More Destinations'}</span>
+              <span>{showAll ? 'Show Less' : 'View All  Business/Economy contents'}</span>
               {showAll ? (
                 <ChevronUp className="w-5 h-5" />
               ) : (
@@ -149,4 +150,4 @@ export const ExploreCanada: React.FC<ExploreCandaProps> = ({ articles }) => {
       </div>
     </section>
   );
-};
+}

@@ -1,7 +1,7 @@
 import { MetadataRoute } from 'next';
 
-const API_URL = process.env.WORDPRESS_API_URL || process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://api.mapleepoch.com/wp-json/wp/v2';
-const FRONTEND_URL = 'https://www.mapleepoch.com';
+const API_URL = process.env.WORDPRESS_API_URL || process.env.NEXT_PUBLIC_WORDPRESS_API_URL || 'https://cms.emytrends.com/wp/wp-json/wp/v2';
+const FRONTEND_URL = 'https://www.emytrends.com';
 
 interface WordPressPost {
   slug: string;
@@ -145,7 +145,7 @@ ${validPosts.map((post) => {
     <loc>${FRONTEND_URL}/article/${post.slug}</loc>
     <news:news>
       <news:publication>
-        <news:name>The Maple Epoch</news:name>
+        <news:name>Emytrends</news:name>
         <news:language>en</news:language>
       </news:publication>
       <news:publication_date>${publishDate}</news:publication_date>

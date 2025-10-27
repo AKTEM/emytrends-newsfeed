@@ -11,7 +11,7 @@ interface BookNookProps {
   articles: TransformedPost[];
 }
 
-export const BookNook: React.FC<BookNookProps> = ({ articles }) => {
+export const Finance: React.FC<BookNookProps> = ({ articles }) => {
   const [showAll, setShowAll] = useState(false); // Default to "Show Less" mode
   const displayedArticles = showAll ? articles : articles.slice(0, 3);
 
@@ -130,7 +130,7 @@ export const BookNook: React.FC<BookNookProps> = ({ articles }) => {
               size="lg"
               className="bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white px-8 py-3 flex items-center space-x-2 mx-auto"
             >
-              <span>{showAll ? 'Show Less' : 'Explore BookNook'}</span>
+              <span>{showAll ? 'Show Less' : 'Explore Finance'}</span>
               {showAll ? (
                 <ChevronUp className="w-5 h-5" />
               ) : (

@@ -116,7 +116,7 @@ export async function getCategoryYoastSEO(categorySlug: string): Promise<YoastSE
 export function yoastToNextMetadata(yoast: YoastSEOResponse | null, fallbackTitle?: string, fallbackDescription?: string): Metadata {
   if (!yoast) {
     return {
-      title: fallbackTitle || 'The Maple Epoch - Breaking News & Latest Updates',
+      title: fallbackTitle || 'Emytrends - Breaking News & Latest Updates',
       description: fallbackDescription || 'Stay informed with real-time coverage of breaking news from around the world.',
     };
   }
@@ -150,23 +150,23 @@ export function yoastToNextMetadata(yoast: YoastSEOResponse | null, fallbackTitl
   }
 
   return {
-    title: yoast.title || fallbackTitle || 'The Maple Epoch',
+    title: yoast.title || fallbackTitle || 'Emytrends',
     description: yoast.description || fallbackDescription || 'Breaking news and latest updates',
     alternates: {
       canonical: yoast.canonical || undefined,
     },
     openGraph: {
-      title: yoast.og_title || yoast.title || fallbackTitle || 'The Maple Epoch',
+      title: yoast.og_title || yoast.title || fallbackTitle || 'Emytrends',
       description: yoast.og_description || yoast.description || fallbackDescription || 'Breaking news and latest updates',
       url: yoast.og_url || undefined,
-      siteName: yoast.og_site_name || 'The Maple Epoch',
+      siteName: yoast.og_site_name || 'Emytrends',
       images: ogImages,
       locale: yoast.og_locale || 'en_US',
       type: (yoast.og_type as any) || 'website',
     },
     twitter: {
       card: (yoast.twitter_card as any) || 'summary_large_image',
-      title: yoast.twitter_title || yoast.og_title || yoast.title || fallbackTitle || 'The Maple Epoch',
+      title: yoast.twitter_title || yoast.og_title || yoast.title || fallbackTitle || 'Emytrends',
       description: yoast.twitter_description || yoast.og_description || yoast.description || fallbackDescription || 'Breaking news and latest updates',
       images: twitterImages,
     },
@@ -177,7 +177,7 @@ export function yoastToNextMetadata(yoast: YoastSEOResponse | null, fallbackTitl
  * Generates fallback metadata when Yoast data is not available
  */
 export function generateFallbackMetadata(title?: string, description?: string, slug?: string): Metadata {
-  const pageTitle = title || 'The Maple Epoch - Breaking News & Latest Updates';
+  const pageTitle = title || 'Emytrends - Breaking News & Latest Updates';
   const pageDescription = description || 'Stay informed with real-time coverage of breaking news, politics, business, technology, health, sports, and entertainment.';
   const pageUrl = slug ? `${FRONTEND_URL}/article/${slug}` : FRONTEND_URL;
   
@@ -191,7 +191,7 @@ export function generateFallbackMetadata(title?: string, description?: string, s
       title: pageTitle,
       description: pageDescription,
       url: pageUrl,
-      siteName: 'The Maple Epoch',
+      siteName: 'Emytrends',
       images: [{
         url: `${FRONTEND_URL}/img/Maple.png`,
         width: 1200,

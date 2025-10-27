@@ -1,6 +1,6 @@
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { DailyMaple } from '@/components/daily-maple';
+import { BusinessEconomy } from '@/components/business-economy';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { getDailyMaple } from '@/lib/wordpress';
@@ -50,9 +50,9 @@ export default async function DailyMaplePage() {
           </div>
         </div>
 
-        {/* Daily Maple Content */}
+        {/* Business Economy Content */}
         <div className="container mx-auto px-4 py-12">
-          <DailyMaple articles={articles} />
+          <BusinessEconomy articles={articles} />
         </div>
       </main>
       <Footer />

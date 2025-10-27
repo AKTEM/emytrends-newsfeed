@@ -1,6 +1,6 @@
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { MapleTravel } from '@/components/maple-travel';
+import { MapleTravel } from '@/components/vibesncruise';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { getMapleTravel } from '@/lib/wordpress';

@@ -42,9 +42,9 @@ export default function robots(): MetadataRoute.Robots {
       }
     ],
     sitemap: [
-      'https://www.mapleepoch.com/sitemap.xml',
-      'https://www.mapleepoch.com/sitemap-news'
+      'https://www.emytrends.com/sitemap.xml',
+      'https://www.emytrends.com/sitemap-news'
     ],
-    host: 'https://www.mapleepoch.com'
+    host: 'https://www.emytrends.com'
   };
 }

@@ -1,6 +1,6 @@
 import { Header } from '@/components/header';
 import { Footer } from '@/components/footer';
-import { BookNook } from '@/components/booknook';
+import { Finance } from '@/components/finance';
 import { ChevronRight } from 'lucide-react';
 import Link from 'next/link';
 import { getBookNook } from '@/lib/wordpress';
@@ -49,9 +49,9 @@ export default async function BookNookPage() {
           </div>
         </div>
 
-        {/* BookNook Content */}
+        {/* Finance Content */}
         <div className="container mx-auto px-4 py-12">
-          <BookNook articles={articles} />
+          <Finance articles={articles} />
         </div>
       </main>
       <Footer />
