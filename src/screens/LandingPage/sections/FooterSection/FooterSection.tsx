@@ -1,5 +1,4 @@
 import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
-import React from "react";
 
 const quickLinks = [
   { label: "Home" },

@@ -1,5 +1,5 @@
 import { SearchIcon, ShoppingCartIcon, UserIcon, MenuIcon, XIcon, ChevronDown } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { ShoppingCart } from "./ShoppingCart";

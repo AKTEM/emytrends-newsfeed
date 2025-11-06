@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Search as SearchIcon, ShoppingCart as ShoppingCartIcon, User as UserIcon, Menu as MenuIcon, X as XIcon, ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon, Plus, Minus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Badge } from "../../components/ui/badge";

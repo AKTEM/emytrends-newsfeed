@@ -1,8 +1,9 @@
 import { SearchIcon, ShoppingCartIcon, UserIcon, MenuIcon, XIcon } from "lucide-react";
-import React, { useState } from "react";
+import { useState } from "react";
 import { Link } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { ShoppingCart } from "./ShoppingCart";
+import { useAuth } from "../../contexts/AuthContext";
 
 const navigationItems = [
   { label: "SHOP", path: "/shop" },
@@ -12,9 +13,16 @@ const navigationItems = [
 ];
 
 export const Header = (): JSX.Element => {
+  const { user } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState<any[]>([]);
+
+  const getDisplayName = () => {
+    if (!user?.email) return "";
+    const name = user.email.split("@")[0];
+    return name.length > 10 ? name.substring(0, 10) + "..." : name;
+  };
 
   return (
     <header className="w-full h-16 sm:h-20 lg:h-24 bg-primaryprimary-2 px-4 sm:px-8 lg:px-12 py-4 sm:py-5 lg:py-6 relative">
@@ -40,9 +48,18 @@ export const Header = (): JSX.Element => {
 
           <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
             <SearchIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white cursor-pointer hover:opacity-80 transition-opacity" />
-            <Link to="/auth">
-              <UserIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] text-white cursor-pointer hover:opacity-80 transition-opacity" />
-            </Link>
+            {user ? (
+              <Link to="/dashboard" className="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                <div className="w-6 h-6 sm:w-7 sm:h-7 rounded-full bg-gray-600 flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">{user.email?.[0].toUpperCase()}</span>
+                </div>
+                <span className="hidden sm:inline text-white text-sm font-medium">{getDisplayName()}</span>
+              </Link>
+            ) : (
+              <Link to="/auth">
+                <UserIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] text-white cursor-pointer hover:opacity-80 transition-opacity" />
+              </Link>
+            )}
 
             <div
               className="relative w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] cursor-pointer hover:opacity-80 transition-opacity"

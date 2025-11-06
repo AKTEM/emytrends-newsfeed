@@ -1,5 +1,4 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import React from "react";
 import { Button } from "../../components/ui/button";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";

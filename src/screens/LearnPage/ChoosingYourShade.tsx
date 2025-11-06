@@ -1,4 +1,4 @@
-import React from "react";
+
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { Footer } from "../../components/shared/Footer";

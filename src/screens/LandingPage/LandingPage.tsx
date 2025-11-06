@@ -1,5 +1,4 @@
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
-import React from "react";
 import { FooterSection } from "./sections/FooterSection";
 import { HairExtensionsSection } from "./sections/HairExtensionsSection";
 import { HeroSection } from "./sections/HeroSection";
