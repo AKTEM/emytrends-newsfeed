@@ -1,0 +1,1 @@
+export { TreatmentAndToolsSection } from "./TreatmentAndToolsSection";

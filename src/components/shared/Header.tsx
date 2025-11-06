@@ -1,0 +1,127 @@
+import { SearchIcon, ShoppingCartIcon, UserIcon, MenuIcon, XIcon } from "lucide-react";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { Badge } from "../ui/badge";
+import { ShoppingCart } from "./ShoppingCart";
+
+const navigationItems = [
+  { label: "SHOP", path: "/shop" },
+  { label: "LEARN", path: "/learn" },
+  { label: "OUR WORLD", path: "/our-world" },
+  { label: "BLOG", path: "/" },
+];
+
+export const Header = (): JSX.Element => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<any[]>([]);
+
+  return (
+    <header className="w-full h-16 sm:h-20 lg:h-24 bg-primaryprimary-2 px-4 sm:px-8 lg:px-12 py-4 sm:py-5 lg:py-6 relative">
+      <div className="flex items-center justify-between h-full max-w-[1440px] mx-auto">
+        <Link to="/" className="[font-family:'Arsenica_Trial-Demibold',Helvetica] font-normal text-textinverse-text text-2xl sm:text-3xl lg:text-4xl tracking-[0] leading-[normal] whitespace-nowrap">
+          KUTHAIR
+        </Link>
+
+        <div className="flex items-center justify-end gap-4 sm:gap-6 lg:gap-8 flex-1 max-w-[788px]">
+          <nav className="hidden lg:flex gap-4 items-center">
+            {navigationItems.map((item, index) => (
+              <Link
+                key={index}
+                to={item.path}
+                className="flex items-center justify-center gap-2.5 px-0 hover:opacity-80 transition-opacity"
+              >
+                <div className="font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-white text-[length:var(--bold-title-medium-font-size)] text-center tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)]">
+                  {item.label}
+                </div>
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
+            <SearchIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white cursor-pointer hover:opacity-80 transition-opacity" />
+            <Link to="/auth">
+              <UserIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] text-white cursor-pointer hover:opacity-80 transition-opacity" />
+            </Link>
+
+            <div
+              className="relative w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] cursor-pointer hover:opacity-80 transition-opacity"
+              onClick={() => setIsCartOpen(true)}
+            >
+              <ShoppingCartIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] text-white" />
+              {cartItems.length > 0 && (
+                <Badge className="absolute -top-1 -right-1 h-auto min-w-[14px] px-1 py-0 bg-tertiarytertiary-0 text-white font-medium-body-small font-[number:var(--medium-body-small-font-weight)] text-[length:var(--medium-body-small-font-size)] tracking-[var(--medium-body-small-letter-spacing)] leading-[var(--medium-body-small-line-height)] [font-style:var(--medium-body-small-font-style)] border-0 rounded-full flex items-center justify-center text-[10px]">
+                  {cartItems.length}
+                </Badge>
+              )}
+            </div>
+
+            <button
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              className="lg:hidden w-6 h-6 text-white cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center"
+              aria-label="Toggle menu"
+            >
+              {isMobileMenuOpen ? (
+                <XIcon className="w-6 h-6" />
+              ) : (
+                <MenuIcon className="w-6 h-6" />
+              )}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div
+        className={`lg:hidden absolute left-0 right-0 bg-primaryprimary-2 shadow-lg overflow-hidden transition-all duration-300 ease-in-out z-50 ${
+          isMobileMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
+        }`}
+        style={{ top: "100%" }}
+      >
+        <nav className="flex flex-col py-4 px-4 sm:px-8">
+          {navigationItems.map((item, index) => (
+            <Link
+              key={index}
+              to={item.path}
+              className="flex items-center justify-start gap-2.5 py-4 px-4 hover:bg-white/10 transition-all duration-200 rounded-lg transform hover:translate-x-1"
+              style={{
+                animation: isMobileMenuOpen
+                  ? `slideInFromLeft 0.3s ease-out ${index * 0.1}s both`
+                  : "none",
+              }}
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <div className="font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-white text-[length:var(--bold-title-medium-font-size)] tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)]">
+                {item.label}
+              </div>
+            </Link>
+          ))}
+        </nav>
+      </div>
+
+      <style>{`
+        @keyframes slideInFromLeft {
+          from {
+            opacity: 0;
+            transform: translateX(-20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateX(0);
+          }
+        }
+      `}</style>
+
+      <ShoppingCart
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cartItems}
+        onRemoveItem={(id) => setCartItems(cartItems.filter(item => item.id !== id))}
+        onUpdateQuantity={(id, quantity) =>
+          setCartItems(cartItems.map(item =>
+            item.id === id ? { ...item, quantity } : item
+          ))
+        }
+      />
+    </header>
+  );
+};
