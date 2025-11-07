@@ -33,3 +33,5 @@
     "@/*": "./src/components/ui/$1"
   }
 }
+"build:dev": "vite build --mode development"
+
