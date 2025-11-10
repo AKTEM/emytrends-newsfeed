@@ -9,22 +9,22 @@ import { auth } from "../../lib/firebase";
 
 const shopCategories = {
   featured: [
-    { label: "New Arrivals", path: "/shop" },
-    { label: "Trending", path: "/shop" },
-    { label: "Best Selling", path: "/shop" },
-    { label: "Best Selling", path: "/shop" },
+    { label: "New Arrivals", path: "/shop/all?category=New Arrivals" },
+    { label: "Trending", path: "/shop/all?category=Trending" },
+    { label: "Best Selling", path: "/shop/all" },
+    { label: "Best Selling", path: "/shop/all" },
   ],
   hairExtensions: [
-    { label: "Luxury Wigs", path: "/shop" },
-    { label: "Invisible Tape", path: "/shop" },
-    { label: "Hand-Tied Weft", path: "/shop" },
-    { label: "Classic Weft", path: "/shop" },
+    { label: "Luxury Wigs", path: "/shop/all?category=Luxury Wigs" },
+    { label: "Invisible Tape", path: "/shop/all?category=Invisible Tape" },
+    { label: "Hand-Tied Weft", path: "/shop/all?category=Hand-Tied Weft" },
+    { label: "Classic Weft", path: "/shop/all?category=Classic Weft" },
   ],
   hairShade: [
-    { label: "Black", path: "/shop" },
-    { label: "Brown", path: "/shop" },
-    { label: "Blonde", path: "/shop" },
-    { label: "Red", path: "/shop" },
+    { label: "Black", path: "/shop/all?category=Black" },
+    { label: "Brown", path: "/shop/all?category=Brown" },
+    { label: "Blonde", path: "/shop/all?category=Blonde" },
+    { label: "Red", path: "/shop/all?category=Red" },
   ],
 };
 

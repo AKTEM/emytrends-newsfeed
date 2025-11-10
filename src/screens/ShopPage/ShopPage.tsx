@@ -205,7 +205,7 @@ export const ShopPage = (): JSX.Element => {
                 </h3>
                 <div className="flex flex-col gap-3 mb-8">
                   <Link
-                    to="#"
+                    to="/shop/all"
                     className="text-black text-lg hover:text-[#E3A857] transition-colors"
                   >
                     {categories.hairExtensions.shopAll}
@@ -268,63 +268,66 @@ export const ShopPage = (): JSX.Element => {
             TRENDING
           </h2>
 
-          <Button
-            variant="outline"
-            className="h-12 sm:h-14 px-4 sm:px-5 py-4 sm:py-5 rounded-lg border-[1.5px] border-[#e3a857] bg-transparent hover:bg-tertiarytertiary-0/10 w-full sm:w-auto"
-          >
-            <span className="text-tertiarytertiary-0 font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-[length:var(--bold-title-medium-font-size)] tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)]">
-              SHOP ALL
-            </span>
-          </Button>
+          <Link to="/shop/all?category=Trending">
+            <Button
+              variant="outline"
+              className="h-12 sm:h-14 px-4 sm:px-5 py-4 sm:py-5 rounded-lg border-[1.5px] border-[#e3a857] bg-transparent hover:bg-tertiarytertiary-0/10 w-full sm:w-auto"
+            >
+              <span className="text-tertiarytertiary-0 font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-[length:var(--bold-title-medium-font-size)] tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)]">
+                SHOP ALL
+              </span>
+            </Button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 w-full max-w-[1440px] mx-auto">
           {trendingProducts.map((product) => (
-            <Card
-              key={product.id}
-              className="flex flex-col border-none shadow-none bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
-            >
-              <CardContent className="flex flex-col items-start justify-center gap-6 p-0">
-                <div className="relative w-full">
-                  <div className="absolute top-4 left-4 bg-[#E3A857] text-white text-xs font-bold px-3 py-1 rounded z-10">
-                    -50%
-                  </div>
-                  <img
-                    className="h-[200px] sm:h-[230px] lg:h-[258px] w-full object-cover rounded-lg"
-                    alt={product.title}
-                    src={product.image}
-                  />
-                </div>
-
-                <div className="flex items-start justify-between gap-2 w-full">
-                  <div className="flex flex-col items-start gap-2 sm:gap-[13px] flex-1 min-w-0">
-                    <p className="font-medium-body-large font-[number:var(--medium-body-large-font-weight)] text-black text-[length:var(--medium-body-large-font-size)] tracking-[var(--medium-body-large-letter-spacing)] leading-[var(--medium-body-large-line-height)] [font-style:var(--medium-body-large-font-style)] text-sm sm:text-base line-clamp-2">
-                      {product.title}
-                    </p>
-
-                    <img className="w-full max-w-[120px]" alt="Rating" src={product.rating} />
-                  </div>
-
-                  <p className="font-semi-bold-title-medium font-[number:var(--semi-bold-title-medium-font-weight)] text-black text-[length:var(--semi-bold-title-medium-font-size)] tracking-[var(--semi-bold-title-medium-letter-spacing)] leading-[var(--semi-bold-title-medium-line-height)] whitespace-nowrap [font-style:var(--semi-bold-title-medium-font-style)] text-base sm:text-lg">
-                    {product.price}
-                  </p>
-                </div>
-
-                <div className="flex items-center gap-2">
-                  {product.colors.map((colorOption, colorIndex) => (
-                    <button
-                      key={colorIndex}
-                      className="w-5 h-5 rounded-sm border border-gray-300 hover:border-gray-900 transition-colors flex-shrink-0"
-                      style={{ backgroundColor: colorOption.color }}
-                      title={colorOption.name}
+            <Link key={product.id} to="/shop/all?category=Trending">
+              <Card
+                className="flex flex-col border-none shadow-none bg-transparent cursor-pointer hover:opacity-80 transition-opacity"
+              >
+                <CardContent className="flex flex-col items-start justify-center gap-6 p-0">
+                  <div className="relative w-full">
+                    <div className="absolute top-4 left-4 bg-[#E3A857] text-white text-xs font-bold px-3 py-1 rounded z-10">
+                      -50%
+                    </div>
+                    <img
+                      className="h-[200px] sm:h-[230px] lg:h-[258px] w-full object-cover rounded-lg"
+                      alt={product.title}
+                      src={product.image}
                     />
-                  ))}
-                  <button className="w-5 h-5 rounded-sm border border-gray-300 bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center flex-shrink-0">
-                    <span className="text-gray-600 text-xs font-bold">+</span>
-                  </button>
-                </div>
-              </CardContent>
-            </Card>
+                  </div>
+
+                  <div className="flex items-start justify-between gap-2 w-full">
+                    <div className="flex flex-col items-start gap-2 sm:gap-[13px] flex-1 min-w-0">
+                      <p className="font-medium-body-large font-[number:var(--medium-body-large-font-weight)] text-black text-[length:var(--medium-body-large-font-size)] tracking-[var(--medium-body-large-letter-spacing)] leading-[var(--medium-body-large-line-height)] [font-style:var(--medium-body-large-font-style)] text-sm sm:text-base line-clamp-2">
+                        {product.title}
+                      </p>
+
+                      <img className="w-full max-w-[120px]" alt="Rating" src={product.rating} />
+                    </div>
+
+                    <p className="font-semi-bold-title-medium font-[number:var(--semi-bold-title-medium-font-weight)] text-black text-[length:var(--semi-bold-title-medium-font-size)] tracking-[var(--semi-bold-title-medium-letter-spacing)] leading-[var(--semi-bold-title-medium-line-height)] whitespace-nowrap [font-style:var(--semi-bold-title-medium-font-style)] text-base sm:text-lg">
+                      {product.price}
+                    </p>
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {product.colors.map((colorOption, colorIndex) => (
+                      <button
+                        key={colorIndex}
+                        className="w-5 h-5 rounded-sm border border-gray-300 hover:border-gray-900 transition-colors flex-shrink-0"
+                        style={{ backgroundColor: colorOption.color }}
+                        title={colorOption.name}
+                      />
+                    ))}
+                    <button className="w-5 h-5 rounded-sm border border-gray-300 bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center flex-shrink-0">
+                      <span className="text-gray-600 text-xs font-bold">+</span>
+                    </button>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </section>
@@ -359,24 +362,25 @@ export const ShopPage = (): JSX.Element => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 w-full max-w-[1440px] mx-auto">
           {hairExtensionProducts.map((product) => (
-            <Card
-              key={product.id}
-              className="flex flex-col cursor-pointer hover:shadow-lg transition-shadow overflow-hidden border-none shadow-none"
-            >
-              <CardContent className="flex flex-col items-start justify-center gap-4 sm:gap-6 p-0">
-                <img
-                  className="w-full object-cover h-[250px] sm:h-[270px] lg:h-[274px]"
-                  alt={product.title}
-                  src={product.image}
-                />
+            <Link key={product.id} to="/shop/all">
+              <Card
+                className="flex flex-col cursor-pointer hover:shadow-lg transition-shadow overflow-hidden border-none shadow-none"
+              >
+                <CardContent className="flex flex-col items-start justify-center gap-4 sm:gap-6 p-0">
+                  <img
+                    className="w-full object-cover h-[250px] sm:h-[270px] lg:h-[274px]"
+                    alt={product.title}
+                    src={product.image}
+                  />
 
-                <div className="flex items-center justify-center w-full px-4 pb-4">
-                  <h3 className="font-semi-bold-title-large font-[number:var(--semi-bold-title-large-font-weight)] text-black text-[length:var(--semi-bold-title-large-font-size)] tracking-[var(--semi-bold-title-large-letter-spacing)] leading-[var(--semi-bold-title-large-line-height)] [font-style:var(--semi-bold-title-large-font-style)] text-base sm:text-lg text-center">
-                    {product.title}
-                  </h3>
-                </div>
-              </CardContent>
-            </Card>
+                  <div className="flex items-center justify-center w-full px-4 pb-4">
+                    <h3 className="font-semi-bold-title-large font-[number:var(--semi-bold-title-large-font-weight)] text-black text-[length:var(--semi-bold-title-large-font-size)] tracking-[var(--semi-bold-title-large-letter-spacing)] leading-[var(--semi-bold-title-large-line-height)] [font-style:var(--semi-bold-title-large-font-style)] text-base sm:text-lg text-center">
+                      {product.title}
+                    </h3>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       </section>
@@ -387,14 +391,16 @@ export const ShopPage = (): JSX.Element => {
             TREATMENTS & TOOLS
           </h2>
 
-          <Button
-            variant="outline"
-            className="h-12 sm:h-14 px-4 sm:px-5 py-4 sm:py-5 rounded-lg border-[1.5px] border-[#e3a857] bg-transparent hover:bg-tertiarytertiary-0/10 w-full sm:w-auto"
-          >
-            <span className="text-tertiarytertiary-0 font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-[length:var(--bold-title-medium-font-size)] tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)]">
-              SHOP ALL
-            </span>
-          </Button>
+          <Link to="/shop/all">
+            <Button
+              variant="outline"
+              className="h-12 sm:h-14 px-4 sm:px-5 py-4 sm:py-5 rounded-lg border-[1.5px] border-[#e3a857] bg-transparent hover:bg-tertiarytertiary-0/10 w-full sm:w-auto"
+            >
+              <span className="text-tertiarytertiary-0 font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-[length:var(--bold-title-medium-font-size)] tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)]">
+                SHOP ALL
+              </span>
+            </Button>
+          </Link>
         </div>
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5 lg:gap-6 w-full max-w-[1440px] mx-auto">

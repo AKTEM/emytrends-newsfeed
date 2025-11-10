@@ -31,7 +31,7 @@ export const HeroSection = (): JSX.Element => {
               </p>
             </div>
 
-            <Link to="/shop" className="w-full sm:w-auto">
+            <Link to="/shop/all" className="w-full sm:w-auto">
               <Button className="bg-tertiarytertiary-0 hover:bg-tertiarytertiary-0/90 text-textinverse-text font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-[length:var(--bold-title-medium-font-size)] tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)] px-5 py-4 sm:py-5 h-auto rounded-lg w-full">
                 SHOP NOW
               </Button>

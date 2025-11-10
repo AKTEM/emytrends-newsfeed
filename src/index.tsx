@@ -6,6 +6,7 @@ import { LandingPage } from "./screens/LandingPage";
 import { AuthPage } from "./screens/AuthPage";
 import { OurWorldPage } from "./screens/OurWorldPage";
 import { ShopPage } from "./screens/ShopPage";
+import { ShopAllPage } from "./screens/ShopAllPage";
 import { PonytailPage } from "./screens/PonytailPage";
 import { LearnPage } from "./screens/LearnPage";
 import { ChoosingYourShadePage } from "./screens/LearnPage/ChoosingYourShade";
@@ -30,6 +31,7 @@ createRoot(document.getElementById("app") as HTMLElement).render(
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/our-world" element={<OurWorldPage />} />
           <Route path="/shop" element={<ShopPage />} />
+          <Route path="/shop/all" element={<ShopAllPage />} />
           <Route path="/shop/ponytail" element={<PonytailPage />} />
           <Route path="/learn" element={<LearnPage />} />
           <Route path="/learn/shade" element={<ChoosingYourShadePage />} />
