@@ -103,18 +103,18 @@ export const PonytailPage = (): JSX.Element => {
       <HeaderWithDropdown />
 
       {/* Hero Section with Title and Background */}
-      <section className="w-full bg-[#F5F5DC] relative py-12 px-4 sm:px-8 lg:px-12">
-        <div className="max-w-[1440px] mx-auto flex items-center justify-between">
+      <section className="w-full bg-[#F6F1E8] relative py-12 px-4 sm:px-8 lg:px-12">
+        <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-8">
           <div className="flex-1">
             <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black tracking-tight">
               PONYTAIL
             </h1>
           </div>
-          <div className="hidden lg:block">
+          <div className="hidden lg:block flex-shrink-0">
             <img
               src="/ponytail-hero.jpg"
               alt="Ponytail hairstyle"
-              className="w-[300px] h-[200px] object-cover object-top"
+              className="w-[280px] h-[180px] object-cover rounded-lg"
             />
           </div>
         </div>
