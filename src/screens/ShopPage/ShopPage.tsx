@@ -219,7 +219,7 @@ export const ShopPage = (): JSX.Element => {
                   {categories.hairExtensions.shopByProductType.map((item, idx) => (
                     <Link
                       key={idx}
-                      to="#"
+                      to={item.label === "Ponytail" ? "/shop/ponytail" : "#"}
                       className="text-black text-lg hover:text-[#E3A857] transition-colors"
                     >
                       {item.label}
