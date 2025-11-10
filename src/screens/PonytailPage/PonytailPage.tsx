@@ -124,8 +124,8 @@ export const PonytailPage = (): JSX.Element => {
       <div className="w-full px-4 sm:px-8 lg:px-12 py-8 bg-white">
         <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row gap-8">
           {/* Left Sidebar - Filters */}
-          <aside className="w-full lg:w-[200px] flex-shrink-0">
-            <div className="bg-[#F5F5F5] rounded-lg p-4">
+          <aside className="w-full lg:w-[180px] flex-shrink-0">
+            <div className="bg-[#F5F5F5] rounded-none lg:rounded-lg p-4 lg:max-h-[600px] lg:overflow-y-auto">
               <div className="flex items-center justify-between mb-4">
                 <h3 className="text-sm font-bold text-black">PRODUCT</h3>
                 <button 
@@ -138,12 +138,12 @@ export const PonytailPage = (): JSX.Element => {
               
               <div className={`flex flex-col gap-3 ${isFilterExpanded ? 'block' : 'hidden lg:block'}`}>
                 {filterItems.map((item, idx) => (
-                  <label key={idx} className="flex items-start gap-2 cursor-pointer">
+                  <label key={idx} className="flex items-start gap-2.5 cursor-pointer group">
                     <input
                       type="checkbox"
-                      className="mt-1 w-4 h-4 border-2 border-gray-400 rounded"
+                      className="mt-0.5 w-4 h-4 border-2 border-gray-400 rounded accent-black"
                     />
-                    <span className="text-sm text-black">{item}</span>
+                    <span className="text-xs text-black leading-tight">{item}</span>
                   </label>
                 ))}
               </div>
