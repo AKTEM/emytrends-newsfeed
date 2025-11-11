@@ -1,16 +1,11 @@
 import { useState } from "react";
-import { Search as SearchIcon, ShoppingCart as ShoppingCartIcon, User as UserIcon, Menu as MenuIcon, X as XIcon, ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon, Plus, Minus } from "lucide-react";
-import { Link } from "react-router-dom";
-import { Badge } from "../../components/ui/badge";
+import { Plus, Minus, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "../../components/ui/button";
-import { Footer } from "../../components/shared/Footer";
+import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
+import { FooterSection } from "../LandingPage/sections/FooterSection";
+import { ProductCart } from "../../components/shared/ProductCart";
+import { NotifyWhenAvailableModal } from "../../components/modals/NotifyWhenAvailableModal";
 
-const navigationItems = [
-  { label: "SHOP", path: "/shop" },
-  { label: "LEARN", path: "/learn" },
-  { label: "OUR WORLD", path: "/our-world" },
-  { label: "BLOG", path: "/" },
-];
 
 const faqItems = [
   {
@@ -97,96 +92,64 @@ interface ProductDetailsPageProps {
 }
 
 export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPageProps): JSX.Element => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [quantity, setQuantity] = useState(1);
   const [selectedShade, setSelectedShade] = useState("all");
   const [selectedLength, setSelectedLength] = useState(lengthOptions[0].id);
   const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(2);
+  const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
+  const [cartItems, setCartItems] = useState<Array<{
+    id: string;
+    name: string;
+    variant: string;
+    color: string;
+    price: number;
+    quantity: number;
+    image: string;
+  }>>([]);
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
 
+  const handleAddToCart = () => {
+    const newItem = {
+      id: Date.now().toString(),
+      name: "Silk Seam",
+      variant: "Silk Seam - 16",
+      color: "#B8956A",
+      price: 385.0,
+      quantity: quantity,
+      image: "/img-20250902-wa0002.png",
+    };
+    setCartItems([...cartItems, newItem]);
+    setIsCartOpen(true);
+  };
+
+  const handleRemoveItem = (id: string) => {
+    setCartItems(cartItems.filter(item => item.id !== id));
+  };
+
+  const handleUpdateQuantity = (id: string, newQuantity: number) => {
+    setCartItems(cartItems.map(item => 
+      item.id === id ? { ...item, quantity: newQuantity } : item
+    ));
+  };
+
   return (
     <div className="bg-white w-full min-h-screen relative flex flex-col">
-      <header className="w-full bg-[#e5e5e5] sticky top-0 z-50">
-        <div className="flex h-10 items-center justify-between px-4 sm:px-8 lg:px-12 py-2 w-full max-w-[1440px] mx-auto">
-          <ChevronLeftIcon className="w-4 h-4 flex-shrink-0 text-gray-600" />
+      <header className="w-full bg-neutralneutral-1 sticky top-0 z-50">
+        <div className="flex h-10 items-center justify-between px-4 sm:px-8 lg:px-12 py-2 w-full max-w-[1264px] mx-auto">
+          <ChevronLeftIcon className="w-3 h-6 flex-shrink-0 hidden sm:block" />
           <div className="inline-flex items-center justify-center gap-6 flex-1 px-2">
-            <div className="font-medium text-gray-900 text-xs sm:text-sm text-center">
+            <div className="font-medium-body-large font-[number:var(--medium-body-large-font-weight)] text-textprimary-text text-[length:var(--medium-body-large-font-size)] tracking-[var(--medium-body-large-letter-spacing)] leading-[var(--medium-body-large-line-height)] text-center [font-style:var(--medium-body-large-font-style)] text-xs sm:text-sm md:text-base">
               Get 50% Discount On Every Item Purchased On Christmas Day
             </div>
           </div>
-          <ChevronRightIcon className="w-4 h-4 flex-shrink-0 text-gray-600" />
+          <ChevronRightIcon className="w-3 h-6 flex-shrink-0 hidden sm:block" />
         </div>
       </header>
 
-      <header className="w-full h-16 sm:h-20 bg-[#1a1a1a] px-4 sm:px-8 lg:px-12 py-4 sm:py-5 relative">
-        <div className="flex items-center justify-between h-full max-w-[1440px] mx-auto">
-          <Link to="/" className="font-bold text-white text-xl sm:text-2xl lg:text-3xl tracking-wider whitespace-nowrap">
-            KUTHAIR
-          </Link>
-
-          <div className="flex items-center justify-end gap-4 sm:gap-6 lg:gap-12 flex-1">
-            <nav className="hidden lg:flex gap-8 items-center">
-              {navigationItems.map((item, index) => (
-                <Link
-                  key={index}
-                  to={item.path}
-                  className="text-white text-sm font-medium hover:opacity-80 transition-opacity tracking-wide"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-
-            <div className="flex items-center gap-4 sm:gap-5">
-              <SearchIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white cursor-pointer hover:opacity-80 transition-opacity" />
-              <Link to="/auth">
-                <UserIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white cursor-pointer hover:opacity-80 transition-opacity" />
-              </Link>
-
-              <div className="relative w-5 h-5 sm:w-6 sm:h-6 cursor-pointer hover:opacity-80 transition-opacity">
-                <ShoppingCartIcon className="w-5 h-5 sm:w-6 sm:h-6 text-white" />
-                <Badge className="absolute -top-1 -right-1 h-4 min-w-[16px] px-1 py-0 bg-orange-600 text-white text-[10px] border-0 rounded-full flex items-center justify-center">
-                  3
-                </Badge>
-              </div>
-
-              <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="lg:hidden w-6 h-6 text-white cursor-pointer hover:opacity-80 transition-opacity flex items-center justify-center"
-                aria-label="Toggle menu"
-              >
-                {isMobileMenuOpen ? (
-                  <XIcon className="w-6 h-6" />
-                ) : (
-                  <MenuIcon className="w-6 h-6" />
-                )}
-              </button>
-            </div>
-          </div>
-        </div>
-
-        <div
-          className={`lg:hidden absolute left-0 right-0 bg-[#1a1a1a] shadow-lg overflow-hidden transition-all duration-300 ease-in-out z-50 ${
-            isMobileMenuOpen ? "max-h-80 opacity-100" : "max-h-0 opacity-0"
-          }`}
-          style={{ top: "100%" }}
-        >
-          <nav className="flex flex-col py-4 px-4 sm:px-8">
-            {navigationItems.map((item, index) => (
-              <Link
-                key={index}
-                to={item.path}
-                className="flex items-center justify-start gap-2.5 py-4 px-4 text-white hover:bg-white/10 transition-all duration-200 rounded-lg"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-          </nav>
-        </div>
-      </header>
+      <HeaderWithDropdown />
 
       <main className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16">
@@ -293,7 +256,10 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
               </div>
 
               {isAvailable ? (
-                <Button className="flex-1 h-12 bg-gray-900 text-white text-sm font-bold hover:bg-gray-800 transition-colors">
+                <Button 
+                  onClick={handleAddToCart}
+                  className="flex-1 h-12 bg-gray-900 text-white text-sm font-bold hover:bg-gray-800 transition-colors"
+                >
                   ADD TO CART
                 </Button>
               ) : (
@@ -304,7 +270,10 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
             </div>
 
             {!isAvailable && (
-              <Button className="w-full h-12 bg-gray-900 text-white text-sm font-bold hover:bg-gray-800 transition-colors">
+              <Button 
+                onClick={() => setIsNotifyModalOpen(true)}
+                className="w-full h-12 bg-gray-900 text-white text-sm font-bold hover:bg-gray-800 transition-colors"
+              >
                 NOTIFY ME WHEN AVAILABLE
               </Button>
             )}
@@ -368,7 +337,21 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
         </section>
       </main>
 
-      <Footer />
+      <FooterSection />
+
+      <ProductCart
+        isOpen={isCartOpen}
+        onClose={() => setIsCartOpen(false)}
+        items={cartItems}
+        onRemoveItem={handleRemoveItem}
+        onUpdateQuantity={handleUpdateQuantity}
+      />
+
+      <NotifyWhenAvailableModal
+        isOpen={isNotifyModalOpen}
+        onClose={() => setIsNotifyModalOpen(false)}
+        productName="Tape-In Extension Caramel Blonde"
+      />
     </div>
   );
 };

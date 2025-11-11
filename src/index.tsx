@@ -13,6 +13,7 @@ import { ChoosingYourShadePage } from "./screens/LearnPage/ChoosingYourShade";
 import { ChoosingYourLengthPage } from "./screens/LearnPage/ChoosingYourLength";
 import { CareGuidePage } from "./screens/LearnPage/CareGuide";
 import { ProductDetailsPage } from "./screens/ProductDetailsPage";
+import { CheckoutPage } from "./screens/CheckoutPage";
 import { MyAccount } from "./screens/Dashboard/MyAccount";
 import { Orders } from "./screens/Dashboard/Orders";
 import { OrderDetails } from "./screens/Dashboard/OrderDetails";
@@ -39,6 +40,7 @@ createRoot(document.getElementById("app") as HTMLElement).render(
           <Route path="/learn/care-guide" element={<CareGuidePage />} />
           <Route path="/product/:id" element={<ProductDetailsPage isAvailable={true} />} />
           <Route path="/product/:id/sold-out" element={<ProductDetailsPage isAvailable={false} />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/dashboard" element={<MyAccount />} />
           <Route path="/dashboard/orders" element={<Orders />} />
           <Route path="/dashboard/orders/:orderId" element={<OrderDetails />} />
