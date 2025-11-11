@@ -3,8 +3,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { Footer } from "../../components/shared/Footer";
 import { Button } from "../../components/ui/button";
+import { CareHelpModal } from "../../components/modals/CareHelpModal";
+import { useState } from "react";
 
 export const CareGuidePage = (): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const careProducts = [
     { title: "silk Seam Clip-In Caramel Latte Rooted Highlight", price: "$50", image: "/image-33.png" },
     { title: "silk Seam Clip-In Caramel Latte Rooted Highlight", price: "$50", image: "/image-35.png" },
@@ -148,7 +151,10 @@ export const CareGuidePage = (): JSX.Element => {
                   </div>
                 </div>
 
-                <Button className="bg-tertiarytertiary-0 hover:bg-tertiarytertiary-0/90 text-white w-full sm:w-auto px-8 py-6 text-base sm:text-lg">
+                <Button 
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-tertiarytertiary-0 hover:bg-tertiarytertiary-0/90 text-white w-full sm:w-auto px-8 py-6 text-base sm:text-lg"
+                >
                   GET HELP
                 </Button>
               </div>
@@ -197,6 +203,8 @@ export const CareGuidePage = (): JSX.Element => {
       </main>
 
       <Footer />
+      
+      <CareHelpModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

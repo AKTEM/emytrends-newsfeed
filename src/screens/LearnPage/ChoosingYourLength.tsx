@@ -3,8 +3,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { Footer } from "../../components/shared/Footer";
 import { Button } from "../../components/ui/button";
+import { LengthHelpModal } from "../../components/modals/LengthHelpModal";
+import { useState } from "react";
 
 export const ChoosingYourLengthPage = (): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const lengthProducts = [
     { title: "MEDIUM", image: "/img-20250902-wa0002.png" },
     { title: "LONG", image: "/img-20250902-wa0004.png" },
@@ -132,7 +135,10 @@ export const ChoosingYourLengthPage = (): JSX.Element => {
                   </div>
                 </div>
 
-                <Button className="bg-tertiarytertiary-0 hover:bg-tertiarytertiary-0/90 text-white w-full sm:w-auto px-8 py-6 text-base sm:text-lg">
+                <Button 
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-tertiarytertiary-0 hover:bg-tertiarytertiary-0/90 text-white w-full sm:w-auto px-8 py-6 text-base sm:text-lg"
+                >
                   GET HELP
                 </Button>
               </div>
@@ -191,6 +197,8 @@ export const ChoosingYourLengthPage = (): JSX.Element => {
       </main>
 
       <Footer />
+      
+      <LengthHelpModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };

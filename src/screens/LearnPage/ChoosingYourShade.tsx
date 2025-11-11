@@ -3,8 +3,11 @@ import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { Footer } from "../../components/shared/Footer";
 import { Button } from "../../components/ui/button";
+import { ShadeHelpModal } from "../../components/modals/ShadeHelpModal";
+import { useState } from "react";
 
 export const ChoosingYourShadePage = (): JSX.Element => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const shadeProducts = [
     { title: "MEDIUM", image: "/img-20250902-wa0002.png" },
     { title: "MEDIUM", image: "/img-20250902-wa0002.png" },
@@ -133,7 +136,10 @@ export const ChoosingYourShadePage = (): JSX.Element => {
                   </div>
                 </div>
 
-                <Button className="bg-tertiarytertiary-0 hover:bg-tertiarytertiary-0/90 text-white w-full sm:w-auto px-8 py-6 text-base sm:text-lg">
+                <Button 
+                  onClick={() => setIsModalOpen(true)}
+                  className="bg-tertiarytertiary-0 hover:bg-tertiarytertiary-0/90 text-white w-full sm:w-auto px-8 py-6 text-base sm:text-lg"
+                >
                   GET HELP
                 </Button>
               </div>
@@ -180,6 +186,8 @@ export const ChoosingYourShadePage = (): JSX.Element => {
       </main>
 
       <Footer />
+      
+      <ShadeHelpModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </div>
   );
 };
