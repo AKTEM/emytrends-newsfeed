@@ -55,8 +55,8 @@ export const ProductCart = ({
         onClick={onClose}
       />
 
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-        <div className="bg-white w-full max-w-3xl max-h-[90vh] flex flex-col">
+      <div className="fixed top-0 right-0 z-50 w-full sm:w-[500px] md:w-[550px] lg:w-[600px] max-h-screen">
+        <div className="bg-white w-full h-full flex flex-col shadow-2xl">
           <div className="bg-[#e5e5dc] px-6 py-6 flex items-center justify-between">
             <h2 className="text-2xl sm:text-3xl font-bold text-black">YOUR CART</h2>
             <button
