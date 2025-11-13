@@ -3,8 +3,8 @@ import { Plus, Minus, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
-import { ProductCart } from "../../components/shared/ProductCart";
 import { NotifyWhenAvailableModal } from "../../components/modals/NotifyWhenAvailableModal";
+import { useCart } from "../../contexts/CartContext";
 
 
 const faqItems = [
@@ -92,28 +92,19 @@ interface ProductDetailsPageProps {
 }
 
 export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPageProps): JSX.Element => {
+  const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   const [selectedShade, setSelectedShade] = useState("all");
   const [selectedLength, setSelectedLength] = useState(lengthOptions[0].id);
   const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(2);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<Array<{
-    id: string;
-    name: string;
-    variant: string;
-    color: string;
-    price: number;
-    quantity: number;
-    image: string;
-  }>>([]);
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
 
   const handleAddToCart = () => {
     const newItem = {
-      id: Date.now().toString(),
+      id: `${Date.now()}-${Math.random()}`,
       name: "Silk Seam",
       variant: "Silk Seam - 16",
       color: "#B8956A",
@@ -121,18 +112,8 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
       quantity: quantity,
       image: "/img-20250902-wa0002.png",
     };
-    setCartItems([...cartItems, newItem]);
-    setIsCartOpen(true);
-  };
-
-  const handleRemoveItem = (id: string) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
-  };
-
-  const handleUpdateQuantity = (id: string, newQuantity: number) => {
-    setCartItems(cartItems.map(item => 
-      item.id === id ? { ...item, quantity: newQuantity } : item
-    ));
+    addToCart(newItem);
+    setQuantity(1);
   };
 
   return (
@@ -338,14 +319,6 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
       </main>
 
       <FooterSection />
-
-      <ProductCart
-        isOpen={isCartOpen}
-        onClose={() => setIsCartOpen(false)}
-        items={cartItems}
-        onRemoveItem={handleRemoveItem}
-        onUpdateQuantity={handleUpdateQuantity}
-      />
 
       <NotifyWhenAvailableModal
         isOpen={isNotifyModalOpen}
