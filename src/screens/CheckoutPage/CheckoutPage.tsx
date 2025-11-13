@@ -1,10 +1,78 @@
 import { ChevronLeftIcon, ChevronRightIcon, Minus, Plus } from "lucide-react";
+import { useState } from "react";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
-import { useCart } from "../../contexts/CartContext";
+
+interface CartItem {
+  id: string;
+  name: string;
+  variant: string;
+  color: string;
+  price: number;
+  quantity: number;
+  image: string;
+}
 
 export const CheckoutPage = (): JSX.Element => {
-  const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const [cartItems, setCartItems] = useState<CartItem[]>([
+    {
+      id: "1",
+      name: "Silk Seam",
+      variant: "Silk Seam - 16",
+      color: "#B8956A",
+      price: 385.0,
+      quantity: 2,
+      image: "/img-20250902-wa0002.png",
+    },
+    {
+      id: "2",
+      name: "Silk Seam",
+      variant: "Silk Seam - 16",
+      color: "#B8956A",
+      price: 385.0,
+      quantity: 2,
+      image: "/img-20250902-wa0002.png",
+    },
+    {
+      id: "3",
+      name: "Silk Seam",
+      variant: "Silk Seam - 16",
+      color: "#B8956A",
+      price: 385.0,
+      quantity: 2,
+      image: "/img-20250902-wa0002.png",
+    },
+    {
+      id: "4",
+      name: "Silk Seam",
+      variant: "Silk Seam - 16",
+      color: "#B8956A",
+      price: 385.0,
+      quantity: 2,
+      image: "/img-20250902-wa0002.png",
+    },
+    {
+      id: "5",
+      name: "Silk Seam",
+      variant: "Silk Seam - 16",
+      color: "#B8956A",
+      price: 385.0,
+      quantity: 2,
+      image: "/img-20250902-wa0002.png",
+    },
+  ]);
+
+  const handleUpdateQuantity = (id: string, newQuantity: number) => {
+    setCartItems((items) =>
+      items.map((item) =>
+        item.id === id ? { ...item, quantity: newQuantity } : item
+      )
+    );
+  };
+
+  const handleRemoveItem = (id: string) => {
+    setCartItems((items) => items.filter((item) => item.id !== id));
+  };
 
   const orderTotal = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
@@ -34,13 +102,8 @@ export const CheckoutPage = (): JSX.Element => {
               SHIPPING CART
             </h1>
 
-            {cartItems.length === 0 ? (
-              <div className="text-center py-12">
-                <p className="text-xl text-gray-600">Your cart is empty</p>
-              </div>
-            ) : (
-              <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4">
-                {cartItems.map((item) => (
+            <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4">
+              {cartItems.map((item) => (
                 <div
                   key={item.id}
                   className="flex gap-4 pb-6 border-b border-gray-200"
@@ -76,7 +139,7 @@ export const CheckoutPage = (): JSX.Element => {
 
                     <div className="flex items-center justify-between mt-auto">
                       <button
-                        onClick={() => removeFromCart(item.id)}
+                        onClick={() => handleRemoveItem(item.id)}
                         className="text-sm font-medium text-black hover:text-gray-600 transition-colors flex items-center gap-1"
                       >
                         <span className="text-base">🗑</span> Remove
@@ -85,7 +148,7 @@ export const CheckoutPage = (): JSX.Element => {
                       <div className="flex items-center gap-2 border border-gray-300">
                         <button
                           onClick={() =>
-                            updateQuantity(
+                            handleUpdateQuantity(
                               item.id,
                               Math.max(1, item.quantity - 1)
                             )
@@ -99,7 +162,7 @@ export const CheckoutPage = (): JSX.Element => {
                         </span>
                         <button
                           onClick={() =>
-                            updateQuantity(item.id, item.quantity + 1)
+                            handleUpdateQuantity(item.id, item.quantity + 1)
                           }
                           className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
                         >
@@ -109,9 +172,8 @@ export const CheckoutPage = (): JSX.Element => {
                     </div>
                   </div>
                 </div>
-                ))}
-              </div>
-            )}
+              ))}
+            </div>
           </div>
 
           <div>
