@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { CartProvider } from "./contexts/CartContext";
 import { LandingPage } from "./screens/LandingPage";
 import { AuthPage } from "./screens/AuthPage";
 import { OurWorldPage } from "./screens/OurWorldPage";
@@ -26,8 +27,9 @@ import { SecuritySettings } from "./screens/Dashboard/SecuritySettings";
 createRoot(document.getElementById("app") as HTMLElement).render(
   <StrictMode>
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
+      <CartProvider>
+        <BrowserRouter>
+          <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/auth" element={<AuthPage />} />
           <Route path="/our-world" element={<OurWorldPage />} />
@@ -49,8 +51,9 @@ createRoot(document.getElementById("app") as HTMLElement).render(
           <Route path="/dashboard/payment" element={<Payment />} />
           <Route path="/dashboard/address-book" element={<AddressBook />} />
           <Route path="/dashboard/security" element={<SecuritySettings />} />
-        </Routes>
-      </BrowserRouter>
+          </Routes>
+        </BrowserRouter>
+      </CartProvider>
     </AuthProvider>
   </StrictMode>,
 );

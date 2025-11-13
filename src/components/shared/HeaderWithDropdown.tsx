@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { ShoppingCart } from "./ShoppingCart";
 import { useAuth } from "../../contexts/AuthContext";
+import { useCart } from "../../contexts/CartContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 
@@ -30,12 +31,12 @@ const shopCategories = {
 
 export const HeaderWithDropdown = (): JSX.Element => {
   const { user } = useAuth();
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
   const [isShopMobileOpen, setIsShopMobileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<any[]>([]);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -346,12 +347,8 @@ export const HeaderWithDropdown = (): JSX.Element => {
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         items={cartItems}
-        onRemoveItem={(id) => setCartItems(cartItems.filter(item => item.id !== id))}
-        onUpdateQuantity={(id, quantity) =>
-          setCartItems(cartItems.map(item =>
-            item.id === id ? { ...item, quantity } : item
-          ))
-        }
+        onRemoveItem={removeFromCart}
+        onUpdateQuantity={updateQuantity}
       />
     </header>
   );
