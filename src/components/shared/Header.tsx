@@ -79,7 +79,7 @@ export const Header = (): JSX.Element => {
           </nav>
 
           <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
-            <SearchIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white cursor-pointer hover:opacity-80 transition-opacity" />
+            <SearchIcon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white cursor-pointer hover:opacity-80 transition-opacity" />
             {user ? (
               <div className="relative" ref={dropdownRef}>
                 <div 
