@@ -31,7 +31,7 @@ const hairExtensionProducts = [
 
 export const HairExtensionsSection = (): JSX.Element => {
   return (
-    <section className="flex flex-col w-full items-start gap-6 sm:gap-8 lg:gap-10 pt-12 sm:pt-16 lg:pt-[100px] pb-0 px-4 sm:px-8 lg:px-12 bg-backgroundbackground-2">
+    <section className="flex flex-col w-full items-start gap-6 sm:gap-8 lg:gap-10 pt-12 sm:pt-16 lg:pt-[100px] pb-8 sm:pb-10 lg:pb-12 px-4 sm:px-8 lg:px-12 bg-backgroundbackground-2">
       <div className="flex flex-col items-start gap-2 sm:gap-3 lg:gap-4 w-full max-w-[1440px] mx-auto">
         <h2 className="w-full font-semi-bold-display-medium font-[number:var(--semi-bold-display-medium-font-weight)] text-black text-[length:var(--semi-bold-display-medium-font-size)] tracking-[var(--semi-bold-display-medium-letter-spacing)] leading-[var(--semi-bold-display-medium-line-height)] [font-style:var(--semi-bold-display-medium-font-style)] text-2xl sm:text-3xl lg:text-4xl">
           Unlocking the Secrets of Hair Extensions
