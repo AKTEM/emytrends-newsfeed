@@ -54,28 +54,24 @@ export const LearnPage = (): JSX.Element => {
       title: "silk Seam Clip-In Caramel Latte Rooted Highlight",
       price: "$50",
       image: "/image-33.png",
-      colors: ["#000000", "#3D2817", "#8B4513", "#D2691E"],
     },
     {
       id: 2,
       title: "silk Seam Clip-In Caramel Latte Rooted Highlight",
       price: "$50",
       image: "/image-35.png",
-      colors: ["#000000", "#3D2817", "#8B4513", "#D2691E"],
     },
     {
       id: 3,
       title: "silk Seam Clip-In Caramel Latte Rooted Highlight",
       price: "$50",
       image: "/image-36.png",
-      colors: ["#000000", "#3D2817", "#8B4513", "#D2691E"],
     },
     {
       id: 4,
       title: "silk Seam Clip-In Caramel Latte Rooted Highlight",
       price: "$50",
       image: "/image.png",
-      colors: ["#000000", "#3D2817", "#8B4513", "#D2691E"],
     },
   ];
 
@@ -108,19 +104,19 @@ export const LearnPage = (): JSX.Element => {
                 <div className="flex flex-col gap-3">
                   <Link
                     to="/learn/length"
-                    className="text-base sm:text-lg text-primaryprimary-2 hover:text-tertiarytertiary-0 transition-colors underline"
+                    className="inline-block w-fit text-base sm:text-lg text-primaryprimary-2 hover:text-tertiarytertiary-0 transition-colors underline"
                   >
                     Choosing Your Length
                   </Link>
                   <Link
                     to="/learn/shade"
-                    className="text-base sm:text-lg text-primaryprimary-2 hover:text-tertiarytertiary-0 transition-colors underline"
+                    className="inline-block w-fit text-base sm:text-lg text-primaryprimary-2 hover:text-tertiarytertiary-0 transition-colors underline"
                   >
                     Choosing Your Shade
                   </Link>
                   <Link
                     to="/learn/care-guide"
-                    className="text-base sm:text-lg text-primaryprimary-2 hover:text-tertiarytertiary-0 transition-colors underline"
+                    className="inline-block w-fit text-base sm:text-lg text-primaryprimary-2 hover:text-tertiarytertiary-0 transition-colors underline"
                   >
                     Care Guide
                   </Link>
@@ -195,13 +191,20 @@ export const LearnPage = (): JSX.Element => {
           </div>
         </section>
 
-        <section className="w-full bg-white py-12 sm:py-16 lg:py-20 px-4 sm:px-8 lg:px-12">
-          <div className="max-w-[1440px] mx-auto relative">
-            <div
-              className="w-full h-[400px] sm:h-[500px] lg:h-[600px] bg-cover bg-center rounded-lg flex items-center justify-center"
-              style={{ backgroundImage: "url('/img-20250902-wa0008.png')" }}
-            >
-              <div className="text-center text-white px-4">
+        <section className="relative w-full h-[400px] sm:h-[500px] lg:h-[600px] overflow-hidden">
+          <video
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 w-full h-full object-cover"
+          >
+            <source src="/kuthair-video.mp4" type="video/mp4" />
+          </video>
+          <div className="absolute inset-0 bg-black/40" />
+          <div className="relative z-10 h-full flex items-center px-4 sm:px-8 lg:px-12">
+            <div className="max-w-[1440px] mx-auto w-full">
+              <div className="text-left text-white max-w-xl">
                 <h2 className="text-3xl sm:text-4xl lg:text-6xl font-bold mb-6 leading-tight">
                   THE ULTIMATE<br />CHOICE FOR<br />PREMIUM HAIR<br />EXTENSION
                 </h2>
@@ -275,16 +278,6 @@ export const LearnPage = (): JSX.Element => {
                       <span className="text-lg font-bold text-primaryprimary-2">
                         {product.price}
                       </span>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      {product.colors.map((color, index) => (
-                        <div
-                          key={index}
-                          className="w-5 h-5 rounded-full border border-gray-300"
-                          style={{ backgroundColor: color }}
-                        />
-                      ))}
-                      <span className="text-sm text-gray-600 ml-1">+</span>
                     </div>
                   </div>
                 </div>
