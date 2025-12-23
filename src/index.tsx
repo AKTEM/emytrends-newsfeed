@@ -2,6 +2,9 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./contexts/AuthContext";
+import { AdminProvider } from "./contexts/AdminContext";
+import { WishlistProvider } from "./contexts/WishlistContext";
+import { CartProvider } from "./contexts/CartContext";
 import { LandingPage } from "./screens/LandingPage";
 import { AuthPage } from "./screens/AuthPage";
 import { OurWorldPage } from "./screens/OurWorldPage";
@@ -22,35 +25,70 @@ import { Wishlist } from "./screens/Dashboard/Wishlist";
 import { Payment } from "./screens/Dashboard/Payment";
 import { AddressBook } from "./screens/Dashboard/AddressBook";
 import { SecuritySettings } from "./screens/Dashboard/SecuritySettings";
+import { AdminLoginPage } from "./screens/AdminPage";
+import { AdminDashboardLayout, AdminDashboardHome, AdminProducts, AdminProductForm, AdminBlogs, AdminBlogForm, AdminAnalytics, AdminOrders, AdminSettings } from "./screens/AdminDashboard";
+import { ProtectedAdminRoute } from "./components/admin/ProtectedAdminRoute";
+import { BlogPage, BlogPostPage } from "./screens/BlogPage";
 
 createRoot(document.getElementById("app") as HTMLElement).render(
   <StrictMode>
     <AuthProvider>
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/auth" element={<AuthPage />} />
-          <Route path="/our-world" element={<OurWorldPage />} />
-          <Route path="/shop" element={<ShopPage />} />
-          <Route path="/shop/all" element={<ShopAllPage />} />
-          <Route path="/shop/ponytail" element={<PonytailPage />} />
-          <Route path="/learn" element={<LearnPage />} />
-          <Route path="/learn/shade" element={<ChoosingYourShadePage />} />
-          <Route path="/learn/length" element={<ChoosingYourLengthPage />} />
-          <Route path="/learn/care-guide" element={<CareGuidePage />} />
-          <Route path="/product/:id" element={<ProductDetailsPage isAvailable={true} />} />
-          <Route path="/product/:id/sold-out" element={<ProductDetailsPage isAvailable={false} />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
-          <Route path="/dashboard" element={<MyAccount />} />
-          <Route path="/dashboard/orders" element={<Orders />} />
-          <Route path="/dashboard/orders/:orderId" element={<OrderDetails />} />
-          <Route path="/dashboard/orders/:orderId/tracking" element={<PackageHistory />} />
-          <Route path="/dashboard/wishlist" element={<Wishlist />} />
-          <Route path="/dashboard/payment" element={<Payment />} />
-          <Route path="/dashboard/address-book" element={<AddressBook />} />
-          <Route path="/dashboard/security" element={<SecuritySettings />} />
-        </Routes>
-      </BrowserRouter>
+      <AdminProvider>
+        <WishlistProvider>
+          <CartProvider>
+            <BrowserRouter>
+            <Routes>
+              <Route path="/" element={<LandingPage />} />
+              <Route path="/auth" element={<AuthPage />} />
+              <Route path="/our-world" element={<OurWorldPage />} />
+              <Route path="/shop" element={<ShopPage />} />
+              <Route path="/shop/all" element={<ShopAllPage />} />
+              <Route path="/shop/ponytail" element={<PonytailPage />} />
+              <Route path="/learn" element={<LearnPage />} />
+              <Route path="/learn/shade" element={<ChoosingYourShadePage />} />
+              <Route path="/learn/length" element={<ChoosingYourLengthPage />} />
+              <Route path="/learn/care-guide" element={<CareGuidePage />} />
+              <Route path="/product/:id" element={<ProductDetailsPage />} />
+              <Route path="/checkout" element={<CheckoutPage />} />
+              <Route path="/dashboard" element={<MyAccount />} />
+              <Route path="/dashboard/orders" element={<Orders />} />
+              <Route path="/dashboard/orders/:orderId" element={<OrderDetails />} />
+              <Route path="/dashboard/orders/:orderId/tracking" element={<PackageHistory />} />
+              <Route path="/dashboard/wishlist" element={<Wishlist />} />
+              <Route path="/dashboard/payment" element={<Payment />} />
+              <Route path="/dashboard/address-book" element={<AddressBook />} />
+              <Route path="/dashboard/security" element={<SecuritySettings />} />
+              
+              {/* Blog Routes */}
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/blog/:id" element={<BlogPostPage />} />
+              
+              {/* Admin Routes */}
+              <Route path="/admin/login" element={<AdminLoginPage />} />
+              <Route
+                path="/admin"
+                element={
+                  <ProtectedAdminRoute>
+                    <AdminDashboardLayout />
+                  </ProtectedAdminRoute>
+                }
+              >
+                <Route path="dashboard" element={<AdminDashboardHome />} />
+                <Route path="analytics" element={<AdminAnalytics />} />
+                <Route path="products" element={<AdminProducts />} />
+                <Route path="products/new" element={<AdminProductForm />} />
+                <Route path="products/edit/:id" element={<AdminProductForm />} />
+                <Route path="blogs" element={<AdminBlogs />} />
+                <Route path="blogs/new" element={<AdminBlogForm />} />
+                <Route path="blogs/edit/:id" element={<AdminBlogForm />} />
+                <Route path="orders" element={<AdminOrders />} />
+                <Route path="settings" element={<AdminSettings />} />
+              </Route>
+            </Routes>
+            </BrowserRouter>
+          </CartProvider>
+        </WishlistProvider>
+      </AdminProvider>
     </AuthProvider>
   </StrictMode>,
 );

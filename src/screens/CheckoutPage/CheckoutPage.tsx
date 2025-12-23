@@ -1,83 +1,10 @@
 import { ChevronLeftIcon, ChevronRightIcon, Minus, Plus } from "lucide-react";
-import { useState } from "react";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
-
-interface CartItem {
-  id: string;
-  name: string;
-  variant: string;
-  color: string;
-  price: number;
-  quantity: number;
-  image: string;
-}
+import { useCart } from "../../contexts/CartContext";
 
 export const CheckoutPage = (): JSX.Element => {
-  const [cartItems, setCartItems] = useState<CartItem[]>([
-    {
-      id: "1",
-      name: "Silk Seam",
-      variant: "Silk Seam - 16",
-      color: "#B8956A",
-      price: 385.0,
-      quantity: 2,
-      image: "/img-20250902-wa0002.png",
-    },
-    {
-      id: "2",
-      name: "Silk Seam",
-      variant: "Silk Seam - 16",
-      color: "#B8956A",
-      price: 385.0,
-      quantity: 2,
-      image: "/img-20250902-wa0002.png",
-    },
-    {
-      id: "3",
-      name: "Silk Seam",
-      variant: "Silk Seam - 16",
-      color: "#B8956A",
-      price: 385.0,
-      quantity: 2,
-      image: "/img-20250902-wa0002.png",
-    },
-    {
-      id: "4",
-      name: "Silk Seam",
-      variant: "Silk Seam - 16",
-      color: "#B8956A",
-      price: 385.0,
-      quantity: 2,
-      image: "/img-20250902-wa0002.png",
-    },
-    {
-      id: "5",
-      name: "Silk Seam",
-      variant: "Silk Seam - 16",
-      color: "#B8956A",
-      price: 385.0,
-      quantity: 2,
-      image: "/img-20250902-wa0002.png",
-    },
-  ]);
-
-  const handleUpdateQuantity = (id: string, newQuantity: number) => {
-    setCartItems((items) =>
-      items.map((item) =>
-        item.id === id ? { ...item, quantity: newQuantity } : item
-      )
-    );
-  };
-
-  const handleRemoveItem = (id: string) => {
-    setCartItems((items) => items.filter((item) => item.id !== id));
-  };
-
-  const orderTotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const { cartItems, removeFromCart, updateQuantity, orderTotal } = useCart();
 
   return (
     <div className="bg-white w-full min-h-screen relative flex flex-col">
@@ -102,78 +29,84 @@ export const CheckoutPage = (): JSX.Element => {
               SHIPPING CART
             </h1>
 
-            <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4">
-              {cartItems.map((item) => (
-                <div
-                  key={item.id}
-                  className="flex gap-4 pb-6 border-b border-gray-200"
-                >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-24 h-32 object-cover"
-                  />
-                  <div className="flex-1 flex flex-col">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <h3 className="text-base font-bold text-black mb-1">
-                          {item.name}
-                        </h3>
-                        <p className="text-sm text-gray-700 mb-2">
-                          {item.variant}
-                        </p>
-                        <div className="flex items-center gap-2">
-                          <div
-                            className="w-4 h-4"
-                            style={{ backgroundColor: item.color }}
-                          />
-                          <span className="text-sm text-gray-700">
-                            Caramel Blonde
-                          </span>
+            {cartItems.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-lg text-gray-600">Your cart is empty.</p>
+              </div>
+            ) : (
+              <div className="space-y-6 max-h-[600px] overflow-y-auto pr-4">
+                {cartItems.map((item) => (
+                  <div
+                    key={item.id}
+                    className="flex gap-4 pb-6 border-b border-gray-200"
+                  >
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="w-24 h-32 object-cover"
+                    />
+                    <div className="flex-1 flex flex-col">
+                      <div className="flex justify-between items-start mb-2">
+                        <div>
+                          <h3 className="text-base font-bold text-black mb-1">
+                            {item.name}
+                          </h3>
+                          <p className="text-sm text-gray-700 mb-2">
+                            {item.variant}
+                          </p>
+                          <div className="flex items-center gap-2">
+                            <div
+                              className="w-4 h-4"
+                              style={{ backgroundColor: item.color }}
+                            />
+                            <span className="text-sm text-gray-700">
+                              {item.color === "#B8956A" ? "Caramel Blonde" : ""}
+                            </span>
+                          </div>
                         </div>
+                        <p className="text-lg font-bold text-black">
+                          ${item.price.toFixed(2)}
+                        </p>
                       </div>
-                      <p className="text-lg font-bold text-black">
-                        ${item.price.toFixed(2)}
-                      </p>
-                    </div>
 
-                    <div className="flex items-center justify-between mt-auto">
-                      <button
-                        onClick={() => handleRemoveItem(item.id)}
-                        className="text-sm font-medium text-black hover:text-gray-600 transition-colors flex items-center gap-1"
-                      >
-                        <span className="text-base">🗑</span> Remove
-                      </button>
+                      <div className="flex items-center justify-between mt-auto">
+                        <button
+                          onClick={() => removeFromCart(item.id)}
+                          className="text-sm font-medium text-black hover:text-gray-600 transition-colors flex items-center gap-1"
+                        >
+                          <span className="text-base">🗑</span> Remove
+                        </button>
 
-                      <div className="flex items-center gap-2 border border-gray-300">
-                        <button
-                          onClick={() =>
-                            handleUpdateQuantity(
-                              item.id,
-                              Math.max(1, item.quantity - 1)
-                            )
-                          }
-                          className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
-                        >
-                          <Minus className="w-3 h-3" />
-                        </button>
-                        <span className="text-sm font-medium text-black w-6 text-center">
-                          {item.quantity}
-                        </span>
-                        <button
-                          onClick={() =>
-                            handleUpdateQuantity(item.id, item.quantity + 1)
-                          }
-                          className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
-                        >
-                          <Plus className="w-3 h-3" />
-                        </button>
+                        <div className="flex items-center gap-2 border border-gray-300">
+                          <button
+                            onClick={() =>
+                              updateQuantity(
+                                item.id,
+                                Math.max(1, item.quantity - 1)
+                              )
+                            }
+                            className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                          >
+                            <Minus className="w-3 h-3" />
+                          </button>
+                          <span className="text-sm font-medium text-black w-6 text-center">
+                            {item.quantity}
+                          </span>
+                          <button
+                            onClick={() =>
+                              updateQuantity(item.id, item.quantity + 1)
+                            }
+                            className="w-8 h-8 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                          >
+                            <Plus className="w-3 h-3" />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>
@@ -189,7 +122,10 @@ export const CheckoutPage = (): JSX.Element => {
                 </p>
               </div>
 
-              <button className="w-full bg-black text-white py-4 text-base font-bold hover:bg-gray-800 transition-colors mb-4">
+              <button 
+                className="w-full bg-gold text-gold-foreground py-4 text-base font-bold hover:bg-gold/90 transition-colors mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
+                disabled={cartItems.length === 0}
+              >
                 CHECK OUT
               </button>
 

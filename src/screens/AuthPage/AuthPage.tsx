@@ -4,6 +4,7 @@ import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { Button } from "../../components/ui/button";
+import { Logo } from "../../components/shared/Logo";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
 
 export const AuthPage = (): JSX.Element => {
@@ -130,11 +131,8 @@ export const AuthPage = (): JSX.Element => {
     <div className="min-h-screen bg-[#F9F6F2] flex flex-col">
       <header className="w-full h-16 sm:h-20 lg:h-24 bg-[#FFFFFF] px-4 sm:px-8 lg:px-12 py-4 sm:py-5 lg:py-6 shadow-sm">
         <div className="flex items-center justify-between h-full max-w-[1440px] mx-auto">
-          <Link
-            to="/"
-            className="[font-family:'Arsenica_Trial-Demibold',Helvetica] font-normal text-black text-2xl sm:text-3xl lg:text-4xl tracking-[0] leading-[normal] hover:opacity-80 transition-opacity"
-          >
-            KUTHAIR
+          <Link to="/" className="hover:opacity-80 transition-opacity">
+            <Logo fill="black" className="h-6 sm:h-7 lg:h-8 w-auto" />
           </Link>
         </div>
       </header>

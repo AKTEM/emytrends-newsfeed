@@ -1,13 +1,18 @@
-import { useState } from "react";
-import { Plus, Minus, ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { Plus, Minus, Heart } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
 import { ProductCart } from "../../components/shared/ProductCart";
 import { NotifyWhenAvailableModal } from "../../components/modals/NotifyWhenAvailableModal";
+import { getProduct, Product } from "../../lib/firebaseProducts";
+import { useWishlist } from "../../contexts/WishlistContext";
+import { useAuth } from "../../contexts/AuthContext";
+import { useCart } from "../../contexts/CartContext";
+import { PromoBanner } from "../../components/shared/PromoBanner";
 
-
-const faqItems = [
+const defaultFaqItems = [
   {
     question: "HOW LONG DO KUT TAPE-IN EXTENSIONS LAST?",
     answer: "",
@@ -42,111 +47,152 @@ const faqItems = [
   },
 ];
 
-const exploreProducts = [
-  {
-    id: 1,
-    title: "TRENDING",
-    image: "/img-20250902-wa0002.png",
-  },
-  {
-    id: 2,
-    title: "NEW ARRIVALS",
-    image: "/img-20250902-wa0004.png",
-  },
-  {
-    id: 3,
-    title: "BEST SELLING",
-    image: "/img-20250902-wa0005.png",
-  },
-  {
-    id: 4,
-    title: "BEST SELLING",
-    image: "/img-20250902-wa0007.png",
-  },
-];
-
-const shadeOptions = [
+const defaultShadeOptions = [
   { id: "all", label: "ALL" },
   { id: "black", label: "BLACK" },
   { id: "blonde", label: "BLONDE" },
   { id: "brown", label: "BROWN" },
-  { id: "black-2", label: "BLACK" },
-  { id: "black-3", label: "BLACK" },
 ];
 
-const colorSwatches = [
+const defaultColorSwatches = [
   { id: 1, color: "#1a1a1a" },
   { id: 2, color: "#d4b896" },
   { id: 3, color: "#c67d4a" },
   { id: 4, color: "#a88a70" },
 ];
 
-const lengthOptions = [
-  { id: 1, label: "16 IN / 50" },
-  { id: 2, label: "18 IN / 50" },
-  { id: 3, label: "16 IN / 50" },
+const defaultLengthOptions = [
+  { id: 1, label: "16 IN / 50", price: undefined },
+  { id: 2, label: "18 IN / 50", price: undefined },
+  { id: 3, label: "20 IN / 50", price: undefined },
 ];
 
-interface ProductDetailsPageProps {
-  isAvailable?: boolean;
-}
-
-export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPageProps): JSX.Element => {
+export const ProductDetailsPage = (): JSX.Element | null => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
+  const { cartItems, addToCart, removeFromCart, updateQuantity } = useCart();
+  
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [quantity, setQuantity] = useState(1);
-  const [selectedShade, setSelectedShade] = useState("all");
-  const [selectedLength, setSelectedLength] = useState(lengthOptions[0].id);
+  const [selectedShade, setSelectedShade] = useState("");
+  const [selectedLength, setSelectedLength] = useState<number | null>(null);
+  const [selectedColorSwatch, setSelectedColorSwatch] = useState<number | null>(null);
   const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(2);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<Array<{
-    id: string;
-    name: string;
-    variant: string;
-    color: string;
-    price: number;
-    quantity: number;
-    image: string;
-  }>>([]);
+
+  useEffect(() => {
+    const loadProduct = async () => {
+      if (!id) {
+        navigate("/shop");
+        return;
+      }
+
+      try {
+        const productData = await getProduct(id);
+        if (productData) {
+          setProduct(productData);
+          
+          // Set default selections
+          if (productData.shadeOptions && productData.shadeOptions.length > 0) {
+            setSelectedShade(productData.shadeOptions[0].id);
+          }
+          if (productData.lengthOptions && productData.lengthOptions.length > 0) {
+            setSelectedLength(productData.lengthOptions[0].id);
+          }
+          if (productData.colorSwatches && productData.colorSwatches.length > 0) {
+            setSelectedColorSwatch(productData.colorSwatches[0].id);
+          }
+
+          // Load related products
+          if (productData.relatedProductIds && productData.relatedProductIds.length > 0) {
+            const relatedPromises = productData.relatedProductIds.map(relId => getProduct(relId));
+            const relatedData = await Promise.all(relatedPromises);
+            setRelatedProducts(relatedData.filter(p => p !== null) as Product[]);
+          }
+        } else {
+          navigate("/shop");
+        }
+      } catch (error) {
+        console.error("Error loading product:", error);
+        navigate("/shop");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    loadProduct();
+  }, [id, navigate]);
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-screen">
+        <p className="text-lg">Loading product...</p>
+      </div>
+    );
+  }
+
+  if (!product) {
+    return null;
+  }
+
+  const isAvailable = product.inStock;
+  const isWishlisted = id ? isInWishlist(id) : false;
+
+  const shadeOptions = product.shadeOptions || defaultShadeOptions;
+  const colorSwatches = product.colorSwatches || defaultColorSwatches;
+  const lengthOptions = product.lengthOptions || defaultLengthOptions;
+  const faqItems = product.faqItems || defaultFaqItems;
+  const exploreProducts = relatedProducts.length > 0 ? relatedProducts : [];
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
 
+  const handleToggleWishlist = () => {
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+    
+    if (!id) return;
+
+    if (isWishlisted) {
+      removeFromWishlist(id);
+    } else {
+      addToWishlist({
+        productId: id,
+        title: product.title,
+        price: product.price,
+        image: product.images[0] || "/img-20250902-wa0002.png",
+      });
+    }
+  };
+
   const handleAddToCart = () => {
+    const selectedLengthOption = lengthOptions.find((l: { id: number; label: string; price?: number }) => l.id === selectedLength);
+    const selectedColorSwatchData = colorSwatches.find((c: { id: number; color: string }) => c.id === selectedColorSwatch);
+    
     const newItem = {
       id: Date.now().toString(),
-      name: "Silk Seam",
-      variant: "Silk Seam - 16",
-      color: "#B8956A",
-      price: 385.0,
+      name: product.title,
+      variant: selectedLengthOption ? selectedLengthOption.label : product.title,
+      color: selectedColorSwatchData?.color || "#000000",
+      price: (selectedLengthOption && selectedLengthOption.price) ? selectedLengthOption.price : product.price,
       quantity: quantity,
-      image: "/img-20250902-wa0002.png",
+      image: product.images[0] || "/img-20250902-wa0002.png",
     };
-    setCartItems([...cartItems, newItem]);
+    addToCart(newItem);
     setIsCartOpen(true);
-  };
-
-  const handleRemoveItem = (id: string) => {
-    setCartItems(cartItems.filter(item => item.id !== id));
-  };
-
-  const handleUpdateQuantity = (id: string, newQuantity: number) => {
-    setCartItems(cartItems.map(item => 
-      item.id === id ? { ...item, quantity: newQuantity } : item
-    ));
   };
 
   return (
     <div className="bg-white w-full min-h-screen relative flex flex-col">
       <header className="w-full bg-neutralneutral-1 sticky top-0 z-50">
-        <div className="flex h-10 items-center justify-between px-4 sm:px-8 lg:px-12 py-2 w-full max-w-[1264px] mx-auto">
-          <ChevronLeftIcon className="w-3 h-6 flex-shrink-0 hidden sm:block" />
-          <div className="inline-flex items-center justify-center gap-6 flex-1 px-2">
-            <div className="font-medium-body-large font-[number:var(--medium-body-large-font-weight)] text-textprimary-text text-[length:var(--medium-body-large-font-size)] tracking-[var(--medium-body-large-letter-spacing)] leading-[var(--medium-body-large-line-height)] text-center [font-style:var(--medium-body-large-font-style)] text-xs sm:text-sm md:text-base">
-              Get 50% Discount On Every Item Purchased On Christmas Day
-            </div>
-          </div>
-          <ChevronRightIcon className="w-3 h-6 flex-shrink-0 hidden sm:block" />
-        </div>
+        <PromoBanner />
       </header>
 
       <HeaderWithDropdown />
@@ -154,42 +200,79 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
       <main className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16">
           <div className="flex flex-col gap-4">
-            <div className="aspect-[3/4] bg-gray-200 overflow-hidden">
+            <div className="aspect-[3/4] bg-gray-200 overflow-hidden relative">
               <img
-                src="/img-20250902-wa0002.png"
-                alt="Product"
+                src={product.images[0] || "/img-20250902-wa0002.png"}
+                alt={product.title}
                 className="w-full h-full object-cover"
               />
+              {!isAvailable && (
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                  <span className="text-white text-2xl sm:text-3xl font-bold">OUT OF STOCK</span>
+                </div>
+              )}
             </div>
-            <div className="flex gap-4">
-              <div className="w-16 h-16 bg-black"></div>
-            </div>
+            {product.images.length > 1 && (
+              <div className="flex gap-4 overflow-x-auto pb-2">
+                {product.images.slice(1, 5).map((img, idx) => (
+                  <div key={idx} className="w-16 h-16 flex-shrink-0 bg-gray-200 overflow-hidden">
+                    <img src={img} alt={`${product.title} ${idx + 2}`} className="w-full h-full object-cover" />
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="flex flex-col gap-6">
-            <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                TAPE-IN EXTENSION, MOCHACHINO BROWN/DIRTY BLONDE
-              </h1>
-              <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-4">
-                Wake up every day with fuller, thicker, and longer hair with KurtHair Tape-ins! With a quick application process, your Kut Hair-certified stylist will expertly install your extensions for a flawless look...
-              </p>
-              <button className="text-sm font-medium text-gray-900 underline">
-                Read More
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1">
+                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+                  {product.title}
+                </h1>
+                <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-4">
+                  {product.fullDescription || product.description}
+                </p>
+                {product.fullDescription && product.fullDescription.length > 200 && (
+                  <button className="text-sm font-medium text-gray-900 underline">
+                    Read More
+                  </button>
+                )}
+              </div>
+              <button
+                onClick={handleToggleWishlist}
+                className={`w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full border-2 transition-all ${
+                  isWishlisted 
+                    ? "bg-red-500 border-red-500" 
+                    : "border-gray-300 hover:border-gray-900"
+                }`}
+                aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
+              >
+                <Heart 
+                  className={`w-5 h-5 ${isWishlisted ? "text-white fill-white" : "text-gray-900"}`} 
+                />
               </button>
             </div>
 
             <div className="mb-2">
-              <div className="text-3xl font-bold text-gray-900 mb-2">$400.00</div>
-              <div className="inline-block px-4 py-1 bg-[#f5e6d3] text-gray-900 text-sm font-medium">
-                SEMI-PERMANENT
+              <div className="text-3xl font-bold text-gray-900 mb-2">${product.price.toFixed(2)}</div>
+              <div className="flex flex-wrap gap-2">
+                {product.badge && (
+                  <div className="inline-block px-4 py-1 bg-[#f5e6d3] text-gray-900 text-sm font-medium">
+                    {product.badge}
+                  </div>
+                )}
+                {!isAvailable && (
+                  <div className="inline-block px-4 py-1 bg-red-100 text-red-700 text-sm font-bold">
+                    OUT OF STOCK
+                  </div>
+                )}
               </div>
             </div>
 
             <div>
               <div className="text-sm font-medium text-gray-700 mb-3">Select Your Shade</div>
               <div className="flex flex-wrap gap-2 mb-4">
-                {shadeOptions.map((shade) => (
+                {shadeOptions.map((shade: { id: string; label: string }) => (
                   <button
                     key={shade.id}
                     onClick={() => setSelectedShade(shade.id)}
@@ -204,12 +287,16 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
                 ))}
               </div>
 
-              <div className="flex gap-3 mb-6">
-                {colorSwatches.map((swatch) => (
+              <div className="flex flex-wrap gap-3 mb-6">
+                {colorSwatches.map((swatch: { id: number; color: string; name?: string }) => (
                   <button
                     key={swatch.id}
-                    className="w-12 h-12 border-2 border-gray-300 hover:border-gray-900 transition-colors"
+                    onClick={() => setSelectedColorSwatch(swatch.id)}
+                    className={`w-10 h-10 sm:w-12 sm:h-12 border-2 transition-colors ${
+                      selectedColorSwatch === swatch.id ? "border-gray-900" : "border-gray-300 hover:border-gray-900"
+                    }`}
                     style={{ backgroundColor: swatch.color }}
+                    title={swatch.name}
                   />
                 ))}
               </div>
@@ -217,30 +304,32 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
 
             <div>
               <div className="text-sm font-medium text-gray-700 mb-3">
-                Select your Length: <span className="font-bold">16" | 500</span>
+                Select your Length
               </div>
               <div className="flex flex-wrap gap-3 mb-6">
-                {lengthOptions.map((length) => (
+                {lengthOptions.map((length: { id: number; label: string; price?: number }) => (
                   <button
                     key={length.id}
                     onClick={() => setSelectedLength(length.id)}
-                    className={`px-6 py-3 text-sm font-medium border transition-all ${
+                    className={`px-4 sm:px-6 py-2 sm:py-3 text-sm font-medium border transition-all ${
                       selectedLength === length.id
                         ? "bg-gray-100 border-gray-900"
                         : "bg-white border-gray-300 hover:border-gray-900"
                     }`}
                   >
                     {length.label}
+                    {length.price && ` - $${length.price}`}
                   </button>
                 ))}
               </div>
             </div>
 
-            <div className="flex items-center gap-4 mb-6">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4 mb-6">
               <div className="flex items-center border border-gray-300">
                 <button
                   onClick={decrementQuantity}
                   className="w-10 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                  disabled={!isAvailable}
                 >
                   <Minus className="w-4 h-4" />
                 </button>
@@ -250,6 +339,7 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
                 <button
                   onClick={incrementQuantity}
                   className="w-10 h-12 flex items-center justify-center hover:bg-gray-100 transition-colors"
+                  disabled={!isAvailable}
                 >
                   <Plus className="w-4 h-4" />
                 </button>
@@ -258,7 +348,7 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
               {isAvailable ? (
                 <Button 
                   onClick={handleAddToCart}
-                  className="flex-1 h-12 bg-gray-900 text-white text-sm font-bold hover:bg-gray-800 transition-colors"
+                  className="flex-1 h-12 bg-gold text-gold-foreground text-sm font-bold hover:bg-gold/90 transition-colors"
                 >
                   ADD TO CART
                 </Button>
@@ -272,7 +362,7 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
             {!isAvailable && (
               <Button 
                 onClick={() => setIsNotifyModalOpen(true)}
-                className="w-full h-12 bg-gray-900 text-white text-sm font-bold hover:bg-gray-800 transition-colors"
+                className="w-full h-12 bg-gold text-gold-foreground text-sm font-bold hover:bg-gold/90 transition-colors"
               >
                 NOTIFY ME WHEN AVAILABLE
               </Button>
@@ -280,27 +370,39 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
           </div>
         </div>
 
-        <section className="mb-16">
-          <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">EXPLORE MORE</h2>
-          <p className="text-sm sm:text-base text-gray-700 mb-8">
-            NOT SURE WHICH EXTENSIONS SUIT YOU BEST? WE'RE HERE TO GUIDE YOU.
-          </p>
+        {exploreProducts.length > 0 && (
+          <section className="mb-16">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">EXPLORE MORE</h2>
+            <p className="text-sm sm:text-base text-gray-700 mb-8">
+              NOT SURE WHICH EXTENSIONS SUIT YOU BEST? WE'RE HERE TO GUIDE YOU.
+            </p>
 
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
-            {exploreProducts.map((product) => (
-              <div key={product.id} className="group cursor-pointer">
-                <div className="aspect-[3/4] bg-gray-200 overflow-hidden mb-3">
-                  <img
-                    src={product.image}
-                    alt={product.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                  />
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+              {exploreProducts.map((relatedProduct) => (
+                <div 
+                  key={relatedProduct.id} 
+                  className="group cursor-pointer"
+                  onClick={() => navigate(`/product/${relatedProduct.id}`)}
+                >
+                  <div className="aspect-[3/4] bg-gray-200 overflow-hidden mb-3 relative">
+                    <img
+                      src={relatedProduct.images[0] || "/img-20250902-wa0002.png"}
+                      alt={relatedProduct.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    />
+                    {!relatedProduct.inStock && (
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                        <span className="text-white text-sm font-bold">OUT OF STOCK</span>
+                      </div>
+                    )}
+                  </div>
+                  <h3 className="text-sm sm:text-base font-bold text-gray-900">{relatedProduct.title}</h3>
+                  <p className="text-sm text-gray-700">${relatedProduct.price.toFixed(2)}</p>
                 </div>
-                <h3 className="text-sm sm:text-base font-bold text-gray-900">{product.title}</h3>
-              </div>
-            ))}
-          </div>
-        </section>
+              ))}
+            </div>
+          </section>
+        )}
 
         <section className="bg-[#e5e5dc] px-4 sm:px-8 lg:px-12 py-12 sm:py-16 -mx-4 sm:-mx-8 lg:-mx-12">
           <div className="max-w-[1200px] mx-auto">
@@ -309,7 +411,7 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
             </h2>
 
             <div className="flex flex-col gap-0">
-              {faqItems.map((item, index) => (
+              {faqItems.map((item: { question: string; answer: string }, index: number) => (
                 <div key={index} className="border-b border-gray-400">
                   <button
                     onClick={() => setExpandedFaqIndex(expandedFaqIndex === index ? null : index)}
@@ -343,14 +445,14 @@ export const ProductDetailsPage = ({ isAvailable = true }: ProductDetailsPagePro
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         items={cartItems}
-        onRemoveItem={handleRemoveItem}
-        onUpdateQuantity={handleUpdateQuantity}
+        onRemoveItem={removeFromCart}
+        onUpdateQuantity={updateQuantity}
       />
 
       <NotifyWhenAvailableModal
         isOpen={isNotifyModalOpen}
         onClose={() => setIsNotifyModalOpen(false)}
-        productName="Tape-In Extension Caramel Blonde"
+        productName={product.title}
       />
     </div>
   );

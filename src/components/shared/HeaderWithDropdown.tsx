@@ -1,9 +1,14 @@
-import { SearchIcon, ShoppingCartIcon, UserIcon, MenuIcon, XIcon, ChevronDown } from "lucide-react";
+import { SearchIcon, MenuIcon, XIcon, ChevronDown } from "lucide-react";
+import { UserIcon } from "./UserIcon";
+import { CartIcon } from "./CartIcon";
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { ShoppingCart } from "./ShoppingCart";
+import { Logo } from "./Logo";
 import { useAuth } from "../../contexts/AuthContext";
+import { useAdmin } from "../../contexts/AdminContext";
+import { useCart } from "../../contexts/CartContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 
@@ -28,14 +33,32 @@ const shopCategories = {
   ],
 };
 
+const learnCategories = {
+  hairCare: [
+    { label: "Choosing Your Length", path: "/learn/choosing-length" },
+    { label: "Choosing Your Shade", path: "/learn/choosing-shade" },
+    { label: "Care Guide", path: "/learn/care-guide" },
+    { label: "Installation Guide", path: "/learn/installation" },
+  ],
+  hairExtensions: [
+    { label: "Luxury Wigs", path: "/shop/all?category=Luxury Wigs" },
+    { label: "Invisible Tape", path: "/shop/all?category=Invisible Tape" },
+    { label: "Hand-Tied Weft", path: "/shop/all?category=Hand-Tied Weft" },
+    { label: "Classic Weft", path: "/shop/all?category=Classic Weft" },
+  ],
+};
+
 export const HeaderWithDropdown = (): JSX.Element => {
   const { user } = useAuth();
+  const { isAdmin } = useAdmin();
+  const { cartItems, removeFromCart, updateQuantity, totalItems } = useCart();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isShopDropdownOpen, setIsShopDropdownOpen] = useState(false);
+  const [isLearnDropdownOpen, setIsLearnDropdownOpen] = useState(false);
   const [isShopMobileOpen, setIsShopMobileOpen] = useState(false);
+  const [isLearnMobileOpen, setIsLearnMobileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<any[]>([]);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -68,19 +91,16 @@ export const HeaderWithDropdown = (): JSX.Element => {
 
   const navigationItems = [
     { label: "SHOP", path: "/shop", hasDropdown: true },
-    { label: "LEARN", path: "/learn" },
+    { label: "LEARN", path: "/learn", hasDropdown: true },
     { label: "OUR WORLD", path: "/our-world" },
-    { label: "BLOG", path: "/" },
+    { label: "BLOG", path: "/blog" },
   ];
 
   return (
     <header className="w-full h-16 sm:h-20 lg:h-24 bg-primaryprimary-2 px-4 sm:px-8 lg:px-12 py-4 sm:py-5 lg:py-6 relative z-50">
       <div className="flex items-center justify-between h-full max-w-[1440px] mx-auto">
-        <Link
-          to="/"
-          className="[font-family:'Arsenica_Trial-Demibold',Helvetica] font-normal text-textinverse-text text-2xl sm:text-3xl lg:text-4xl tracking-[0] leading-[normal] whitespace-nowrap hover:opacity-80 transition-opacity"
-        >
-          KUTHAIR
+        <Link to="/" className="hover:opacity-80 transition-opacity">
+          <Logo fill="white" className="h-6 sm:h-7 lg:h-8 w-auto" />
         </Link>
 
         <div className="flex items-center justify-end gap-4 sm:gap-6 lg:gap-8 flex-1 max-w-[788px]">
@@ -89,8 +109,14 @@ export const HeaderWithDropdown = (): JSX.Element => {
               <div
                 key={index}
                 className="relative"
-                onMouseEnter={() => item.hasDropdown && setIsShopDropdownOpen(true)}
-                onMouseLeave={() => item.hasDropdown && setIsShopDropdownOpen(false)}
+                onMouseEnter={() => {
+                  if (item.label === "SHOP") setIsShopDropdownOpen(true);
+                  if (item.label === "LEARN") setIsLearnDropdownOpen(true);
+                }}
+                onMouseLeave={() => {
+                  if (item.label === "SHOP") setIsShopDropdownOpen(false);
+                  if (item.label === "LEARN") setIsLearnDropdownOpen(false);
+                }}
               >
                 {item.hasDropdown ? (
                   <Link
@@ -112,8 +138,9 @@ export const HeaderWithDropdown = (): JSX.Element => {
                   </Link>
                 )}
 
-                {item.hasDropdown && isShopDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[800px] bg-white shadow-xl rounded-lg overflow-hidden">
+                {item.label === "SHOP" && isShopDropdownOpen && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[800px] bg-white shadow-xl rounded-lg overflow-visible pt-3">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[16px] border-r-[16px] border-b-[16px] border-l-transparent border-r-transparent border-b-white"></div>
                     <div className="p-8">
                       <div className="mb-6">
                         <h3 className="text-[#E3A857] text-xl font-bold mb-6 tracking-wide">
@@ -124,7 +151,7 @@ export const HeaderWithDropdown = (): JSX.Element => {
                             <Link
                               key={idx}
                               to={category.path}
-                              className="text-black text-lg hover:text-[#E3A857] transition-colors"
+                              className="text-black text-lg hover:text-[#E3A857] hover:bg-[#F8EAD0] px-4 py-3 rounded-md transition-colors"
                             >
                               {category.label}
                             </Link>
@@ -141,7 +168,7 @@ export const HeaderWithDropdown = (): JSX.Element => {
                             <Link
                               key={idx}
                               to={category.path}
-                              className="text-black text-lg hover:text-[#E3A857] transition-colors"
+                              className="text-black text-lg hover:text-[#E3A857] hover:bg-[#F8EAD0] px-4 py-3 rounded-md transition-colors"
                             >
                               {category.label}
                             </Link>
@@ -158,7 +185,48 @@ export const HeaderWithDropdown = (): JSX.Element => {
                             <Link
                               key={idx}
                               to={category.path}
-                              className="text-black text-lg hover:text-[#E3A857] transition-colors"
+                              className="text-black text-lg hover:text-[#E3A857] hover:bg-[#F8EAD0] px-4 py-3 rounded-md transition-colors"
+                            >
+                              {category.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {item.label === "LEARN" && isLearnDropdownOpen && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[800px] bg-white shadow-xl rounded-lg overflow-visible pt-3">
+                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 w-0 h-0 border-l-[16px] border-r-[16px] border-b-[16px] border-l-transparent border-r-transparent border-b-white"></div>
+                    <div className="p-8">
+                      <div className="mb-6">
+                        <h3 className="text-[#E3A857] text-xl font-bold mb-6 tracking-wide">
+                          HAIR CARE
+                        </h3>
+                        <div className="grid grid-cols-4 gap-6">
+                          {learnCategories.hairCare.map((category, idx) => (
+                            <Link
+                              key={idx}
+                              to={category.path}
+                              className="text-black text-lg hover:text-[#E3A857] hover:bg-[#F8EAD0] px-4 py-3 rounded-md transition-colors"
+                            >
+                              {category.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+
+                      <div className="border-t border-gray-200 pt-6">
+                        <h3 className="text-[#E3A857] text-xl font-bold mb-6 tracking-wide">
+                          HAIR EXTENSIONS
+                        </h3>
+                        <div className="grid grid-cols-4 gap-6">
+                          {learnCategories.hairExtensions.map((category, idx) => (
+                            <Link
+                              key={idx}
+                              to={category.path}
+                              className="text-black text-lg hover:text-[#E3A857] hover:bg-[#F8EAD0] px-4 py-3 rounded-md transition-colors"
                             >
                               {category.label}
                             </Link>
@@ -189,11 +257,11 @@ export const HeaderWithDropdown = (): JSX.Element => {
     {isUserDropdownOpen && (
       <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
         <Link
-          to="/dashboard"
+          to={isAdmin ? "/admin/dashboard" : "/dashboard"}
           onClick={() => setIsUserDropdownOpen(false)}
           className="block px-4 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
         >
-          User Profile/Dashboard
+          {isAdmin ? "Admin Dashboard" : "User Profile/Dashboard"}
         </Link>
         <button
           onClick={handleLogout}
@@ -211,15 +279,13 @@ export const HeaderWithDropdown = (): JSX.Element => {
 )}
 
             <div
-              className="relative w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] cursor-pointer hover:opacity-80 transition-opacity"
+              className="relative cursor-pointer hover:opacity-80 transition-opacity"
               onClick={() => setIsCartOpen(true)}
             >
-              <ShoppingCartIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] text-white" />
-              {cartItems.length > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-auto min-w-[14px] px-1 py-0 bg-tertiarytertiary-0 text-white font-medium-body-small font-[number:var(--medium-body-small-font-weight)] text-[length:var(--medium-body-small-font-size)] tracking-[var(--medium-body-small-letter-spacing)] leading-[var(--medium-body-small-line-height)] [font-style:var(--medium-body-small-font-style)] border-0 rounded-full flex items-center justify-center text-[10px]">
-                  {cartItems.length}
-                </Badge>
-              )}
+              <CartIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] text-white" />
+              <Badge className="absolute -top-1 -right-1 h-auto min-w-[14px] px-1 py-0 bg-[#E3A857] text-white border-0 rounded-full flex items-center justify-center text-[10px] font-medium">
+                {totalItems}
+              </Badge>
             </div>
 
             <button
@@ -237,121 +303,145 @@ export const HeaderWithDropdown = (): JSX.Element => {
         </div>
       </div>
 
-      <div
-        className={`lg:hidden absolute left-0 right-0 bg-primaryprimary-2 shadow-lg overflow-hidden transition-all duration-300 ease-in-out z-50 ${
-          isMobileMenuOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"
-        }`}
-        style={{ top: "100%" }}
-      >
-        <nav className="flex flex-col py-4 px-4 sm:px-8">
-          {navigationItems.map((item, index) => (
-            <div key={index}>
-              {item.hasDropdown ? (
-                <>
-                  <button
-                    onClick={() => setIsShopMobileOpen(!isShopMobileOpen)}
-                    className="flex items-center justify-between w-full py-4 px-4 hover:bg-white/10 transition-all duration-200 rounded-lg"
+      {isMobileMenuOpen && (
+        <div
+          className="lg:hidden absolute left-0 right-0 top-full bg-black shadow-lg z-40 max-h-[calc(100vh-4rem)] sm:max-h-[calc(100vh-5rem)] overflow-y-auto"
+        >
+          <nav className="flex flex-col py-4 px-4 sm:px-8">
+            {navigationItems.map((item, index) => (
+              <div key={index}>
+                {item.hasDropdown ? (
+                  <>
+                    <button
+                      onClick={() => {
+                        if (item.label === "SHOP") setIsShopMobileOpen(!isShopMobileOpen);
+                        if (item.label === "LEARN") setIsLearnMobileOpen(!isLearnMobileOpen);
+                      }}
+                      className="flex items-center justify-between w-full py-4 px-4 hover:bg-white/10 transition-all duration-200 rounded-lg"
+                    >
+                      <span className="font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-white text-[length:var(--bold-title-medium-font-size)] tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)]">
+                        {item.label}
+                      </span>
+                      <ChevronDown
+                        className={`w-4 h-4 text-white transition-transform ${
+                          (item.label === "SHOP" && isShopMobileOpen) || (item.label === "LEARN" && isLearnMobileOpen) ? "rotate-180" : ""
+                        }`}
+                      />
+                    </button>
+                    {item.label === "SHOP" && isShopMobileOpen && (
+                      <div className="bg-white/5 rounded-lg ml-4 my-2 max-h-[60vh] overflow-y-auto">
+                        <div className="p-4">
+                          <p className="text-[#E3A857] text-sm font-bold mb-2">FEATURED</p>
+                          <Link
+                            to="/shop"
+                            className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors font-semibold"
+                            onClick={() => {
+                              setIsMobileMenuOpen(false);
+                              setIsShopMobileOpen(false);
+                            }}
+                          >
+                            Go to shop
+                          </Link>
+                          {shopCategories.featured.map((category, idx) => (
+                            <Link
+                              key={idx}
+                              to={category.path}
+                              className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors"
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setIsShopMobileOpen(false);
+                              }}
+                            >
+                              {category.label}
+                            </Link>
+                          ))}
+                          <p className="text-[#E3A857] text-sm font-bold mb-2 mt-4">HAIR EXTENSIONS</p>
+                          {shopCategories.hairExtensions.map((category, idx) => (
+                            <Link
+                              key={idx}
+                              to={category.path}
+                              className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors"
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setIsShopMobileOpen(false);
+                              }}
+                            >
+                              {category.label}
+                            </Link>
+                          ))}
+                          <p className="text-[#E3A857] text-sm font-bold mb-2 mt-4">HAIR SHADE</p>
+                          {shopCategories.hairShade.map((category, idx) => (
+                            <Link
+                              key={idx}
+                              to={category.path}
+                              className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors"
+                              onClick={() => {
+                                setIsMobileMenuOpen(false);
+                                setIsShopMobileOpen(false);
+                              }}
+                            >
+                              {category.label}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                    {item.label === "LEARN" && isLearnMobileOpen && (
+                      <div className="bg-white/5 rounded-lg ml-4 my-2 max-h-[60vh] overflow-y-auto">
+                        <div className="p-4">
+                          <p className="text-[#E3A857] text-sm font-bold mb-2">HAIR CARE</p>
+                          <Link to="/learn/length" className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors" onClick={() => { setIsMobileMenuOpen(false); setIsLearnMobileOpen(false); }}>
+                            Choosing Your Length
+                          </Link>
+                          <Link to="/learn/shade" className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors" onClick={() => { setIsMobileMenuOpen(false); setIsLearnMobileOpen(false); }}>
+                            Choosing Your Shade
+                          </Link>
+                          <Link to="/learn/care-guide" className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors" onClick={() => { setIsMobileMenuOpen(false); setIsLearnMobileOpen(false); }}>
+                            Care Guide
+                          </Link>
+                          <Link to="/learn" className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors" onClick={() => { setIsMobileMenuOpen(false); setIsLearnMobileOpen(false); }}>
+                            Installation Guide
+                          </Link>
+                          <p className="text-[#E3A857] text-sm font-bold mb-2 mt-4">HAIR EXTENSIONS</p>
+                          <Link to="/shop" className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors" onClick={() => { setIsMobileMenuOpen(false); setIsLearnMobileOpen(false); }}>
+                            Luxury Wigs
+                          </Link>
+                          <Link to="/shop" className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors" onClick={() => { setIsMobileMenuOpen(false); setIsLearnMobileOpen(false); }}>
+                            Invisible Tape
+                          </Link>
+                          <Link to="/shop" className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors" onClick={() => { setIsMobileMenuOpen(false); setIsLearnMobileOpen(false); }}>
+                            Hand-Tied Weft
+                          </Link>
+                          <Link to="/shop" className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors" onClick={() => { setIsMobileMenuOpen(false); setIsLearnMobileOpen(false); }}>
+                            Classic Weft
+                          </Link>
+                        </div>
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link
+                    to={item.path}
+                    className="flex items-center justify-start gap-2.5 py-4 px-4 hover:bg-white/10 transition-all duration-200 rounded-lg"
+                    onClick={() => setIsMobileMenuOpen(false)}
                   >
                     <span className="font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-white text-[length:var(--bold-title-medium-font-size)] tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)]">
                       {item.label}
                     </span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-white transition-transform ${
-                        isShopMobileOpen ? "rotate-180" : ""
-                      }`}
-                    />
-                  </button>
-                  {isShopMobileOpen && (
-                    <div className="bg-white/5 rounded-lg ml-4 my-2">
-                      <div className="p-4">
-                        <p className="text-[#E3A857] text-sm font-bold mb-2">FEATURED</p>
-                        <Link
-                          to="/shop"
-                          className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors font-semibold"
-                          onClick={() => setIsMobileMenuOpen(false)}
-                        >
-                          Go to shop
-                        </Link>
-                        {shopCategories.featured.map((category, idx) => (
-                          <Link
-                            key={idx}
-                            to={category.path}
-                            className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                          >
-                            {category.label}
-                          </Link>
-                        ))}
-                        <p className="text-[#E3A857] text-sm font-bold mb-2 mt-4">HAIR EXTENSIONS</p>
-                        {shopCategories.hairExtensions.map((category, idx) => (
-                          <Link
-                            key={idx}
-                            to={category.path}
-                            className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                          >
-                            {category.label}
-                          </Link>
-                        ))}
-                        <p className="text-[#E3A857] text-sm font-bold mb-2 mt-4">HAIR SHADE</p>
-                        {shopCategories.hairShade.map((category, idx) => (
-                          <Link
-                            key={idx}
-                            to={category.path}
-                            className="block text-white text-sm py-2 hover:text-[#E3A857] transition-colors"
-                            onClick={() => setIsMobileMenuOpen(false)}
-                          >
-                            {category.label}
-                          </Link>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                </>
-              ) : (
-                <Link
-                  to={item.path}
-                  className="flex items-center justify-start gap-2.5 py-4 px-4 hover:bg-white/10 transition-all duration-200 rounded-lg transform hover:translate-x-1"
-                  style={{
-                    animation: isMobileMenuOpen
-                      ? `slideInFromLeft 0.3s ease-out ${index * 0.1}s both`
-                      : "none",
-                  }}
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  <span className="font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-white text-[length:var(--bold-title-medium-font-size)] tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)]">
-                    {item.label}
-                  </span>
-                </Link>
-              )}
-            </div>
-          ))}
-        </nav>
-      </div>
-
-      <style>{`
-        @keyframes slideInFromLeft {
-          from {
-            opacity: 0;
-            transform: translateX(-20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateX(0);
-          }
-        }
-      `}</style>
+                  </Link>
+                )}
+              </div>
+            ))}
+          </nav>
+        </div>
+      )}
 
       <ShoppingCart
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         items={cartItems}
-        onRemoveItem={(id) => setCartItems(cartItems.filter(item => item.id !== id))}
-        onUpdateQuantity={(id, quantity) =>
-          setCartItems(cartItems.map(item =>
-            item.id === id ? { ...item, quantity } : item
-          ))
-        }
+        onRemoveItem={removeFromCart}
+        onUpdateQuantity={updateQuantity}
       />
     </header>
   );

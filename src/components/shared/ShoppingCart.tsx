@@ -1,5 +1,6 @@
-import { X } from "lucide-react";
+import { X, Heart, Trash2 } from "lucide-react";
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 interface CartItem {
   id: string;
@@ -26,6 +27,7 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({
   onRemoveItem,
   onUpdateQuantity,
 }) => {
+  const navigate = useNavigate();
   const [itemToRemove, setItemToRemove] = React.useState<string | null>(null);
 
   const orderTotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
@@ -43,6 +45,11 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({
 
   const cancelRemove = () => {
     setItemToRemove(null);
+  };
+
+  const handleCheckout = () => {
+    onClose();
+    navigate("/checkout");
   };
 
   if (!isOpen) return null;
@@ -137,6 +144,7 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({
               <p className="text-2xl font-bold text-black">${orderTotal.toFixed(2)}</p>
             </div>
             <button
+              onClick={handleCheckout}
               className="w-full bg-black text-white py-4 text-center font-semibold hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={items.length === 0}
             >
@@ -150,12 +158,12 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({
         <div className="fixed inset-0 bg-black/60 z-[60] flex items-center justify-center px-4">
           <div className="bg-white rounded-lg p-8 max-w-md w-full shadow-2xl">
             <div className="flex justify-between items-start mb-6">
-              <h3 className="text-xl font-semibold text-black">Remove from cart</h3>
+              <h3 className="text-2xl font-bold text-black">Remove from cart</h3>
               <button
                 onClick={cancelRemove}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6" />
               </button>
             </div>
             <p className="text-base text-gray-600 mb-8">
@@ -164,15 +172,15 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({
             <div className="flex gap-4">
               <button
                 onClick={cancelRemove}
-                className="flex-1 py-3 border-2 border-black text-black font-semibold hover:bg-gray-50 transition-colors flex items-center justify-center gap-2"
+                className="flex-1 py-3 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md"
               >
-                <span className="text-lg">♡</span> Save for later
+                <Heart className="w-5 h-5" /> Save for later
               </button>
               <button
                 onClick={confirmRemove}
-                className="flex-1 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-colors flex items-center justify-center gap-2"
+                className="flex-1 py-3 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md"
               >
-                <span className="text-lg">🗑</span> Remove Item
+                <Trash2 className="w-5 h-5" /> Remove Item
               </button>
             </div>
           </div>

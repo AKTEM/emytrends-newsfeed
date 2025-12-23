@@ -222,6 +222,9 @@
     --ring: 215 20.2% 65.1%;
 
     --radius: 0.5rem;
+
+    --gold: 37 74% 62%;
+    --gold-foreground: 0 0% 100%;
   }
 
   .dark {

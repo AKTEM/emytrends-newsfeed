@@ -1,9 +1,14 @@
-import { SearchIcon, ShoppingCartIcon, UserIcon, MenuIcon, XIcon } from "lucide-react";
+import { SearchIcon, MenuIcon, XIcon } from "lucide-react";
+import { UserIcon } from "./UserIcon";
+import { CartIcon } from "./CartIcon";
 import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { ShoppingCart } from "./ShoppingCart";
+import { Logo } from "./Logo";
 import { useAuth } from "../../contexts/AuthContext";
+import { useAdmin } from "../../contexts/AdminContext";
+import { useCart } from "../../contexts/CartContext";
 import { signOut } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 
@@ -16,11 +21,12 @@ const navigationItems = [
 
 export const Header = (): JSX.Element => {
   const { user } = useAuth();
+  const { isAdmin } = useAdmin();
+  const { cartItems, removeFromCart, updateQuantity, totalItems } = useCart();
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
-  const [cartItems, setCartItems] = useState<any[]>([]);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
   const getDisplayName = () => {
@@ -53,8 +59,8 @@ export const Header = (): JSX.Element => {
   return (
     <header className="w-full h-16 sm:h-20 lg:h-24 bg-primaryprimary-2 px-4 sm:px-8 lg:px-12 py-4 sm:py-5 lg:py-6 relative">
       <div className="flex items-center justify-between h-full max-w-[1440px] mx-auto">
-        <Link to="/" className="[font-family:'Arsenica_Trial-Demibold',Helvetica] font-normal text-textinverse-text text-2xl sm:text-3xl lg:text-4xl tracking-[0] leading-[normal] whitespace-nowrap">
-          KUTHAIR
+        <Link to="/" className="hover:opacity-80 transition-opacity">
+          <Logo fill="white" className="h-6 sm:h-7 lg:h-8 w-auto" />
         </Link>
 
         <div className="flex items-center justify-end gap-4 sm:gap-6 lg:gap-8 flex-1 max-w-[788px]">
@@ -89,11 +95,11 @@ export const Header = (): JSX.Element => {
                 {isUserDropdownOpen && (
                   <div className="absolute right-0 mt-2 w-56 bg-white rounded-lg shadow-lg py-2 z-50">
                     <Link
-                      to="/dashboard"
+                      to={isAdmin ? "/admin/dashboard" : "/dashboard"}
                       onClick={() => setIsUserDropdownOpen(false)}
                       className="block px-4 py-3 text-gray-800 hover:bg-gray-100 transition-colors"
                     >
-                      User Profile/Dashboard
+                      {isAdmin ? "Admin Dashboard" : "User Profile/Dashboard"}
                     </Link>
                     <button
                       onClick={handleLogout}
@@ -111,15 +117,13 @@ export const Header = (): JSX.Element => {
             )}
 
             <div
-              className="relative w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] cursor-pointer hover:opacity-80 transition-opacity"
+              className="relative cursor-pointer hover:opacity-80 transition-opacity"
               onClick={() => setIsCartOpen(true)}
             >
-              <ShoppingCartIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] text-white" />
-              {cartItems.length > 0 && (
-                <Badge className="absolute -top-1 -right-1 h-auto min-w-[14px] px-1 py-0 bg-tertiarytertiary-0 text-white font-medium-body-small font-[number:var(--medium-body-small-font-weight)] text-[length:var(--medium-body-small-font-size)] tracking-[var(--medium-body-small-letter-spacing)] leading-[var(--medium-body-small-line-height)] [font-style:var(--medium-body-small-font-style)] border-0 rounded-full flex items-center justify-center text-[10px]">
-                  {cartItems.length}
-                </Badge>
-              )}
+              <CartIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-[26px] lg:h-[26px] text-white" />
+              <Badge className="absolute -top-1 -right-1 h-auto min-w-[14px] px-1 py-0 bg-[#E3A857] text-white border-0 rounded-full flex items-center justify-center text-[10px] font-medium">
+                {totalItems}
+              </Badge>
             </div>
 
             <button
@@ -181,12 +185,8 @@ export const Header = (): JSX.Element => {
         isOpen={isCartOpen}
         onClose={() => setIsCartOpen(false)}
         items={cartItems}
-        onRemoveItem={(id) => setCartItems(cartItems.filter(item => item.id !== id))}
-        onUpdateQuantity={(id, quantity) =>
-          setCartItems(cartItems.map(item =>
-            item.id === id ? { ...item, quantity } : item
-          ))
-        }
+        onRemoveItem={removeFromCart}
+        onUpdateQuantity={updateQuantity}
       />
     </header>
   );

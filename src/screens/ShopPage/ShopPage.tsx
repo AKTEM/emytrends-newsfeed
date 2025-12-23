@@ -1,10 +1,10 @@
 
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent } from "../../components/ui/card";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
+import { PromoBanner } from "../../components/shared/PromoBanner";
 
 const trendingProducts = [
   {
@@ -137,23 +137,23 @@ const treatmentProducts = [
 
 const categories = {
   featured: [
-    { label: "New Arrivals" },
-    { label: "Tape-Ins" },
-    { label: "Tape-Ins" },
-    { label: "Tape-Ins" },
+    { label: "New Arrivals", path: "/shop/all?category=New Arrivals" },
+    { label: "Tape-Ins", path: "/shop/all?category=Tape-Ins" },
+    { label: "Tape-Ins", path: "/shop/all?category=Tape-Ins" },
+    { label: "Tape-Ins", path: "/shop/all?category=Tape-Ins" },
   ],
   hairExtensions: {
     shopAll: "Shop All",
     shopByProductType: [
-      { label: "Ponytail" },
-      { label: "Clip-Ins" },
+      { label: "Ponytail", path: "/shop/ponytail" },
+      { label: "Clip-Ins", path: "/shop/all?category=Clip-Ins" },
     ],
   },
   hairShade: [
-    { label: "Black", color: "#000000" },
-    { label: "Brown", color: "#5c4033" },
-    { label: "Blonde", color: "#a67c52" },
-    { label: "Red", color: "#7c3c2e" },
+    { label: "Black", color: "#000000", path: "/shop/all?shade=Black" },
+    { label: "Brown", color: "#5c4033", path: "/shop/all?shade=Brown" },
+    { label: "Blonde", color: "#a67c52", path: "/shop/all?shade=Blonde" },
+    { label: "Red", color: "#7c3c2e", path: "/shop/all?shade=Red" },
   ],
 };
 
@@ -161,17 +161,7 @@ export const ShopPage = (): JSX.Element => {
   return (
     <div className="bg-white w-full min-h-screen relative flex flex-col">
       <header className="w-full bg-neutralneutral-1 sticky top-0 z-50">
-        <div className="flex h-10 items-center justify-between px-4 sm:px-8 lg:px-12 py-2 w-full max-w-[1264px] mx-auto">
-          <ChevronLeftIcon className="w-3 h-6 flex-shrink-0 hidden sm:block" />
-
-          <div className="inline-flex items-center justify-center gap-6 flex-1 px-2">
-            <div className="font-medium-body-large font-[number:var(--medium-body-large-font-weight)] text-textprimary-text text-[length:var(--medium-body-large-font-size)] tracking-[var(--medium-body-large-letter-spacing)] leading-[var(--medium-body-large-line-height)] text-center [font-style:var(--medium-body-large-font-style)] text-xs sm:text-sm md:text-base">
-              Get 50% Discount On Every Item Purchased On Christmas Day
-            </div>
-          </div>
-
-          <ChevronRightIcon className="w-3 h-6 flex-shrink-0 hidden sm:block" />
-        </div>
+        <PromoBanner />
       </header>
 
       <HeaderWithDropdown />
@@ -188,7 +178,7 @@ export const ShopPage = (): JSX.Element => {
                   {categories.featured.map((item, idx) => (
                     <Link
                       key={idx}
-                      to="#"
+                      to={item.path}
                       className="text-black text-lg hover:text-[#E3A857] transition-colors"
                     >
                       {item.label}
@@ -219,7 +209,7 @@ export const ShopPage = (): JSX.Element => {
                   {categories.hairExtensions.shopByProductType.map((item, idx) => (
                     <Link
                       key={idx}
-                      to={item.label === "Ponytail" ? "/shop/ponytail" : "#"}
+                      to={item.path}
                       className="text-black text-lg hover:text-[#E3A857] transition-colors"
                     >
                       {item.label}
@@ -234,18 +224,15 @@ export const ShopPage = (): JSX.Element => {
                 </h3>
                 <div className="flex flex-col gap-3">
                   {categories.hairShade.map((item, idx) => (
-                    <div key={idx} className="flex items-center gap-3">
+                    <Link key={idx} to={item.path} className="flex items-center gap-3 hover:opacity-80 transition-opacity">
                       <div
                         className="w-7 h-7 rounded border border-gray-400"
                         style={{ backgroundColor: item.color }}
                       />
-                      <Link
-                        to="#"
-                        className="text-black text-lg hover:text-[#E3A857] transition-colors"
-                      >
+                      <span className="text-black text-lg hover:text-[#E3A857] transition-colors">
                         {item.label}
-                      </Link>
-                    </div>
+                      </span>
+                    </Link>
                   ))}
                 </div>
               </div>
@@ -312,19 +299,6 @@ export const ShopPage = (): JSX.Element => {
                     </p>
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    {product.colors.map((colorOption, colorIndex) => (
-                      <button
-                        key={colorIndex}
-                        className="w-5 h-5 rounded-sm border border-gray-300 hover:border-gray-900 transition-colors flex-shrink-0"
-                        style={{ backgroundColor: colorOption.color }}
-                        title={colorOption.name}
-                      />
-                    ))}
-                    <button className="w-5 h-5 rounded-sm border border-gray-300 bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center flex-shrink-0">
-                      <span className="text-gray-600 text-xs font-bold">+</span>
-                    </button>
-                  </div>
                 </CardContent>
               </Card>
             </Link>
@@ -332,17 +306,28 @@ export const ShopPage = (): JSX.Element => {
         </div>
       </section>
 
-      <section
-        className="w-full bg-cover bg-center relative py-24 sm:py-32 lg:py-40 px-4 sm:px-8 lg:px-12"
-        style={{ backgroundImage: "url('/our-world.jpg')" }}
-      >
-        <div className="absolute inset-0 bg-black/40" />
-        <div className="relative z-10 max-w-[1440px] mx-auto flex flex-col items-center justify-center text-center gap-8">
-          <h2 className="text-white text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight max-w-3xl">
+      <section className="w-full relative py-24 sm:py-32 lg:py-40 min-h-[400px] sm:min-h-[500px] lg:min-h-[659px] overflow-hidden">
+        {/* Background Video */}
+        <video
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 w-full h-full object-cover z-0"
+        >
+          <source src="/kuthair-video.mp4" type="video/mp4" />
+        </video>
+        
+        {/* Dark Overlay */}
+        <div className="absolute inset-0 bg-black/40 z-10" />
+        
+        {/* Content */}
+        <div className="relative z-20 h-full flex flex-col items-start justify-end gap-4 sm:gap-8 max-w-[602px] px-4 sm:px-8 lg:px-12">
+          <h2 className="text-white text-xl sm:text-3xl lg:text-4xl xl:text-5xl font-semibold leading-tight text-left">
             THE ULTIMATE CHOICE FOR PREMIUM HAIR EXTENSION
           </h2>
-          <Button className="h-12 sm:h-14 px-6 sm:px-8 py-4 sm:py-5 rounded-lg border-2 border-white bg-transparent hover:bg-white/10 transition-colors">
-            <span className="text-white font-bold-title-medium font-[number:var(--bold-title-medium-font-weight)] text-[length:var(--bold-title-medium-font-size)] tracking-[var(--bold-title-medium-letter-spacing)] leading-[var(--bold-title-medium-line-height)] [font-style:var(--bold-title-medium-font-style)]">
+          <Button className="h-auto px-5 py-3 sm:px-8 sm:py-5 rounded-lg border-2 border-white bg-transparent hover:bg-white/10 transition-colors">
+            <span className="text-white font-bold text-sm sm:text-base">
               ABOUT US
             </span>
           </Button>

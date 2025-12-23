@@ -1,4 +1,4 @@
-import { X, Minus, Plus } from "lucide-react";
+import { X, Minus, Plus, Heart, Trash2 } from "lucide-react";
 import { useState } from "react";
 import { Link } from "react-router-dom";
 
@@ -145,7 +145,7 @@ export const ProductCart = ({
                 </div>
                 <Link to="/checkout">
                   <button
-                    className="w-full bg-black text-white py-3 sm:py-4 text-sm sm:text-base font-bold hover:bg-gray-800 transition-colors"
+                    className="w-full bg-gold text-gold-foreground py-3 sm:py-4 text-sm sm:text-base font-bold hover:bg-gold/90 transition-colors"
                     onClick={onClose}
                   >
                     CHECK OUT
@@ -161,12 +161,12 @@ export const ProductCart = ({
         <div className="fixed inset-0 bg-black/70 z-[60] flex items-center justify-center px-4">
           <div className="bg-white rounded-lg p-8 max-w-md w-full">
             <div className="flex justify-between items-start mb-4">
-              <h3 className="text-xl font-bold text-black">Remove from cart</h3>
+              <h3 className="text-2xl font-bold text-black">Remove from cart</h3>
               <button
                 onClick={cancelRemove}
                 className="text-gray-400 hover:text-gray-600 transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-6 h-6" />
               </button>
             </div>
             <p className="text-base text-gray-700 mb-8">
@@ -175,15 +175,15 @@ export const ProductCart = ({
             <div className="flex gap-4">
               <button
                 onClick={cancelRemove}
-                className="flex-1 py-3 border-2 border-black text-black font-semibold hover:bg-gray-50 transition-colors"
+                className="flex-1 py-3 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md"
               >
-                Save for later
+                <Heart className="w-5 h-5" /> Save for later
               </button>
               <button
                 onClick={confirmRemove}
-                className="flex-1 py-3 bg-black text-white font-semibold hover:bg-gray-800 transition-colors"
+                className="flex-1 py-3 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md"
               >
-                Remove Item
+                <Trash2 className="w-5 h-5" /> Remove Item
               </button>
             </div>
           </div>

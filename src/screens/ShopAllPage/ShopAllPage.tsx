@@ -1,436 +1,223 @@
-import { useState, useEffect } from "react";
-import { useSearchParams, Link } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
 import { Card, CardContent } from "../../components/ui/card";
-import { ChevronLeftIcon, ChevronRightIcon, ChevronUp, ChevronDown } from "lucide-react";
-
-const products = [
-  {
-    id: 1,
-    image: "/img-20250902-wa0007.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    price: "$50",
-    category: "Silk Seam Clip-In",
-    shade: "Black",
-    shadeStyle: "Balayage",
-    length: "16\"",
-    featured: "Trending",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 2,
-    image: "/img-20250902-wa0004.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    price: "$50",
-    category: "Silk Seam Clip-In",
-    shade: "Blonde",
-    shadeStyle: "Highlight",
-    length: "16\"",
-    featured: "New Arrivals",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 3,
-    image: "/img-20250902-wa0005.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    price: "$50",
-    category: "Silk Seam Clip-In",
-    shade: "Black",
-    shadeStyle: "Marble Blends",
-    length: "16\"",
-    featured: "Trending",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 4,
-    image: "/img-20250902-wa0002.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    price: "$50",
-    category: "Luxury Wigs",
-    shade: "Brown",
-    shadeStyle: "Rooted",
-    length: "16\"",
-    featured: "New Arrivals",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 5,
-    image: "/img-20250902-wa0008.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    price: "$50",
-    category: "Invisible Tape",
-    shade: "Blonde",
-    shadeStyle: "Balayage",
-    length: "16\"",
-    featured: "Trending",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 6,
-    image: "/image-31.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    price: "$50",
-    category: "Hand-Tied Weft",
-    shade: "Black",
-    shadeStyle: "Highlight",
-    length: "16\"",
-    featured: "New Arrivals",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 7,
-    image: "/img-20250902-wa0007.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    price: "$50",
-    category: "Classic Weft",
-    shade: "Red",
-    shadeStyle: "Balayage",
-    length: "16\"",
-    featured: "Trending",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 8,
-    image: "/img-20250902-wa0004.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    price: "$50",
-    category: "Silk Seam Clip-In",
-    shade: "Blonde",
-    shadeStyle: "Marble Blends",
-    length: "16\"",
-    featured: "New Arrivals",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 9,
-    image: "/img-20250902-wa0005.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    price: "$50",
-    category: "Silk Seam Clip-In",
-    shade: "Brown",
-    shadeStyle: "Rooted",
-    length: "16\"",
-    featured: "Trending",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-];
+import { ChevronUp, ChevronDown } from "lucide-react";
+import { useProducts } from "../../hooks/useProducts";
 
 const filterCategories = {
-  product: ["Silk Seam Clip-In", "Luxury Wigs", "Invisible Tape", "Hand-Tied Weft", "Classic Weft"],
+  product: ["New Arrivals", "Tape-Ins", "Ponytails", "Clip-Ins", "Trending", "Best Selling"],
+  hairExtensions: ["Luxury Wigs", "Invisible Tape", "Hand-Tied Weft", "Classic Weft"],
   shade: ["Black", "Brown", "Blonde", "Red"],
-  shadeStyle: ["Balayage", "Marble Blends", "Rooted", "Highlight"],
-  length: ["16\"", "18\"", "20\"", "22\""],
-  featured: ["New Arrivals", "Trending"],
+  length: ["14\"", "16\"", "18\"", "20\"", "22\"", "24\""],
 };
 
-export const ShopAllPage = (): JSX.Element => {
-  const [searchParams] = useSearchParams();
-  const [isFilterExpanded, setIsFilterExpanded] = useState(true);
-  const [selectedFilters, setSelectedFilters] = useState({
-    product: [] as string[],
-    shade: [] as string[],
-    shadeStyle: [] as string[],
-    length: [] as string[],
-    featured: [] as string[],
+export const ShopAllPage = () => {
+  const { products: firebaseProducts, loading } = useProducts();
+  const [selectedFilters, setSelectedFilters] = useState<{
+    product: string[];
+    hairExtensions: string[];
+    shade: string[];
+    length: string[];
+  }>({
+    product: [],
+    hairExtensions: [],
+    shade: [],
+    length: [],
+  });
+  const [expandedSections, setExpandedSections] = useState<{
+    product: boolean;
+    hairExtensions: boolean;
+    shade: boolean;
+    length: boolean;
+  }>({
+    product: true,
+    hairExtensions: true,
+    shade: true,
+    length: true,
   });
 
-  useEffect(() => {
-    const category = searchParams.get("category");
-    if (category) {
-      // Apply filter based on URL parameter
-      if (filterCategories.product.includes(category)) {
-        setSelectedFilters(prev => ({ ...prev, product: [category] }));
-      } else if (filterCategories.shade.includes(category)) {
-        setSelectedFilters(prev => ({ ...prev, shade: [category] }));
-      } else if (filterCategories.featured.includes(category)) {
-        setSelectedFilters(prev => ({ ...prev, featured: [category] }));
-      }
-    }
-  }, [searchParams]);
-
-  const handleFilterChange = (filterType: keyof typeof selectedFilters, value: string) => {
-    setSelectedFilters(prev => {
-      const currentFilters = prev[filterType];
-      const newFilters = currentFilters.includes(value)
-        ? currentFilters.filter(f => f !== value)
-        : [...currentFilters, value];
-      return { ...prev, [filterType]: newFilters };
-    });
+  const toggleFilter = (category: keyof typeof selectedFilters, value: string) => {
+    setSelectedFilters((prev) => ({
+      ...prev,
+      [category]: prev[category].includes(value)
+        ? prev[category].filter((item) => item !== value)
+        : [...prev[category], value],
+    }));
   };
 
-  const filteredProducts = products.filter(product => {
-    const matchesProduct = selectedFilters.product.length === 0 || selectedFilters.product.includes(product.category);
-    const matchesShade = selectedFilters.shade.length === 0 || selectedFilters.shade.includes(product.shade);
-    const matchesShadeStyle = selectedFilters.shadeStyle.length === 0 || selectedFilters.shadeStyle.includes(product.shadeStyle);
-    const matchesLength = selectedFilters.length.length === 0 || selectedFilters.length.includes(product.length);
-    const matchesFeatured = selectedFilters.featured.length === 0 || selectedFilters.featured.includes(product.featured);
-    
-    return matchesProduct && matchesShade && matchesShadeStyle && matchesLength && matchesFeatured;
+  const toggleSection = (section: keyof typeof expandedSections) => {
+    setExpandedSections((prev) => ({
+      ...prev,
+      [section]: !prev[section],
+    }));
+  };
+
+  // Filter products based on selected filters
+  const filteredProducts = firebaseProducts.filter((product) => {
+    if (selectedFilters.product.length > 0 && !selectedFilters.product.includes(product.category)) {
+      return false;
+    }
+    if (selectedFilters.hairExtensions.length > 0 && product.hairExtensionType && 
+        !selectedFilters.hairExtensions.includes(product.hairExtensionType)) {
+      return false;
+    }
+    if (selectedFilters.shade.length > 0) {
+      const hasMatchingShade = product.shades?.some(shade => 
+        selectedFilters.shade.includes(shade)
+      );
+      if (!hasMatchingShade) return false;
+    }
+    if (selectedFilters.length.length > 0) {
+      const hasMatchingLength = product.lengths?.some(length => 
+        selectedFilters.length.includes(length)
+      );
+      if (!hasMatchingLength) return false;
+    }
+    return true;
   });
 
+  const FilterSection = ({
+    title,
+    category,
+    items,
+  }: {
+    title: string;
+    category: keyof typeof selectedFilters;
+    items: string[];
+  }) => (
+    <div className="border-b border-border pb-4">
+      <button
+        onClick={() => toggleSection(category as keyof typeof expandedSections)}
+        className="flex items-center justify-between w-full py-2 text-foreground hover:text-primary transition-colors"
+      >
+        <span className="font-medium">{title}</span>
+        {expandedSections[category as keyof typeof expandedSections] ? (
+          <ChevronUp className="w-5 h-5" />
+        ) : (
+          <ChevronDown className="w-5 h-5" />
+        )}
+      </button>
+      {expandedSections[category as keyof typeof expandedSections] && (
+        <div className="mt-2 space-y-2">
+          {items.map((item) => (
+            <label key={item} className="flex items-center gap-2 cursor-pointer hover:text-primary transition-colors">
+              <input
+                type="checkbox"
+                checked={selectedFilters[category].includes(item)}
+                onChange={() => toggleFilter(category, item)}
+                className="w-4 h-4 rounded border-border text-primary focus:ring-primary"
+              />
+              <span className="text-sm text-muted-foreground">{item}</span>
+            </label>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-lg">Loading products...</div>
+      </div>
+    );
+  }
+
   return (
-    <div className="bg-white w-full min-h-screen relative flex flex-col">
-      {/* Promotional Banner */}
-      <header className="w-full bg-neutralneutral-1 sticky top-0 z-50">
-        <div className="flex h-10 items-center justify-between px-4 sm:px-8 lg:px-12 py-2 w-full max-w-[1264px] mx-auto">
-          <ChevronLeftIcon className="w-3 h-6 flex-shrink-0 hidden sm:block" />
-          <div className="inline-flex items-center justify-center gap-6 flex-1 px-2">
-            <div className="font-medium-body-large font-[number:var(--medium-body-large-font-weight)] text-textprimary-text text-[length:var(--medium-body-large-font-size)] tracking-[var(--medium-body-large-letter-spacing)] leading-[var(--medium-body-large-line-height)] text-center [font-style:var(--medium-body-large-font-style)] text-xs sm:text-sm md:text-base">
-              Get 50% Discount On Every Item Purchased On Christmas Day
-            </div>
-          </div>
-          <ChevronRightIcon className="w-3 h-6 flex-shrink-0 hidden sm:block" />
-        </div>
-      </header>
-
-      {/* Header with Navigation */}
+    <div className="min-h-screen flex flex-col bg-background">
       <HeaderWithDropdown />
-
-      {/* Hero Section */}
-      <section className="w-full bg-[#F6F1E8] relative py-8 sm:py-12 px-4 sm:px-8 lg:px-12">
-        <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-8">
-          <div className="flex-1">
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-black tracking-tight mb-3">
-              SLAY SEASON, QUEEN
-            </h1>
-            <p className="text-base sm:text-lg text-black">
-              Elevate your look with the hair of your dreams
-            </p>
-          </div>
-          <div className="hidden lg:block flex-shrink-0">
-            <img
-              src="/42450479-77ad-4d93-916d-ed46d010f27c.png"
-              alt="Hair model"
-              className="w-[280px] h-[180px] object-cover rounded-lg"
-            />
-          </div>
-        </div>
-      </section>
-
-      {/* Main Content Area */}
-      <div className="w-full px-4 sm:px-8 lg:px-12 py-8 bg-white">
-        <div className="max-w-[1440px] mx-auto flex flex-col lg:flex-row gap-8">
-          {/* Left Sidebar - Filters */}
-          <aside className="w-full lg:w-[200px] flex-shrink-0">
-            <div className="bg-[#F5F5F5] rounded-none lg:rounded-lg p-4 lg:max-h-[800px] lg:overflow-y-auto">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-bold text-black">FILTERS</h3>
-                <button 
-                  onClick={() => setIsFilterExpanded(!isFilterExpanded)}
-                  className="lg:hidden"
-                >
-                  {isFilterExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
-                </button>
-              </div>
-              
-              <div className={`flex flex-col gap-6 ${isFilterExpanded ? 'block' : 'hidden lg:block'}`}>
-                {/* FEATURED */}
-                <div>
-                  <h4 className="text-xs font-bold text-black mb-3">FEATURED</h4>
-                  <div className="flex flex-col gap-2.5">
-                    {filterCategories.featured.map((item) => (
-                      <label key={item} className="flex items-start gap-2.5 cursor-pointer group">
-                        <input
-                          type="checkbox"
-                          checked={selectedFilters.featured.includes(item)}
-                          onChange={() => handleFilterChange("featured", item)}
-                          className="mt-0.5 w-4 h-4 border-2 border-gray-400 rounded accent-black"
-                        />
-                        <span className="text-xs text-black leading-tight">{item}</span>
-                      </label>
-                    ))}
-                  </div>
+      
+      <main className="flex-1 container mx-auto px-4 py-8">
+        <div className="flex flex-col lg:flex-row gap-8">
+          {/* Filters Sidebar */}
+          <aside className="lg:w-64 flex-shrink-0">
+            <Card className="sticky top-4">
+              <CardContent className="p-6">
+                <h2 className="text-xl font-bold mb-6 text-foreground">Filters</h2>
+                <div className="space-y-4">
+                  <FilterSection
+                    title="Product Type"
+                    category="product"
+                    items={filterCategories.product}
+                  />
+                  <FilterSection
+                    title="Hair Extensions"
+                    category="hairExtensions"
+                    items={filterCategories.hairExtensions}
+                  />
+                  <FilterSection
+                    title="Shade"
+                    category="shade"
+                    items={filterCategories.shade}
+                  />
+                  <FilterSection
+                    title="Length"
+                    category="length"
+                    items={filterCategories.length}
+                  />
                 </div>
-
-                {/* PRODUCT */}
-                <div>
-                  <h4 className="text-xs font-bold text-black mb-3">PRODUCT</h4>
-                  <div className="flex flex-col gap-2.5">
-                    {filterCategories.product.map((item) => (
-                      <label key={item} className="flex items-start gap-2.5 cursor-pointer group">
-                        <input
-                          type="checkbox"
-                          checked={selectedFilters.product.includes(item)}
-                          onChange={() => handleFilterChange("product", item)}
-                          className="mt-0.5 w-4 h-4 border-2 border-gray-400 rounded accent-black"
-                        />
-                        <span className="text-xs text-black leading-tight">{item}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* SHADE */}
-                <div>
-                  <h4 className="text-xs font-bold text-black mb-3">SHADE</h4>
-                  <div className="flex flex-col gap-2.5">
-                    {filterCategories.shade.map((item) => (
-                      <label key={item} className="flex items-start gap-2.5 cursor-pointer group">
-                        <input
-                          type="checkbox"
-                          checked={selectedFilters.shade.includes(item)}
-                          onChange={() => handleFilterChange("shade", item)}
-                          className="mt-0.5 w-4 h-4 border-2 border-gray-400 rounded accent-black"
-                        />
-                        <span className="text-xs text-black leading-tight">{item}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* SHADE STYLE */}
-                <div>
-                  <h4 className="text-xs font-bold text-black mb-3">SHADE STYLE</h4>
-                  <div className="flex flex-col gap-2.5">
-                    {filterCategories.shadeStyle.map((item) => (
-                      <label key={item} className="flex items-start gap-2.5 cursor-pointer group">
-                        <input
-                          type="checkbox"
-                          checked={selectedFilters.shadeStyle.includes(item)}
-                          onChange={() => handleFilterChange("shadeStyle", item)}
-                          className="mt-0.5 w-4 h-4 border-2 border-gray-400 rounded accent-black"
-                        />
-                        <span className="text-xs text-black leading-tight">{item}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-
-                {/* LENGTH */}
-                <div>
-                  <h4 className="text-xs font-bold text-black mb-3">LENGHT</h4>
-                  <div className="flex flex-col gap-2.5">
-                    {filterCategories.length.map((item) => (
-                      <label key={item} className="flex items-start gap-2.5 cursor-pointer group">
-                        <input
-                          type="checkbox"
-                          checked={selectedFilters.length.includes(item)}
-                          onChange={() => handleFilterChange("length", item)}
-                          className="mt-0.5 w-4 h-4 border-2 border-gray-400 rounded accent-black"
-                        />
-                        <span className="text-xs text-black leading-tight">{item}</span>
-                      </label>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+              </CardContent>
+            </Card>
           </aside>
 
-          {/* Main Product Grid */}
+          {/* Products Grid */}
           <div className="flex-1">
-            {/* Header with Item Count and Sort */}
-            <div className="flex items-center justify-between mb-6">
-              <h2 className="text-lg font-bold text-black">{filteredProducts.length} ITEMS</h2>
-              <div className="flex items-center gap-2">
-                <span className="text-sm font-semibold text-black">SORT BY:</span>
-                <select className="border border-gray-300 rounded px-3 py-1 text-sm bg-white">
-                  <option>Features</option>
-                  <option>Price: Low to High</option>
-                  <option>Price: High to Low</option>
-                  <option>Newest</option>
-                </select>
+            <div className="mb-6">
+              <h1 className="text-3xl font-bold text-foreground">All Products</h1>
+              <p className="text-muted-foreground mt-2">
+                {filteredProducts.length} product{filteredProducts.length !== 1 ? 's' : ''} found
+              </p>
+            </div>
+
+            {filteredProducts.length === 0 ? (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">No products match your filters</p>
               </div>
-            </div>
-
-            {/* Product Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filteredProducts.map((product) => (
-                <Link
-                  key={product.id}
-                  to={`/product/${product.id}`}
-                >
-                  <Card className="flex flex-col border-none shadow-none bg-transparent cursor-pointer hover:opacity-80 transition-opacity">
-                    <CardContent className="flex flex-col items-start justify-center gap-4 p-0">
-                      <div className="relative w-full">
-                        <img
-                          className="h-[300px] w-full object-cover rounded-lg"
-                          alt={product.title}
-                          src={product.image}
-                        />
-                      </div>
-
-                      <div className="flex items-start justify-between gap-2 w-full">
-                        <div className="flex flex-col items-start gap-2 flex-1 min-w-0">
-                          <p className="font-medium text-black text-sm line-clamp-2">
-                            {product.title}
-                          </p>
-                        </div>
-
-                        <p className="font-semibold text-black text-lg whitespace-nowrap">
-                          {product.price}
-                        </p>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        {product.colors.map((colorOption, colorIndex) => (
-                          <button
-                            key={colorIndex}
-                            className="w-6 h-6 rounded-sm border border-gray-300 hover:border-gray-900 transition-colors flex-shrink-0"
-                            style={{ backgroundColor: colorOption.color }}
-                            title={colorOption.name}
+            ) : (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {filteredProducts.map((product) => (
+                  <Link key={product.id} to={`/product/${product.id}`}>
+                    <Card className="group hover:shadow-lg transition-shadow duration-300">
+                      <CardContent className="p-0">
+                        <div className="relative overflow-hidden rounded-t-lg">
+                          <img
+                            src={product.images[0] || "/placeholder.png"}
+                            alt={product.title}
+                            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                           />
-                        ))}
-                        <button className="w-6 h-6 rounded-sm border border-gray-300 bg-gray-100 hover:bg-gray-200 transition-colors flex items-center justify-center flex-shrink-0">
-                          <span className="text-gray-600 text-sm font-bold">+</span>
-                        </button>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
-            </div>
+                        </div>
+                        <div className="p-4">
+                          <h3 className="font-semibold text-foreground line-clamp-2 mb-2">
+                            {product.title}
+                          </h3>
+                          <p className="text-primary font-bold text-lg">
+                            ${product.price}
+                          </p>
+                          {product.colors && product.colors.length > 0 && (
+                            <div className="flex gap-2 mt-3">
+                              {product.colors.slice(0, 4).map((color, idx) => (
+                                <div
+                                  key={idx}
+                                  className="w-6 h-6 rounded-full border-2 border-border"
+                                  style={{ backgroundColor: color }}
+                                  title={color}
+                                />
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                ))}
+              </div>
+            )}
           </div>
         </div>
-      </div>
+      </main>
 
-      {/* Footer */}
       <FooterSection />
     </div>
   );
