@@ -242,13 +242,13 @@ export const AdminProductForm = () => {
   };
 
   return (
-    <div className="container mx-auto py-8">
-      <Card>
-        <CardHeader>
-          <CardTitle>{isEdit ? "Edit Product" : "Add New Product"}</CardTitle>
+    <div className="w-full max-w-4xl mx-auto py-4 sm:py-6 lg:py-8 px-0">
+      <Card className="overflow-hidden">
+        <CardHeader className="p-4 sm:p-6">
+          <CardTitle className="text-lg sm:text-xl lg:text-2xl">{isEdit ? "Edit Product" : "Add New Product"}</CardTitle>
         </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit} className="space-y-6">
+        <CardContent className="p-4 sm:p-6 pt-0">
+          <form onSubmit={handleSubmit} className="space-y-5 sm:space-y-6">
             <div>
               <label className="block text-sm font-medium mb-2">Product Title</label>
               <input
@@ -341,16 +341,16 @@ export const AdminProductForm = () => {
             <div>
               <label className="block text-sm font-medium mb-2">Product Images</label>
               {formData.images && formData.images.length > 0 && (
-                <div className="grid grid-cols-4 gap-4 mb-4">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2 sm:gap-4 mb-4">
                   {formData.images.map((url, index) => (
                     <div key={index} className="relative">
-                      <img src={url} alt={`Product ${index + 1}`} className="w-full h-32 object-cover rounded" />
+                      <img src={url} alt={`Product ${index + 1}`} className="w-full h-24 sm:h-32 object-cover rounded" />
                       <button
                         type="button"
                         onClick={() => removeExistingImage(index)}
                         className="absolute top-1 right-1 bg-destructive text-destructive-foreground rounded-full p-1"
                       >
-                        <X className="w-4 h-4" />
+                        <X className="w-3 h-3 sm:w-4 sm:h-4" />
                       </button>
                     </div>
                   ))}
@@ -367,7 +367,7 @@ export const AdminProductForm = () => {
 
             <div>
               <label className="block text-sm font-medium mb-2">Colors (Hex Codes)</label>
-              <div className="flex gap-2 mb-2">
+              <div className="flex flex-col sm:flex-row gap-2 mb-2">
                 <input
                   type="text"
                   value={colorInput}
@@ -375,7 +375,7 @@ export const AdminProductForm = () => {
                   className="flex-1 px-3 py-2 border border-border rounded-md bg-background text-foreground"
                   placeholder="#000000"
                 />
-                <Button type="button" onClick={handleAddColor}>
+                <Button type="button" onClick={handleAddColor} className="w-full sm:w-auto whitespace-nowrap">
                   Add Color
                 </Button>
               </div>
@@ -440,7 +440,7 @@ export const AdminProductForm = () => {
 
             <div>
               <label className="block text-sm font-medium mb-2">Detailed Length Options (with pricing)</label>
-              <div className="flex gap-2 mb-2">
+              <div className="flex flex-col sm:flex-row gap-2 mb-2">
                 <input
                   type="text"
                   value={lengthLabel}
@@ -452,11 +452,11 @@ export const AdminProductForm = () => {
                   type="number"
                   value={lengthPrice}
                   onChange={(e) => setLengthPrice(e.target.value)}
-                  className="w-32 px-3 py-2 border border-border rounded-md bg-background text-foreground"
+                  className="w-full sm:w-32 px-3 py-2 border border-border rounded-md bg-background text-foreground"
                   placeholder="Price (optional)"
                   step="0.01"
                 />
-                <Button type="button" onClick={handleAddLengthOption}>
+                <Button type="button" onClick={handleAddLengthOption} className="w-full sm:w-auto whitespace-nowrap">
                   Add Length
                 </Button>
               </div>
@@ -482,7 +482,7 @@ export const AdminProductForm = () => {
 
             <div>
               <label className="block text-sm font-medium mb-2">Shade Options (for Select Your Shade dropdown)</label>
-              <div className="flex gap-2 mb-2">
+              <div className="flex flex-col sm:flex-row gap-2 mb-2">
                 <input
                   type="text"
                   value={shadeLabel}
@@ -490,7 +490,7 @@ export const AdminProductForm = () => {
                   className="flex-1 px-3 py-2 border border-border rounded-md bg-background text-foreground"
                   placeholder="e.g., ALL, BLACK, BLONDE"
                 />
-                <Button type="button" onClick={handleAddShadeOption}>
+                <Button type="button" onClick={handleAddShadeOption} className="w-full sm:w-auto whitespace-nowrap">
                   Add Shade
                 </Button>
               </div>
@@ -514,12 +514,12 @@ export const AdminProductForm = () => {
 
             <div>
               <label className="block text-sm font-medium mb-2">Color Swatches</label>
-              <div className="flex gap-2 mb-2">
+              <div className="flex flex-col sm:flex-row gap-2 mb-2">
                 <input
                   type="text"
                   value={colorSwatchHex}
                   onChange={(e) => setColorSwatchHex(e.target.value)}
-                  className="w-32 px-3 py-2 border border-border rounded-md bg-background text-foreground"
+                  className="w-full sm:w-32 px-3 py-2 border border-border rounded-md bg-background text-foreground"
                   placeholder="#000000"
                 />
                 <input
@@ -529,7 +529,7 @@ export const AdminProductForm = () => {
                   className="flex-1 px-3 py-2 border border-border rounded-md bg-background text-foreground"
                   placeholder="Color name (optional)"
                 />
-                <Button type="button" onClick={handleAddColorSwatch}>
+                <Button type="button" onClick={handleAddColorSwatch} className="w-full sm:w-auto whitespace-nowrap">
                   Add Swatch
                 </Button>
               </div>
@@ -599,7 +599,7 @@ export const AdminProductForm = () => {
 
             <div>
               <label className="block text-sm font-medium mb-2">Related Product IDs (for Explore More section)</label>
-              <div className="flex gap-2 mb-2">
+              <div className="flex flex-col sm:flex-row gap-2 mb-2">
                 <input
                   type="text"
                   value={relatedProductId}
@@ -607,7 +607,7 @@ export const AdminProductForm = () => {
                   className="flex-1 px-3 py-2 border border-border rounded-md bg-background text-foreground"
                   placeholder="Product ID"
                 />
-                <Button type="button" onClick={handleAddRelatedProduct}>
+                <Button type="button" onClick={handleAddRelatedProduct} className="w-full sm:w-auto whitespace-nowrap">
                   Add Related
                 </Button>
               </div>
@@ -629,7 +629,7 @@ export const AdminProductForm = () => {
               )}
             </div>
 
-            <div className="flex items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6">
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
                   type="checkbox"
@@ -651,14 +651,15 @@ export const AdminProductForm = () => {
               </label>
             </div>
 
-            <div className="flex gap-4">
-              <Button type="submit" disabled={loading}>
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 pt-4 border-t border-border">
+              <Button type="submit" disabled={loading} className="w-full sm:w-auto">
                 {loading ? "Saving..." : isEdit ? "Update Product" : "Add Product"}
               </Button>
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => navigate("/admin/products")}
+                className="w-full sm:w-auto"
               >
                 Cancel
               </Button>
