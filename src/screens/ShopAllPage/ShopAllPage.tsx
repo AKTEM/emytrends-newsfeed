@@ -1,10 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
 import { Card, CardContent } from "../../components/ui/card";
-import { ChevronUp, ChevronDown } from "lucide-react";
+import { ChevronUp, ChevronDown, Heart } from "lucide-react";
 import { useProducts } from "../../hooks/useProducts";
+import { useWishlist } from "../../contexts/WishlistContext";
+import { useAuth } from "../../contexts/AuthContext";
+import { BackButton } from "../../components/shared/BackButton";
 
 const filterCategories = {
   product: ["New Arrivals", "Tape-Ins", "Ponytails", "Clip-Ins", "Trending", "Best Selling"],
@@ -14,7 +17,32 @@ const filterCategories = {
 };
 
 export const ShopAllPage = () => {
+  const navigate = useNavigate();
+  const { user } = useAuth();
+  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { products: firebaseProducts, loading } = useProducts();
+
+  const handleWishlistToggle = (e: React.MouseEvent, product: { id: string; title: string; price: number; images: string[] }) => {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    if (!user) {
+      navigate("/auth");
+      return;
+    }
+    
+    if (isInWishlist(product.id)) {
+      removeFromWishlist(product.id);
+    } else {
+      addToWishlist({
+        productId: product.id,
+        title: product.title,
+        price: product.price,
+        image: product.images[0] || "/placeholder.png",
+      });
+    }
+  };
+
   const [selectedFilters, setSelectedFilters] = useState<{
     product: string[];
     hairExtensions: string[];
@@ -130,6 +158,7 @@ export const ShopAllPage = () => {
       <HeaderWithDropdown />
       
       <main className="flex-1 container mx-auto px-4 py-8">
+        <BackButton />
         <div className="flex flex-col lg:flex-row gap-8">
           {/* Filters Sidebar */}
           <aside className="lg:w-64 flex-shrink-0">
@@ -178,40 +207,58 @@ export const ShopAllPage = () => {
             ) : (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
-                  <Link key={product.id} to={`/product/${product.id}`}>
-                    <Card className="group hover:shadow-lg transition-shadow duration-300">
-                      <CardContent className="p-0">
-                        <div className="relative overflow-hidden rounded-t-lg">
-                          <img
-                            src={product.images[0] || "/placeholder.png"}
-                            alt={product.title}
-                            className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                        <div className="p-4">
-                          <h3 className="font-semibold text-foreground line-clamp-2 mb-2">
-                            {product.title}
-                          </h3>
-                          <p className="text-primary font-bold text-lg">
-                            ${product.price}
-                          </p>
-                          {product.colors && product.colors.length > 0 && (
-                            <div className="flex gap-2 mt-3">
-                              {product.colors.slice(0, 4).map((color, idx) => (
-                                <div
-                                  key={idx}
-                                  className="w-6 h-6 rounded-full border-2 border-border"
-                                  style={{ backgroundColor: color }}
-                                  title={color}
-                                />
-                              ))}
-                            </div>
-                          )}
-                        </div>
-                      </CardContent>
+                  <div key={product.id} className="relative">
+                    <button
+                      onClick={(e) => product.id && handleWishlistToggle(e, { 
+                        id: product.id, 
+                        title: product.title, 
+                        price: product.price, 
+                        images: product.images 
+                      })}
+                      className={`absolute top-3 right-3 z-10 w-8 h-8 flex items-center justify-center rounded-full transition-all ${
+                        product.id && isInWishlist(product.id)
+                          ? "bg-red-500 text-white"
+                          : "bg-white/80 text-gray-700 hover:bg-white"
+                      }`}
+                      aria-label={product.id && isInWishlist(product.id) ? "Remove from wishlist" : "Add to wishlist"}
+                    >
+                      <Heart className={`w-4 h-4 ${product.id && isInWishlist(product.id) ? "fill-white" : ""}`} />
+                    </button>
+                    <Link to={`/product/${product.id}`}>
+                      <Card className="group hover:shadow-lg transition-shadow duration-300">
+                        <CardContent className="p-0">
+                          <div className="relative overflow-hidden rounded-t-lg">
+                            <img
+                              src={product.images[0] || "/placeholder.png"}
+                              alt={product.title}
+                              className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
+                            />
+                          </div>
+                          <div className="p-4">
+                            <h3 className="font-semibold text-foreground line-clamp-2 mb-2">
+                              {product.title}
+                            </h3>
+                            <p className="text-primary font-bold text-lg">
+                              ${product.price}
+                            </p>
+                            {product.colors && product.colors.length > 0 && (
+                              <div className="flex gap-2 mt-3">
+                                {product.colors.slice(0, 4).map((color, idx) => (
+                                  <div
+                                    key={idx}
+                                    className="w-6 h-6 rounded-full border-2 border-border"
+                                    style={{ backgroundColor: color }}
+                                    title={color}
+                                  />
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                        </CardContent>
                     </Card>
                   </Link>
-                ))}
+                </div>
+              ))}
               </div>
             )}
           </div>

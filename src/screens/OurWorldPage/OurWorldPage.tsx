@@ -2,6 +2,7 @@ import { Button } from "../../components/ui/button";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
 import { PromoBanner } from "../../components/shared/PromoBanner";
+import { BackButton } from "../../components/shared/BackButton";
 
 export const OurWorldPage = (): JSX.Element => {
   return (
@@ -15,6 +16,7 @@ export const OurWorldPage = (): JSX.Element => {
       <main className="flex-1 bg-[#F5F5F5]">
         <section className="w-full bg-[#F5F2EE] py-12 sm:py-16 lg:py-20 px-4 sm:px-8 lg:px-12">
           <div className="max-w-[1440px] mx-auto">
+            <BackButton />
             <div className="text-center lg:text-left mb-8 sm:mb-12">
               <h1 className="text-4xl sm:text-5xl lg:text-[68px] font-medium tracking-[0.34px] leading-tight mb-4">
                 SLAY SEASON, QUEEN

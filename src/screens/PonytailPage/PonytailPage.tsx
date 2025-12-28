@@ -4,6 +4,7 @@ import { FooterSection } from "../LandingPage/sections/FooterSection";
 import { Card, CardContent } from "../../components/ui/card";
 import { ChevronUp, ChevronDown } from "lucide-react";
 import { PromoBanner } from "../../components/shared/PromoBanner";
+import { BackButton } from "../../components/shared/BackButton";
 
 const products = [
   {
@@ -97,18 +98,21 @@ export const PonytailPage = (): JSX.Element => {
 
       {/* Hero Section with Title and Background */}
       <section className="w-full bg-[#F6F1E8] relative py-12 px-4 sm:px-8 lg:px-12">
-        <div className="max-w-[1440px] mx-auto flex items-center justify-between gap-8">
-          <div className="flex-1">
-            <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black tracking-tight">
-              PONYTAIL
-            </h1>
-          </div>
-          <div className="hidden lg:block flex-shrink-0">
-            <img
-              src="/ponytail-hero.jpg"
-              alt="Ponytail hairstyle"
-              className="w-[280px] h-[180px] object-cover rounded-lg"
-            />
+        <div className="max-w-[1440px] mx-auto">
+          <BackButton />
+          <div className="flex items-center justify-between gap-8">
+            <div className="flex-1">
+              <h1 className="text-5xl sm:text-6xl lg:text-7xl font-bold text-black tracking-tight">
+                PONYTAIL
+              </h1>
+            </div>
+            <div className="hidden lg:block flex-shrink-0">
+              <img
+                src="/ponytail-hero.jpg"
+                alt="Ponytail hairstyle"
+                className="w-[280px] h-[180px] object-cover rounded-lg"
+              />
+            </div>
           </div>
         </div>
       </section>

@@ -3,7 +3,8 @@ import { useParams, Link } from "react-router-dom";
 import { Header } from "../../components/shared/Header";
 import { Footer } from "../../components/shared/Footer";
 import { getBlogPost, BlogPost } from "../../lib/firebaseBlogs";
-import { CalendarIcon, UserIcon, TagIcon, ArrowLeftIcon } from "lucide-react";
+import { CalendarIcon, UserIcon, TagIcon } from "lucide-react";
+import { BackButton } from "../../components/shared/BackButton";
 
 export const BlogPostPage = () => {
   const { id } = useParams<{ id: string }>();
@@ -63,13 +64,7 @@ export const BlogPostPage = () => {
       
       <main className="flex-1 max-w-[900px] w-full mx-auto px-4 sm:px-8 py-8 sm:py-12">
         {/* Back Button */}
-        <Link
-          to="/blog"
-          className="inline-flex items-center gap-2 text-textsecondary-text hover:text-textprimary-text mb-6 sm:mb-8 transition-colors"
-        >
-          <ArrowLeftIcon className="w-5 h-5" />
-          <span className="font-medium">Back to Blog</span>
-        </Link>
+        <BackButton />
 
         {/* Category Badge */}
         <div className="inline-block px-4 py-2 bg-tertiarytertiary-0 text-textinverse-text text-sm font-bold rounded mb-4">

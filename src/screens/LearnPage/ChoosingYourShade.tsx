@@ -1,10 +1,10 @@
-
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { Footer } from "../../components/shared/Footer";
 import { Button } from "../../components/ui/button";
 import { ShadeHelpModal } from "../../components/modals/ShadeHelpModal";
 import { useState } from "react";
 import { PromoBanner } from "../../components/shared/PromoBanner";
+import { BackButton } from "../../components/shared/BackButton";
 
 export const ChoosingYourShadePage = (): JSX.Element => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -25,6 +25,7 @@ export const ChoosingYourShadePage = (): JSX.Element => {
 
       <div className="w-full bg-[#F6F3EF] py-8 sm:py-12 lg:py-16">
         <div className="max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12">
+          <BackButton />
           <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
             <div className="flex-1">
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-primaryprimary-2 mb-3">

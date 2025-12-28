@@ -4,6 +4,7 @@ import { Header } from "../../components/shared/Header";
 import { Footer } from "../../components/shared/Footer";
 import { getAllBlogPosts, BlogPost } from "../../lib/firebaseBlogs";
 import { CalendarIcon, UserIcon, TagIcon } from "lucide-react";
+import { BackButton } from "../../components/shared/BackButton";
 
 export const BlogPage = () => {
   const [blogs, setBlogs] = useState<BlogPost[]>([]);
@@ -37,6 +38,7 @@ export const BlogPage = () => {
       <Header />
       
       <main className="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16">
+        <BackButton />
         {/* Hero Section */}
         <div className="text-center mb-12 sm:mb-16">
           <h1 className="font-semi-bold-display-large text-textprimary-text mb-4 sm:mb-6 text-3xl sm:text-4xl lg:text-5xl">
