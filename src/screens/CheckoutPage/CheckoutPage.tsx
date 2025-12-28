@@ -2,6 +2,7 @@ import { ChevronLeftIcon, ChevronRightIcon, Minus, Plus } from "lucide-react";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
 import { useCart } from "../../contexts/CartContext";
+import { BackButton } from "../../components/shared/BackButton";
 
 export const CheckoutPage = (): JSX.Element => {
   const { cartItems, removeFromCart, updateQuantity, orderTotal } = useCart();
@@ -23,6 +24,7 @@ export const CheckoutPage = (): JSX.Element => {
       <HeaderWithDropdown />
 
       <main className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16">
+        <BackButton />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12">
           <div>
             <h1 className="text-3xl sm:text-4xl font-bold text-black mb-8">

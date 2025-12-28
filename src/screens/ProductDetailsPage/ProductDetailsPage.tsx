@@ -11,6 +11,7 @@ import { useWishlist } from "../../contexts/WishlistContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/CartContext";
 import { PromoBanner } from "../../components/shared/PromoBanner";
+import { BackButton } from "../../components/shared/BackButton";
 
 const defaultFaqItems = [
   {
@@ -198,6 +199,7 @@ export const ProductDetailsPage = (): JSX.Element | null => {
       <HeaderWithDropdown />
 
       <main className="w-full max-w-[1440px] mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16">
+        <BackButton />
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 mb-16">
           <div className="flex flex-col gap-4">
             <div className="aspect-[3/4] bg-gray-200 overflow-hidden relative">
