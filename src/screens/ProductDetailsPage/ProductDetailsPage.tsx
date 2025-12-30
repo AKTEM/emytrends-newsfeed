@@ -1,14 +1,12 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Plus, Minus, Heart } from "lucide-react";
+import { Plus, Minus } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
 import { ProductCart } from "../../components/shared/ProductCart";
 import { NotifyWhenAvailableModal } from "../../components/modals/NotifyWhenAvailableModal";
 import { getProduct, Product } from "../../lib/firebaseProducts";
-import { useWishlist } from "../../contexts/WishlistContext";
-import { useAuth } from "../../contexts/AuthContext";
 import { useCart } from "../../contexts/CartContext";
 import { PromoBanner } from "../../components/shared/PromoBanner";
 import { BackButton } from "../../components/shared/BackButton";
@@ -71,8 +69,6 @@ const defaultLengthOptions = [
 export const ProductDetailsPage = (): JSX.Element | null => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { user } = useAuth();
-  const { addToWishlist, removeFromWishlist, isInWishlist } = useWishlist();
   const { cartItems, addToCart, removeFromCart, updateQuantity } = useCart();
   
   const [product, setProduct] = useState<Product | null>(null);
@@ -142,7 +138,6 @@ export const ProductDetailsPage = (): JSX.Element | null => {
   }
 
   const isAvailable = product.inStock;
-  const isWishlisted = id ? isInWishlist(id) : false;
 
   const shadeOptions = product.shadeOptions || defaultShadeOptions;
   const colorSwatches = product.colorSwatches || defaultColorSwatches;
@@ -152,26 +147,6 @@ export const ProductDetailsPage = (): JSX.Element | null => {
 
   const incrementQuantity = () => setQuantity(prev => prev + 1);
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
-
-  const handleToggleWishlist = () => {
-    if (!user) {
-      navigate("/auth");
-      return;
-    }
-    
-    if (!id) return;
-
-    if (isWishlisted) {
-      removeFromWishlist(id);
-    } else {
-      addToWishlist({
-        productId: id,
-        title: product.title,
-        price: product.price,
-        image: product.images[0] || "/img-20250902-wa0002.png",
-      });
-    }
-  };
 
   const handleAddToCart = () => {
     const selectedLengthOption = lengthOptions.find((l: { id: number; label: string; price?: number }) => l.id === selectedLength);
@@ -226,33 +201,18 @@ export const ProductDetailsPage = (): JSX.Element | null => {
           </div>
 
           <div className="flex flex-col gap-6">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1">
-                <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
-                  {product.title}
-                </h1>
-                <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-4">
-                  {product.fullDescription || product.description}
-                </p>
-                {product.fullDescription && product.fullDescription.length > 200 && (
-                  <button className="text-sm font-medium text-gray-900 underline">
-                    Read More
-                  </button>
-                )}
-              </div>
-              <button
-                onClick={handleToggleWishlist}
-                className={`w-10 h-10 flex-shrink-0 flex items-center justify-center rounded-full border-2 transition-all ${
-                  isWishlisted 
-                    ? "bg-red-500 border-red-500" 
-                    : "border-gray-300 hover:border-gray-900"
-                }`}
-                aria-label={isWishlisted ? "Remove from wishlist" : "Add to wishlist"}
-              >
-                <Heart 
-                  className={`w-5 h-5 ${isWishlisted ? "text-white fill-white" : "text-gray-900"}`} 
-                />
-              </button>
+            <div>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-2">
+                {product.title}
+              </h1>
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed mb-4">
+                {product.fullDescription || product.description}
+              </p>
+              {product.fullDescription && product.fullDescription.length > 200 && (
+                <button className="text-sm font-medium text-gray-900 underline">
+                  Read More
+                </button>
+              )}
             </div>
 
             <div className="mb-2">
