@@ -5,6 +5,7 @@ import { Button } from "../../components/ui/button";
 import { addProduct, updateProduct, getProduct, Product } from "../../lib/firebaseProducts";
 import { uploadProductImage } from "../../lib/firebaseStorage";
 import { X } from "lucide-react";
+import { getClosestColorName } from "../../lib/colorUtils";
 
 const CATEGORIES = ["New Arrivals", "Tape-Ins", "Ponytails", "Clip-Ins", "Trending", "Best Selling"];
 const HAIR_EXTENSION_TYPES = ["Luxury Wigs", "Invisible Tape", "Hand-Tied Weft", "Classic Weft"];
@@ -38,15 +39,16 @@ export const AdminProductForm = () => {
     featured: false,
   });
   const [imageFiles, setImageFiles] = useState<File[]>([]);
-  const [colorInput, setColorInput] = useState("");
   const [faqQuestion, setFaqQuestion] = useState("");
   const [faqAnswer, setFaqAnswer] = useState("");
-  const [colorSwatchHex, setColorSwatchHex] = useState("");
-  const [colorSwatchName, setColorSwatchName] = useState("");
+  const [colorSwatchHex, setColorSwatchHex] = useState("#000000");
   const [lengthLabel, setLengthLabel] = useState("");
   const [lengthPrice, setLengthPrice] = useState("");
   const [shadeLabel, setShadeLabel] = useState("");
   const [relatedProductId, setRelatedProductId] = useState("");
+
+  // Auto-generate color name when hex changes
+  const colorSwatchName = getClosestColorName(colorSwatchHex);
 
   useEffect(() => {
     if (isEdit && id) {
@@ -82,6 +84,7 @@ export const AdminProductForm = () => {
       const productData = {
         ...formData,
         images: imageUrls,
+        price: isNaN(formData.price) ? 0 : formData.price,
       };
 
       if (isEdit && id) {
@@ -109,23 +112,6 @@ export const AdminProductForm = () => {
     setFormData((prev) => ({
       ...prev,
       images: prev.images?.filter((_, i) => i !== index) || [],
-    }));
-  };
-
-  const handleAddColor = () => {
-    if (colorInput && !formData.colors?.includes(colorInput)) {
-      setFormData((prev) => ({
-        ...prev,
-        colors: [...(prev.colors || []), colorInput],
-      }));
-      setColorInput("");
-    }
-  };
-
-  const handleRemoveColor = (color: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      colors: prev.colors?.filter((c) => c !== color) || [],
     }));
   };
 
@@ -157,20 +143,20 @@ export const AdminProductForm = () => {
   };
 
   const handleAddColorSwatch = () => {
-    if (colorSwatchHex) {
+    if (colorSwatchHex && (formData.colorSwatches?.length || 0) < 7) {
+      const newId = Date.now(); // Use timestamp for unique ID
       setFormData((prev) => ({
         ...prev,
         colorSwatches: [
           ...(prev.colorSwatches || []),
           {
-            id: (prev.colorSwatches?.length || 0) + 1,
+            id: newId,
             color: colorSwatchHex,
-            name: colorSwatchName || undefined,
+            name: colorSwatchName,
           },
         ],
       }));
-      setColorSwatchHex("");
-      setColorSwatchName("");
+      setColorSwatchHex("#000000");
     }
   };
 
@@ -183,14 +169,16 @@ export const AdminProductForm = () => {
 
   const handleAddLengthOption = () => {
     if (lengthLabel) {
+      const newId = Date.now(); // Use timestamp for unique ID
+      const parsedPrice = parseFloat(lengthPrice);
       setFormData((prev) => ({
         ...prev,
         lengthOptions: [
           ...(prev.lengthOptions || []),
           {
-            id: (prev.lengthOptions?.length || 0) + 1,
+            id: newId,
             label: lengthLabel,
-            price: lengthPrice ? parseFloat(lengthPrice) : undefined,
+            price: lengthPrice && !isNaN(parsedPrice) ? parsedPrice : undefined,
           },
         ],
       }));
@@ -365,44 +353,6 @@ export const AdminProductForm = () => {
               />
             </div>
 
-            <div>
-              <label className="block text-sm font-medium mb-2">Colors (Hex Codes)</label>
-              <div className="flex flex-col sm:flex-row gap-2 mb-2">
-                <input
-                  type="text"
-                  value={colorInput}
-                  onChange={(e) => setColorInput(e.target.value)}
-                  className="flex-1 px-3 py-2 border border-border rounded-md bg-background text-foreground"
-                  placeholder="#000000"
-                />
-                <Button type="button" onClick={handleAddColor} className="w-full sm:w-auto whitespace-nowrap">
-                  Add Color
-                </Button>
-              </div>
-              {formData.colors && formData.colors.length > 0 && (
-                <div className="flex flex-wrap gap-2">
-                  {formData.colors.map((color) => (
-                    <div
-                      key={color}
-                      className="flex items-center gap-2 px-3 py-1 bg-secondary rounded-md"
-                    >
-                      <div
-                        className="w-6 h-6 rounded-full border border-border"
-                        style={{ backgroundColor: color }}
-                      />
-                      <span className="text-sm">{color}</span>
-                      <button
-                        type="button"
-                        onClick={() => handleRemoveColor(color)}
-                        className="text-destructive hover:text-destructive/80"
-                      >
-                        <X className="w-4 h-4" />
-                      </button>
-                    </div>
-                  ))}
-                </div>
-              )}
-            </div>
 
             <div>
               <label className="block text-sm font-medium mb-2">Shades</label>
@@ -513,23 +463,33 @@ export const AdminProductForm = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium mb-2">Color Swatches</label>
+              <label className="block text-sm font-medium mb-2">
+                Color Swatches ({formData.colorSwatches?.length || 0}/7)
+              </label>
               <div className="flex flex-col sm:flex-row gap-2 mb-2">
-                <input
-                  type="text"
-                  value={colorSwatchHex}
-                  onChange={(e) => setColorSwatchHex(e.target.value)}
-                  className="w-full sm:w-32 px-3 py-2 border border-border rounded-md bg-background text-foreground"
-                  placeholder="#000000"
-                />
+                <div className="flex items-center gap-2">
+                  <input
+                    type="color"
+                    value={colorSwatchHex}
+                    onChange={(e) => setColorSwatchHex(e.target.value)}
+                    className="w-12 h-10 border border-border rounded-md cursor-pointer"
+                    title="Pick a color"
+                  />
+                  <span className="text-sm text-muted-foreground">{colorSwatchHex}</span>
+                </div>
                 <input
                   type="text"
                   value={colorSwatchName}
-                  onChange={(e) => setColorSwatchName(e.target.value)}
-                  className="flex-1 px-3 py-2 border border-border rounded-md bg-background text-foreground"
-                  placeholder="Color name (optional)"
+                  readOnly
+                  className="flex-1 px-3 py-2 border border-border rounded-md bg-muted text-foreground"
+                  placeholder="Color name (auto-detected)"
                 />
-                <Button type="button" onClick={handleAddColorSwatch} className="w-full sm:w-auto whitespace-nowrap">
+                <Button 
+                  type="button" 
+                  onClick={handleAddColorSwatch} 
+                  className="w-full sm:w-auto whitespace-nowrap"
+                  disabled={(formData.colorSwatches?.length || 0) >= 7}
+                >
                   Add Swatch
                 </Button>
               </div>
