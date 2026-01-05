@@ -53,14 +53,14 @@ const defaultShadeOptions = [
   { id: "brown", label: "BROWN" },
 ];
 
-const defaultColorSwatches = [
+const defaultColorSwatches: Array<{ id: string | number; color: string; name?: string }> = [
   { id: 1, color: "#1a1a1a" },
   { id: 2, color: "#d4b896" },
   { id: 3, color: "#c67d4a" },
   { id: 4, color: "#a88a70" },
 ];
 
-const defaultLengthOptions = [
+const defaultLengthOptions: Array<{ id: string | number; label: string; price?: number }> = [
   { id: 1, label: "16 IN / 50", price: undefined },
   { id: 2, label: "18 IN / 50", price: undefined },
   { id: 3, label: "20 IN / 50", price: undefined },
@@ -76,8 +76,8 @@ export const ProductDetailsPage = (): JSX.Element | null => {
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
   const [quantity, setQuantity] = useState(1);
   const [selectedShade, setSelectedShade] = useState("");
-  const [selectedLength, setSelectedLength] = useState<number | null>(null);
-  const [selectedColorSwatch, setSelectedColorSwatch] = useState<number | null>(null);
+  const [selectedLength, setSelectedLength] = useState<string | number | null>(null);
+  const [selectedColorSwatch, setSelectedColorSwatch] = useState<string | number | null>(null);
   const [expandedFaqIndex, setExpandedFaqIndex] = useState<number | null>(2);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isNotifyModalOpen, setIsNotifyModalOpen] = useState(false);
@@ -149,8 +149,8 @@ export const ProductDetailsPage = (): JSX.Element | null => {
   const decrementQuantity = () => setQuantity(prev => Math.max(1, prev - 1));
 
   const handleAddToCart = () => {
-    const selectedLengthOption = lengthOptions.find((l: { id: number; label: string; price?: number }) => l.id === selectedLength);
-    const selectedColorSwatchData = colorSwatches.find((c: { id: number; color: string }) => c.id === selectedColorSwatch);
+    const selectedLengthOption = lengthOptions.find((l) => l.id === selectedLength);
+    const selectedColorSwatchData = colorSwatches.find((c) => c.id === selectedColorSwatch);
     
     const newItem = {
       id: Date.now().toString(),
@@ -250,7 +250,7 @@ export const ProductDetailsPage = (): JSX.Element | null => {
               </div>
 
               <div className="flex flex-wrap gap-3 mb-6">
-                {colorSwatches.map((swatch: { id: number; color: string; name?: string }) => (
+                {colorSwatches.map((swatch) => (
                   <button
                     key={swatch.id}
                     onClick={() => setSelectedColorSwatch(swatch.id)}
@@ -269,7 +269,7 @@ export const ProductDetailsPage = (): JSX.Element | null => {
                 Select your Length
               </div>
               <div className="flex flex-wrap gap-3 mb-6">
-                {lengthOptions.map((length: { id: number; label: string; price?: number }) => (
+                {lengthOptions.map((length) => (
                   <button
                     key={length.id}
                     onClick={() => setSelectedLength(length.id)}

@@ -17,8 +17,8 @@ export interface Product {
   colors?: string[];
   shades?: string[]; // Black, Brown, Blonde, Red
   lengths?: string[]; // 14", 16", 18", 20", 22", 24"
-  colorSwatches?: Array<{ id: number; color: string; name?: string }>;
-  lengthOptions?: Array<{ id: number; label: string; price?: number }>;
+  colorSwatches?: Array<{ id: string | number; color: string; name?: string }>;
+  lengthOptions?: Array<{ id: string | number; label: string; price?: number }>;
   shadeOptions?: Array<{ id: string; label: string }>;
   faqItems?: Array<{ question: string; answer: string }>;
   relatedProductIds?: string[];

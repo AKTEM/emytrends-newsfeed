@@ -9,8 +9,6 @@ import { getClosestColorName } from "../../lib/colorUtils";
 
 const CATEGORIES = ["New Arrivals", "Tape-Ins", "Ponytails", "Clip-Ins", "Trending", "Best Selling"];
 const HAIR_EXTENSION_TYPES = ["Luxury Wigs", "Invisible Tape", "Hand-Tied Weft", "Classic Weft"];
-const SHADES = ["Black", "Brown", "Blonde", "Red"];
-const LENGTHS = ["14\"", "16\"", "18\"", "20\"", "22\"", "24\""];
 
 export const AdminProductForm = () => {
   const navigate = useNavigate();
@@ -81,10 +79,33 @@ export const AdminProductForm = () => {
         imageUrls = [...imageUrls, ...newImageUrls];
       }
 
+      // Sanitize lengthOptions to ensure proper data format
+      const sanitizedLengthOptions = (formData.lengthOptions || []).map((opt, idx) => ({
+        id: String(opt.id || `length-${Date.now()}-${idx}`),
+        label: String(opt.label || ''),
+        ...(opt.price !== undefined && !isNaN(Number(opt.price)) ? { price: Number(opt.price) } : {}),
+      }));
+
+      // Sanitize colorSwatches to ensure proper data format
+      const sanitizedColorSwatches = (formData.colorSwatches || []).map((swatch, idx) => ({
+        id: String(swatch.id || `swatch-${Date.now()}-${idx}`),
+        color: String(swatch.color || '#000000'),
+        name: String(swatch.name || ''),
+      }));
+
+      // Sanitize shadeOptions
+      const sanitizedShadeOptions = (formData.shadeOptions || []).map((opt) => ({
+        id: String(opt.id || opt.label.toLowerCase().replace(/\s+/g, '-')),
+        label: String(opt.label || ''),
+      }));
+
       const productData = {
         ...formData,
         images: imageUrls,
         price: isNaN(formData.price) ? 0 : formData.price,
+        lengthOptions: sanitizedLengthOptions,
+        colorSwatches: sanitizedColorSwatches,
+        shadeOptions: sanitizedShadeOptions,
       };
 
       if (isEdit && id) {
@@ -115,14 +136,6 @@ export const AdminProductForm = () => {
     }));
   };
 
-  const toggleArrayItem = (field: 'shades' | 'lengths', value: string) => {
-    setFormData((prev) => ({
-      ...prev,
-      [field]: prev[field]?.includes(value)
-        ? prev[field]?.filter((item) => item !== value)
-        : [...(prev[field] || []), value],
-    }));
-  };
 
   const handleAddFaq = () => {
     if (faqQuestion) {
@@ -144,7 +157,7 @@ export const AdminProductForm = () => {
 
   const handleAddColorSwatch = () => {
     if (colorSwatchHex && (formData.colorSwatches?.length || 0) < 7) {
-      const newId = Date.now(); // Use timestamp for unique ID
+      const newId = `swatch-${Date.now()}`; // Use string ID for consistency
       setFormData((prev) => ({
         ...prev,
         colorSwatches: [
@@ -160,16 +173,16 @@ export const AdminProductForm = () => {
     }
   };
 
-  const handleRemoveColorSwatch = (id: number) => {
+  const handleRemoveColorSwatch = (id: string | number) => {
     setFormData((prev) => ({
       ...prev,
-      colorSwatches: prev.colorSwatches?.filter((s) => s.id !== id) || [],
+      colorSwatches: prev.colorSwatches?.filter((s) => String(s.id) !== String(id)) || [],
     }));
   };
 
   const handleAddLengthOption = () => {
-    if (lengthLabel) {
-      const newId = Date.now(); // Use timestamp for unique ID
+    if (lengthLabel.trim()) {
+      const newId = `length-${Date.now()}`; // Use string ID for consistency
       const parsedPrice = parseFloat(lengthPrice);
       setFormData((prev) => ({
         ...prev,
@@ -177,7 +190,7 @@ export const AdminProductForm = () => {
           ...(prev.lengthOptions || []),
           {
             id: newId,
-            label: lengthLabel,
+            label: lengthLabel.trim(),
             price: lengthPrice && !isNaN(parsedPrice) ? parsedPrice : undefined,
           },
         ],
@@ -187,10 +200,10 @@ export const AdminProductForm = () => {
     }
   };
 
-  const handleRemoveLengthOption = (id: number) => {
+  const handleRemoveLengthOption = (id: string | number) => {
     setFormData((prev) => ({
       ...prev,
-      lengthOptions: prev.lengthOptions?.filter((l) => l.id !== id) || [],
+      lengthOptions: prev.lengthOptions?.filter((l) => String(l.id) !== String(id)) || [],
     }));
   };
 
@@ -353,40 +366,6 @@ export const AdminProductForm = () => {
               />
             </div>
 
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Shades</label>
-              <div className="flex flex-wrap gap-2">
-                {SHADES.map((shade) => (
-                  <label key={shade} className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.shades?.includes(shade)}
-                      onChange={() => toggleArrayItem('shades', shade)}
-                      className="w-4 h-4 rounded border-border text-primary focus:ring-primary"
-                    />
-                    <span className="text-sm">{shade}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
-
-            <div>
-              <label className="block text-sm font-medium mb-2">Basic Lengths</label>
-              <div className="flex flex-wrap gap-2">
-                {LENGTHS.map((length) => (
-                  <label key={length} className="flex items-center gap-2 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.lengths?.includes(length)}
-                      onChange={() => toggleArrayItem('lengths', length)}
-                      className="w-4 h-4 rounded border-border text-primary focus:ring-primary"
-                    />
-                    <span className="text-sm">{length}</span>
-                  </label>
-                ))}
-              </div>
-            </div>
 
             <div>
               <label className="block text-sm font-medium mb-2">Detailed Length Options (with pricing)</label>
