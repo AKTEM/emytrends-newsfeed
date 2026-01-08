@@ -14,10 +14,10 @@ const FILTER_LENGTHS = ["14\"", "16\"", "18\"", "20\"", "22\"", "24\""];
 
 // Predefined color swatches with hex values matching "Shop by Shade"
 const PREDEFINED_SWATCHES = [
-  { name: "Black", color: "#1a1a1a" },
-  { name: "Brown", color: "#8B4513" },
-  { name: "Blonde", color: "#E8C872" },
-  { name: "Red", color: "#B22222" },
+  { name: "Black", color: "#000000" },
+  { name: "Brown", color: "#5c4033" },
+  { name: "Blonde", color: "#a67c52" },
+  { name: "Red", color: "#7c3c2e" },
 ];
 
 export const AdminProductForm = () => {
