@@ -9,6 +9,8 @@ import { getClosestColorName } from "../../lib/colorUtils";
 
 const CATEGORIES = ["New Arrivals", "Tape-Ins", "Ponytails", "Clip-Ins", "Trending", "Best Selling"];
 const HAIR_EXTENSION_TYPES = ["Luxury Wigs", "Invisible Tape", "Hand-Tied Weft", "Classic Weft"];
+const FILTER_SHADES = ["Black", "Brown", "Blonde", "Red"];
+const FILTER_LENGTHS = ["14\"", "16\"", "18\"", "20\"", "22\"", "24\""];
 
 export const AdminProductForm = () => {
   const navigate = useNavigate();
@@ -337,6 +339,54 @@ export const AdminProductForm = () => {
                 className="w-full px-3 py-2 border border-border rounded-md bg-background text-foreground"
                 placeholder="e.g., SEMI-PERMANENT, TEMPORARY, NEW"
               />
+            </div>
+
+            {/* Filter: Shades (for shop filtering) */}
+            <div>
+              <label className="block text-sm font-medium mb-2">Filter Shades (for shop page filtering)</label>
+              <div className="flex flex-wrap gap-3">
+                {FILTER_SHADES.map((shade) => (
+                  <label key={shade} className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.shades?.includes(shade) || false}
+                      onChange={() => {
+                        const currentShades = formData.shades || [];
+                        const newShades = currentShades.includes(shade)
+                          ? currentShades.filter((s) => s !== shade)
+                          : [...currentShades, shade];
+                        setFormData({ ...formData, shades: newShades });
+                      }}
+                      className="w-4 h-4 rounded border-border text-primary focus:ring-primary"
+                    />
+                    <span className="text-sm">{shade}</span>
+                  </label>
+                ))}
+              </div>
+            </div>
+
+            {/* Filter: Lengths (for shop filtering) */}
+            <div>
+              <label className="block text-sm font-medium mb-2">Filter Lengths (for shop page filtering)</label>
+              <div className="flex flex-wrap gap-3">
+                {FILTER_LENGTHS.map((length) => (
+                  <label key={length} className="flex items-center gap-2 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.lengths?.includes(length) || false}
+                      onChange={() => {
+                        const currentLengths = formData.lengths || [];
+                        const newLengths = currentLengths.includes(length)
+                          ? currentLengths.filter((l) => l !== length)
+                          : [...currentLengths, length];
+                        setFormData({ ...formData, lengths: newLengths });
+                      }}
+                      className="w-4 h-4 rounded border-border text-primary focus:ring-primary"
+                    />
+                    <span className="text-sm">{length}</span>
+                  </label>
+                ))}
+              </div>
             </div>
 
             <div>
