@@ -12,6 +12,14 @@ const HAIR_EXTENSION_TYPES = ["Luxury Wigs", "Invisible Tape", "Hand-Tied Weft",
 const FILTER_SHADES = ["Black", "Brown", "Blonde", "Red"];
 const FILTER_LENGTHS = ["14\"", "16\"", "18\"", "20\"", "22\"", "24\""];
 
+// Predefined color swatches with hex values matching "Shop by Shade"
+const PREDEFINED_SWATCHES = [
+  { name: "Black", color: "#1a1a1a" },
+  { name: "Brown", color: "#8B4513" },
+  { name: "Blonde", color: "#E8C872" },
+  { name: "Red", color: "#B22222" },
+];
+
 export const AdminProductForm = () => {
   const navigate = useNavigate();
   const { id } = useParams();
@@ -495,33 +503,82 @@ export const AdminProductForm = () => {
               <label className="block text-sm font-medium mb-2">
                 Color Swatches ({formData.colorSwatches?.length || 0}/7)
               </label>
-              <div className="flex flex-col sm:flex-row gap-2 mb-2">
-                <div className="flex items-center gap-2">
-                  <input
-                    type="color"
-                    value={colorSwatchHex}
-                    onChange={(e) => setColorSwatchHex(e.target.value)}
-                    className="w-12 h-10 border border-border rounded-md cursor-pointer"
-                    title="Pick a color"
-                  />
-                  <span className="text-sm text-muted-foreground">{colorSwatchHex}</span>
+              
+              {/* Quick Select: Predefined Swatches */}
+              <div className="mb-3">
+                <span className="text-xs text-muted-foreground mb-2 block">Quick Add (Black, Brown, Blonde, Red):</span>
+                <div className="flex flex-wrap gap-2">
+                  {PREDEFINED_SWATCHES.map((swatch) => {
+                    const isAlreadyAdded = formData.colorSwatches?.some(
+                      (s) => s.name?.toLowerCase() === swatch.name.toLowerCase()
+                    );
+                    return (
+                      <button
+                        key={swatch.name}
+                        type="button"
+                        onClick={() => {
+                          if (!isAlreadyAdded && (formData.colorSwatches?.length || 0) < 7) {
+                            const newId = `swatch-${Date.now()}`;
+                            setFormData((prev) => ({
+                              ...prev,
+                              colorSwatches: [
+                                ...(prev.colorSwatches || []),
+                                { id: newId, color: swatch.color, name: swatch.name },
+                              ],
+                            }));
+                          }
+                        }}
+                        disabled={isAlreadyAdded || (formData.colorSwatches?.length || 0) >= 7}
+                        className={`flex items-center gap-2 px-3 py-2 rounded-md border transition-colors ${
+                          isAlreadyAdded
+                            ? "bg-muted border-muted-foreground/30 opacity-50 cursor-not-allowed"
+                            : "bg-background border-border hover:bg-secondary cursor-pointer"
+                        }`}
+                      >
+                        <div
+                          className="w-5 h-5 rounded-full border border-border"
+                          style={{ backgroundColor: swatch.color }}
+                        />
+                        <span className="text-sm">{swatch.name}</span>
+                      </button>
+                    );
+                  })}
                 </div>
-                <input
-                  type="text"
-                  value={colorSwatchName}
-                  readOnly
-                  className="flex-1 px-3 py-2 border border-border rounded-md bg-muted text-foreground"
-                  placeholder="Color name (auto-detected)"
-                />
-                <Button 
-                  type="button" 
-                  onClick={handleAddColorSwatch} 
-                  className="w-full sm:w-auto whitespace-nowrap"
-                  disabled={(formData.colorSwatches?.length || 0) >= 7}
-                >
-                  Add Swatch
-                </Button>
               </div>
+
+              {/* Custom Color Picker */}
+              <div className="mb-3">
+                <span className="text-xs text-muted-foreground mb-2 block">Or add custom color:</span>
+                <div className="flex flex-col sm:flex-row gap-2">
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="color"
+                      value={colorSwatchHex}
+                      onChange={(e) => setColorSwatchHex(e.target.value)}
+                      className="w-12 h-10 border border-border rounded-md cursor-pointer"
+                      title="Pick a color"
+                    />
+                    <span className="text-sm text-muted-foreground">{colorSwatchHex}</span>
+                  </div>
+                  <input
+                    type="text"
+                    value={colorSwatchName}
+                    readOnly
+                    className="flex-1 px-3 py-2 border border-border rounded-md bg-muted text-foreground"
+                    placeholder="Color name (auto-detected)"
+                  />
+                  <Button 
+                    type="button" 
+                    onClick={handleAddColorSwatch} 
+                    className="w-full sm:w-auto whitespace-nowrap"
+                    disabled={(formData.colorSwatches?.length || 0) >= 7}
+                  >
+                    Add Custom
+                  </Button>
+                </div>
+              </div>
+
+              {/* Selected Swatches Display */}
               {formData.colorSwatches && formData.colorSwatches.length > 0 && (
                 <div className="flex flex-wrap gap-2">
                   {formData.colorSwatches.map((swatch) => (
