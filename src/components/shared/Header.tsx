@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { ShoppingCart } from "./ShoppingCart";
+import { SearchModal } from "./SearchModal";
 import { Logo } from "./Logo";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAdmin } from "../../contexts/AdminContext";
@@ -26,6 +27,7 @@ export const Header = (): JSX.Element => {
   const navigate = useNavigate();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -79,7 +81,10 @@ export const Header = (): JSX.Element => {
           </nav>
 
           <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
-            <SearchIcon className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white cursor-pointer hover:opacity-80 transition-opacity" />
+            <SearchIcon 
+              className="w-4 h-4 sm:w-5 sm:h-5 lg:w-6 lg:h-6 text-white cursor-pointer hover:opacity-80 transition-opacity" 
+              onClick={() => setIsSearchOpen(true)}
+            />
             {user ? (
               <div className="relative" ref={dropdownRef}>
                 <div 
@@ -188,6 +193,8 @@ export const Header = (): JSX.Element => {
         onRemoveItem={removeFromCart}
         onUpdateQuantity={updateQuantity}
       />
+
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </header>
   );
 };
