@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom";
 import { Button } from "../../../../components/ui/button";
 
 export const VideoSection = (): JSX.Element => {
@@ -26,14 +26,16 @@ export const VideoSection = (): JSX.Element => {
           </h2>
         </div>
 
-        <Button
-          variant="outline"
-          className="border-[1.5px] border-solid border-white bg-transparent hover:bg-white/10 w-auto sm:w-[236px] h-auto px-5 py-3 sm:p-5 rounded-lg"
-        >
-          <span className="text-white font-bold text-sm sm:text-base">
-            ABOUT US
-          </span>
-        </Button>
+        <Link to="/our-world">
+          <Button
+            variant="outline"
+            className="border-[1.5px] border-solid border-white bg-transparent hover:bg-white/10 w-auto sm:w-[236px] h-auto px-5 py-3 sm:p-5 rounded-lg"
+          >
+            <span className="text-white font-bold text-sm sm:text-base">
+              ABOUT US
+            </span>
+          </Button>
+        </Link>
       </div>
     </section>
   );

@@ -29,6 +29,7 @@ import { AdminLoginPage } from "./screens/AdminPage";
 import { AdminDashboardLayout, AdminDashboardHome, AdminProducts, AdminProductForm, AdminBlogs, AdminBlogForm, AdminAnalytics, AdminOrders, AdminSettings } from "./screens/AdminDashboard";
 import { ProtectedAdminRoute } from "./components/admin/ProtectedAdminRoute";
 import { BlogPage, BlogPostPage } from "./screens/BlogPage";
+import { RefundPolicy, ReturnExchange, ShippingDelivery, PaymentPricing } from "./screens/PolicyPages";
 
 createRoot(document.getElementById("app") as HTMLElement).render(
   <StrictMode>
@@ -62,6 +63,12 @@ createRoot(document.getElementById("app") as HTMLElement).render(
               {/* Blog Routes */}
               <Route path="/blog" element={<BlogPage />} />
               <Route path="/blog/:id" element={<BlogPostPage />} />
+              
+              {/* Policy Routes */}
+              <Route path="/policies/refund" element={<RefundPolicy />} />
+              <Route path="/policies/return-exchange" element={<ReturnExchange />} />
+              <Route path="/policies/shipping" element={<ShippingDelivery />} />
+              <Route path="/policies/payment" element={<PaymentPricing />} />
               
               {/* Admin Routes */}
               <Route path="/admin/login" element={<AdminLoginPage />} />
