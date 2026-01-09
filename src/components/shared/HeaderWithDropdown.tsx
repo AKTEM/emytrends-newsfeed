@@ -5,6 +5,7 @@ import { useState, useRef, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Badge } from "../ui/badge";
 import { ShoppingCart } from "./ShoppingCart";
+import { SearchModal } from "./SearchModal";
 import { Logo } from "./Logo";
 import { useAuth } from "../../contexts/AuthContext";
 import { useAdmin } from "../../contexts/AdminContext";
@@ -59,6 +60,7 @@ export const HeaderWithDropdown = (): JSX.Element => {
   const [isShopMobileOpen, setIsShopMobileOpen] = useState(false);
   const [isLearnMobileOpen, setIsLearnMobileOpen] = useState(false);
   const [isCartOpen, setIsCartOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
   const [isUserDropdownOpen, setIsUserDropdownOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -241,7 +243,10 @@ export const HeaderWithDropdown = (): JSX.Element => {
           </nav>
 
           <div className="flex items-center gap-3 sm:gap-4 lg:gap-6">
-<SearchIcon className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white cursor-pointer hover:opacity-80 transition-opacity" />
+<SearchIcon 
+  className="w-5 h-5 sm:w-6 sm:h-6 lg:w-8 lg:h-8 text-white cursor-pointer hover:opacity-80 transition-opacity" 
+  onClick={() => setIsSearchOpen(true)}
+/>
 {user ? (
   <div className="relative" ref={dropdownRef}>
     <div
@@ -443,6 +448,8 @@ export const HeaderWithDropdown = (): JSX.Element => {
         onRemoveItem={removeFromCart}
         onUpdateQuantity={updateQuantity}
       />
+
+      <SearchModal isOpen={isSearchOpen} onClose={() => setIsSearchOpen(false)} />
     </header>
   );
 };
