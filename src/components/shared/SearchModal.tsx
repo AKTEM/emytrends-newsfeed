@@ -28,14 +28,22 @@ export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
     }
 
     const query = searchQuery.toLowerCase();
-    const filtered = products.filter((product) => {
+    const filtered = (products || []).filter((product) => {
+      if (!product) return false;
+      const title = (product.title ?? "").toString().toLowerCase();
+      const description = (product.description ?? "").toString().toLowerCase();
+      const category = (product.category ?? "").toString().toLowerCase();
+      const hairExtensionType = (product.hairExtensionType ?? "").toString().toLowerCase();
+      const shades = Array.isArray(product.shades) ? product.shades : [];
+      const lengths = Array.isArray(product.lengths) ? product.lengths : [];
+      
       return (
-        product.title.toLowerCase().includes(query) ||
-        product.description?.toLowerCase().includes(query) ||
-        product.category?.toLowerCase().includes(query) ||
-        product.hairExtensionType?.toLowerCase().includes(query) ||
-        product.shades?.some((shade) => shade.toLowerCase().includes(query)) ||
-        product.lengths?.some((length) => length.toLowerCase().includes(query))
+        title.includes(query) ||
+        description.includes(query) ||
+        category.includes(query) ||
+        hairExtensionType.includes(query) ||
+        shades.some((shade) => (shade ?? "").toString().toLowerCase().includes(query)) ||
+        lengths.some((length) => (length ?? "").toString().toLowerCase().includes(query))
       );
     });
 
@@ -147,8 +155,8 @@ export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
                         className="flex items-center gap-4 p-3 rounded-lg hover:bg-gray-50 transition-colors"
                       >
                         <img
-                          src={product.images[0] || "/placeholder.png"}
-                          alt={product.title}
+                          src={(Array.isArray(product.images) && product.images[0]) || "/placeholder.png"}
+                          alt={product.title ?? "Product"}
                           className="w-12 h-12 object-cover rounded-md"
                         />
                         <div className="flex-1 min-w-0">

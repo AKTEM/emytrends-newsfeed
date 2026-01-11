@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { getAnalytics } from "firebase/analytics";
+import { getAnalytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -15,8 +15,19 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
-if (typeof window !== 'undefined') {
-  getAnalytics(app);
+// Only initialize analytics if measurementId is present and analytics is supported
+if (typeof window !== 'undefined' && import.meta.env.VITE_FIREBASE_MEASUREMENT_ID) {
+  isSupported().then((supported) => {
+    if (supported) {
+      try {
+        getAnalytics(app);
+      } catch (error) {
+        console.warn('Firebase Analytics initialization failed:', error);
+      }
+    }
+  }).catch((error) => {
+    console.warn('Firebase Analytics support check failed:', error);
+  });
 }
 
 export default app;
