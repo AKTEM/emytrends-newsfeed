@@ -26,8 +26,8 @@ const supportItems = [
 const policyLinks = [
   { label: "Refund Policies", path: "/policies/refund" },
   { label: "Return & Exchanges", path: "/policies/return-exchange" },
-  { label: "Shipping & Deliveries", path: "/policies/shipping-delivery" },
-  { label: "Payment & Pricing", path: "/policies/payment-pricing" },
+  { label: "Shipping & Deliveries", path: "/policies/shipping" },
+  { label: "Payment & Pricing", path: "/policies/payment" },
 ];
 
 export const FooterSection = (): JSX.Element => {
