@@ -1,10 +1,11 @@
 import { MailIcon, MapPinIcon, PhoneIcon } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const quickLinks = [
-  { label: "Home" },
-  { label: "Shop" },
-  { label: "Learn" },
-  { label: "Blog" },
+  { label: "Home", path: "/" },
+  { label: "Shop", path: "/shop" },
+  { label: "Learn", path: "/learn" },
+  { label: "Blog", path: "/blog" },
 ];
 
 const supportItems = [
@@ -23,10 +24,10 @@ const supportItems = [
 ];
 
 const policyLinks = [
-  { label: "Refund Policies" },
-  { label: "Return & Exchanges" },
-  { label: "Shipping & Deliveries" },
-  { label: "Payment & Pricing" },
+  { label: "Refund Policies", path: "/policies/refund" },
+  { label: "Return & Exchanges", path: "/policies/return-exchange" },
+  { label: "Shipping & Deliveries", path: "/policies/shipping-delivery" },
+  { label: "Payment & Pricing", path: "/policies/payment-pricing" },
 ];
 
 export const FooterSection = (): JSX.Element => {
@@ -40,13 +41,13 @@ export const FooterSection = (): JSX.Element => {
 
           <nav className="flex flex-col items-start gap-4 w-full">
             {quickLinks.map((link, index) => (
-              <a
+              <Link
                 key={index}
-                href="#"
+                to={link.path}
                 className="font-[number:var(--medium-body-large-font-weight)] tracking-[var(--medium-body-large-letter-spacing)] font-medium-body-large text-white text-[length:var(--medium-body-large-font-size)] leading-[var(--medium-body-large-line-height)] [font-style:var(--medium-body-large-font-style)] hover:opacity-80 transition-opacity"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
@@ -75,13 +76,13 @@ export const FooterSection = (): JSX.Element => {
 
           <nav className="flex flex-col items-start gap-4">
             {policyLinks.map((link, index) => (
-              <a
+              <Link
                 key={index}
-                href="#"
+                to={link.path}
                 className="font-[number:var(--medium-body-large-font-weight)] tracking-[var(--medium-body-large-letter-spacing)] font-medium-body-large text-white text-[length:var(--medium-body-large-font-size)] leading-[var(--medium-body-large-line-height)] [font-style:var(--medium-body-large-font-style)] hover:opacity-80 transition-opacity whitespace-nowrap"
               >
                 {link.label}
-              </a>
+              </Link>
             ))}
           </nav>
         </div>
