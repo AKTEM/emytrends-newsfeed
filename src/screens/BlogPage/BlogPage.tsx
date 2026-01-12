@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { Header } from "../../components/shared/Header";
+import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { Footer } from "../../components/shared/Footer";
+import { PromoBanner } from "../../components/shared/PromoBanner";
 import { getAllBlogPosts, BlogPost } from "../../lib/firebaseBlogs";
 import { CalendarIcon, UserIcon, TagIcon } from "lucide-react";
 import { BackButton } from "../../components/shared/BackButton";
@@ -35,7 +36,10 @@ export const BlogPage = () => {
 
   return (
     <div className="min-h-screen bg-backgroundbackground-0 flex flex-col">
-      <Header />
+      <header className="w-full bg-neutralneutral-1 sticky top-0 z-50">
+        <PromoBanner />
+      </header>
+      <HeaderWithDropdown />
       
       <main className="flex-1 max-w-[1440px] w-full mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-12 lg:py-16">
         <BackButton />

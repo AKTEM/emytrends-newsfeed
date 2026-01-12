@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Header } from "../../components/shared/Header";
+import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { Footer } from "../../components/shared/Footer";
+import { PromoBanner } from "../../components/shared/PromoBanner";
 import { getBlogPost, BlogPost } from "../../lib/firebaseBlogs";
 import { CalendarIcon, UserIcon, TagIcon } from "lucide-react";
 import { BackButton } from "../../components/shared/BackButton";
@@ -31,7 +32,10 @@ export const BlogPostPage = () => {
   if (loading) {
     return (
       <div className="min-h-screen bg-backgroundbackground-0 flex flex-col">
-        <Header />
+        <header className="w-full bg-neutralneutral-1 sticky top-0 z-50">
+          <PromoBanner />
+        </header>
+        <HeaderWithDropdown />
         <div className="flex-1 flex justify-center items-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primaryprimary-2"></div>
         </div>
@@ -43,7 +47,10 @@ export const BlogPostPage = () => {
   if (!blog) {
     return (
       <div className="min-h-screen bg-backgroundbackground-0 flex flex-col">
-        <Header />
+        <header className="w-full bg-neutralneutral-1 sticky top-0 z-50">
+          <PromoBanner />
+        </header>
+        <HeaderWithDropdown />
         <div className="flex-1 flex flex-col justify-center items-center px-4">
           <h1 className="text-2xl sm:text-3xl font-bold text-textprimary-text mb-4">Blog post not found</h1>
           <Link 
@@ -60,7 +67,10 @@ export const BlogPostPage = () => {
 
   return (
     <div className="min-h-screen bg-backgroundbackground-0 flex flex-col">
-      <Header />
+      <header className="w-full bg-neutralneutral-1 sticky top-0 z-50">
+        <PromoBanner />
+      </header>
+      <HeaderWithDropdown />
       
       <main className="flex-1 max-w-[900px] w-full mx-auto px-4 sm:px-8 py-8 sm:py-12">
         {/* Back Button */}
