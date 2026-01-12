@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
+import { PromoBanner } from "../../components/shared/PromoBanner";
 import { Card, CardContent } from "../../components/ui/card";
 import { ChevronUp, ChevronDown, Heart } from "lucide-react";
 import { useProducts } from "../../hooks/useProducts";
@@ -155,6 +156,9 @@ export const ShopAllPage = () => {
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
+      <header className="w-full bg-neutralneutral-1 sticky top-0 z-50">
+        <PromoBanner />
+      </header>
       <HeaderWithDropdown />
       
       <main className="flex-1 container mx-auto px-4 py-8">
