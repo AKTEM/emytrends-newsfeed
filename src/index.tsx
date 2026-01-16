@@ -1,6 +1,7 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { ScrollToTop } from "./components/shared/ScrollToTop";
 import { ErrorBoundary } from "./components/shared/ErrorBoundary";
 import { AuthProvider } from "./contexts/AuthContext";
 import { AdminProvider } from "./contexts/AdminContext";
@@ -40,6 +41,7 @@ createRoot(document.getElementById("app") as HTMLElement).render(
           <WishlistProvider>
             <CartProvider>
               <BrowserRouter>
+              <ScrollToTop />
               <Routes>
                 <Route path="/" element={<LandingPage />} />
                 <Route path="/auth" element={<AuthPage />} />
