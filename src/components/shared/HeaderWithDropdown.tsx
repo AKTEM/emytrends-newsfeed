@@ -36,8 +36,8 @@ const shopCategories = {
 
 const learnCategories = {
   hairCare: [
-    { label: "Choosing Your Length", path: "/learn/choosing-length" },
-    { label: "Choosing Your Shade", path: "/learn/choosing-shade" },
+    { label: "Choosing Your Length", path: "/learn/length" },
+    { label: "Choosing Your Shade", path: "/learn/shade" },
     { label: "Care Guide", path: "/learn/care-guide" },
     { label: "Installation Guide", path: "/learn/installation" },
   ],
