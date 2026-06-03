@@ -105,6 +105,7 @@ createRoot(document.getElementById("app") as HTMLElement).render(
           </WishlistProvider>
         </AdminProvider>
       </AuthProvider>
+      </PayPalScriptProvider>
     </ErrorBoundary>
   </StrictMode>,
 );
