@@ -32,10 +32,15 @@ import { AdminDashboardLayout, AdminDashboardHome, AdminProducts, AdminProductFo
 import { ProtectedAdminRoute } from "./components/admin/ProtectedAdminRoute";
 import { BlogPage, BlogPostPage } from "./screens/BlogPage";
 import { RefundPolicy, ReturnExchange, ShippingDelivery, PaymentPricing } from "./screens/PolicyPages";
+import { OrderConfirmationPage } from "./screens/OrderConfirmationPage";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
+const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "test";
 
 createRoot(document.getElementById("app") as HTMLElement).render(
   <StrictMode>
     <ErrorBoundary>
+      <PayPalScriptProvider options={{ clientId: PAYPAL_CLIENT_ID, currency: "USD", intent: "capture" }}>
       <AuthProvider>
         <AdminProvider>
           <WishlistProvider>
@@ -55,6 +60,7 @@ createRoot(document.getElementById("app") as HTMLElement).render(
                 <Route path="/learn/care-guide" element={<CareGuidePage />} />
                 <Route path="/product/:id" element={<ProductDetailsPage />} />
                 <Route path="/checkout" element={<CheckoutPage />} />
+                <Route path="/order-confirmation/:id" element={<OrderConfirmationPage />} />
                 <Route path="/dashboard" element={<MyAccount />} />
                 <Route path="/dashboard/orders" element={<Orders />} />
                 <Route path="/dashboard/orders/:orderId" element={<OrderDetails />} />
@@ -101,6 +107,7 @@ createRoot(document.getElementById("app") as HTMLElement).render(
           </WishlistProvider>
         </AdminProvider>
       </AuthProvider>
+      </PayPalScriptProvider>
     </ErrorBoundary>
   </StrictMode>,
 );
