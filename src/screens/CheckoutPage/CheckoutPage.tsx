@@ -3,6 +3,7 @@ import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
 import { useCart } from "../../contexts/CartContext";
 import { BackButton } from "../../components/shared/BackButton";
+import { PayPalCheckoutButton } from "../../components/checkout/PayPalCheckoutButton";
 
 export const CheckoutPage = (): JSX.Element => {
   const { cartItems, removeFromCart, updateQuantity, orderTotal } = useCart();
@@ -124,12 +125,18 @@ export const CheckoutPage = (): JSX.Element => {
                 </p>
               </div>
 
-              <button 
-                className="w-full bg-gold text-gold-foreground py-4 text-base font-bold hover:bg-gold/90 transition-colors mb-4 disabled:opacity-50 disabled:cursor-not-allowed"
-                disabled={cartItems.length === 0}
-              >
-                CHECK OUT
-              </button>
+              {cartItems.length === 0 ? (
+                <button
+                  className="w-full bg-gold text-gold-foreground py-4 text-base font-bold mb-4 opacity-50 cursor-not-allowed"
+                  disabled
+                >
+                  CHECK OUT
+                </button>
+              ) : (
+                <div className="mb-4">
+                  <PayPalCheckoutButton />
+                </div>
+              )}
 
               <p className="text-sm text-gray-600 text-center">
                 Taxes, shipping and promos are calculated at checkout.
