@@ -32,6 +32,10 @@ import { AdminDashboardLayout, AdminDashboardHome, AdminProducts, AdminProductFo
 import { ProtectedAdminRoute } from "./components/admin/ProtectedAdminRoute";
 import { BlogPage, BlogPostPage } from "./screens/BlogPage";
 import { RefundPolicy, ReturnExchange, ShippingDelivery, PaymentPricing } from "./screens/PolicyPages";
+import { OrderConfirmationPage } from "./screens/OrderConfirmationPage";
+import { PayPalScriptProvider } from "@paypal/react-paypal-js";
+
+const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || "test";
 
 createRoot(document.getElementById("app") as HTMLElement).render(
   <StrictMode>
