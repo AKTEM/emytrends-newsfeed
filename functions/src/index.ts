@@ -6,28 +6,20 @@ const PAYPAL_CLIENT_ID = defineSecret("PAYPAL_CLIENT_ID");
 const PAYPAL_SECRET    = defineSecret("PAYPAL_SECRET");
 const PAYPAL_ENV       = defineSecret("PAYPAL_ENV");
 
-// Allow localhost (any port), *.lovable.app, *.lovableproject.com, *.vercel.app,
-// kurt-hair Firebase hosting, and your custom domain(s).
-const ORIGIN_PATTERNS: RegExp[] = [
-  /^https?:\/\/localhost(:\d+)?$/,
-  /^https?:\/\/127\.0\.0\.1(:\d+)?$/,
-  /^https:\/\/([a-z0-9-]+\.)*lovable\.app$/i,
-  /^https:\/\/([a-z0-9-]+\.)*lovableproject\.com$/i,
-  /^https:\/\/([a-z0-9-]+\.)*vercel\.app$/i,
-  /^https:\/\/kurt-hair\.web\.app$/i,
-  /^https:\/\/kurt-hair\.firebaseapp\.com$/i,
-];
-
+// Reflect any origin. CORS here is a browser-safety mechanism, not auth.
+// PayPal Secret stays server-side; abuse is bounded by PayPal validation.
+// If you want to lock this down later, swap to an allow-list.
 function applyCors(req: Request, res: Response): boolean {
-  const origin = (req.headers.origin as string) || "";
-  const allowed = ORIGIN_PATTERNS.some((re) => re.test(origin));
+  const origin = (req.headers.origin as string) || "*";
 
-  if (allowed) {
-    res.set("Access-Control-Allow-Origin", origin);
-    res.set("Vary", "Origin");
-  }
+  res.set("Access-Control-Allow-Origin", origin);
+  res.set("Vary", "Origin");
   res.set("Access-Control-Allow-Methods", "POST, OPTIONS");
-  res.set("Access-Control-Allow-Headers", "Content-Type, Authorization");
+  res.set(
+    "Access-Control-Allow-Headers",
+    req.headers["access-control-request-headers"] as string ||
+      "Content-Type, Authorization"
+  );
   res.set("Access-Control-Max-Age", "3600");
 
   if (req.method === "OPTIONS") {
@@ -59,7 +51,7 @@ async function getAccessToken(clientId: string, secret: string, env: string) {
 }
 
 export const createPayPalOrder = onRequest(
-  { secrets: [PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_ENV] },
+  { secrets: [PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_ENV], cors: true, invoker: "public" },
   async (req, res) => {
     if (applyCors(req, res)) return;
     try {
@@ -89,7 +81,7 @@ export const createPayPalOrder = onRequest(
 );
 
 export const capturePayPalOrder = onRequest(
-  { secrets: [PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_ENV] },
+  { secrets: [PAYPAL_CLIENT_ID, PAYPAL_SECRET, PAYPAL_ENV], cors: true, invoker: "public" },
   async (req, res) => {
     if (applyCors(req, res)) return;
     try {

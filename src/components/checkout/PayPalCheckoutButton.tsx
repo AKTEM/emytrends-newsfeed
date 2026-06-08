@@ -89,8 +89,13 @@ export const PayPalCheckoutButton = ({ shippingAddress }: Props) => {
             setError(e.message ?? "Payment capture failed");
           }
         }}
-        onError={(err) => {
-          setError(typeof err === "string" ? err : "PayPal error. Please try again.");
+        onError={(err: any) => {
+          const msg =
+            typeof err === "string"
+              ? err
+              : err?.message ?? "PayPal error. Please try again.";
+          setError(msg);
+          console.error("PayPal onError:", err);
         }}
       />
     </div>

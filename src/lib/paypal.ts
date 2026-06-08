@@ -17,14 +17,21 @@ export async function createPayPalOrder(
       "VITE_PAYPAL_CREATE_ORDER_URL is not set. Deploy the Firebase function and add the URL to .env."
     );
   }
-  const res = await fetch(CREATE_ORDER_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      amount: payload.amount.toFixed(2),
-      currency: payload.currency ?? "USD",
-    }),
-  });
+  let res: Response;
+  try {
+    res = await fetch(CREATE_ORDER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        amount: payload.amount.toFixed(2),
+        currency: payload.currency ?? "USD",
+      }),
+    });
+  } catch (e: any) {
+    throw new Error(
+      `Could not reach payment server. The Firebase function may not be deployed with the latest CORS fix, or VITE_PAYPAL_CREATE_ORDER_URL is wrong. (${e?.message ?? e})`
+    );
+  }
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`createPayPalOrder failed: ${res.status} ${text}`);
@@ -40,11 +47,18 @@ export async function capturePayPalOrder(orderID: string): Promise<any> {
       "VITE_PAYPAL_CAPTURE_ORDER_URL is not set. Deploy the Firebase function and add the URL to .env."
     );
   }
-  const res = await fetch(CAPTURE_ORDER_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ orderID }),
-  });
+  let res: Response;
+  try {
+    res = await fetch(CAPTURE_ORDER_URL, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ orderID }),
+    });
+  } catch (e: any) {
+    throw new Error(
+      `Could not reach payment server to capture order. Check VITE_PAYPAL_CAPTURE_ORDER_URL and redeploy the Firebase function. (${e?.message ?? e})`
+    );
+  }
   if (!res.ok) {
     const text = await res.text();
     throw new Error(`capturePayPalOrder failed: ${res.status} ${text}`);
