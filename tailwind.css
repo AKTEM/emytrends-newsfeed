@@ -271,3 +271,20 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
+
+/* Global faint background image across all pages */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  background-image: url("/__l5e/assets-v1/f18170e1-1730-4ac9-af47-8131565b85a3/bg_portrait.jpg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.10;
+  pointer-events: none;
+  z-index: 0;
+}
+body {
+  position: relative;
+}
