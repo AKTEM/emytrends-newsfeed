@@ -277,7 +277,7 @@ body::before {
   content: "";
   position: fixed;
   inset: 0;
-  background-image: url("./src/assets/bg_portrait.jpg");
+  background-image: url("/bg_portrait.jpg");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
