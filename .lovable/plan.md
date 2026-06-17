@@ -1,48 +1,23 @@
-## Goal
-Fix the PayPal checkout error so localhost and the deployed site can create/capture orders successfully.
+## Hero section redesign
 
-## What I confirmed from the codebase
-- The frontend is calling two env-provided backend URLs directly from the browser: `src/lib/paypal.ts`.
-- The current `.env` values point to Cloud Run URLs ending in `createpaypalorder-...run.app` and `capturepaypalorder-...run.app`.
-- The current Firebase source does include CORS handling for `localhost`, `127.0.0.1`, Firebase Hosting, Lovable, and Vercel: `functions/src/index.ts`.
-- The reported browser error is specifically a failed preflight with no `Access-Control-Allow-Origin`, which means the browser is not receiving the CORS headers it should be getting from the function.
+Update the homepage hero to use the owner's photo, with different layouts for desktop and mobile.
 
-## Likely root cause
-The deployed URL currently in `.env` is not serving the same code that exists in `functions/src/index.ts` now.
-That usually means one of these is true:
-1. the function URL in `.env` is stale/wrong for the currently exported function name,
-2. the latest functions code never deployed successfully,
-3. the deployed service exists but is rejecting/handling OPTIONS before your CORS code runs.
+### Assets
+- Upload `hero_kurt.png` (full desktop image) and `up2.jpg` (mobile portrait crop) via `lovable-assets` from `/mnt/user-uploads/`, save pointer JSONs to `src/assets/`.
 
-Because the source code already allows `http://localhost:8080`, the active failure is most likely deployment/URL mismatch rather than a frontend bug.
+### Desktop (lg and up) — matches image 2
+- Full-width background image (`hero_kurt.png`) covering the hero area.
+- Overlay text on the left: "REDEFINE BEAUTY WITH EVERY STRAND" (white, large), subtitle "Explore luxurious wigs and extensions", and amber "SHOP NOW" button.
+- No split grid; text sits on top of the image (left-aligned, vertically centered).
 
-## Plan
-1. Verify the live function names and URLs that Firebase actually exposes for the current exports.
-2. Update the functions code so CORS handling is explicit and resilient for preflight/error paths.
-3. Align `.env` with the real deployed function URLs returned by deployment instead of assuming the older `createpaypalorder` / `capturepaypalorder` URLs are still correct.
-4. Tighten the client-side PayPal helper and button error handling so backend failures surface clearly instead of generic “PayPal error, please try again”.
-5. Validate the full flow for both order creation and capture.
+### Mobile (below lg) — matches image 4 behavior
+- Show only the portrait image (`up2.jpg`) at the top, full width, no text overlay.
+- Below the image: same text block ("REDEFINE BEAUTY WITH EVERY STRAND", subtitle, "SHOP NOW" button) on a dark background, stacked, as it currently is.
 
-## Technical changes I would make
-- In `functions/src/index.ts`
-  - keep the allowed-origin logic,
-  - ensure every OPTIONS, success, and error response includes CORS headers,
-  - add small diagnostics so failed requests reveal whether the origin was accepted.
-- In `src/lib/paypal.ts`
-  - normalize request/response handling,
-  - surface backend error bodies cleanly,
-  - avoid hiding useful status details.
-- In `src/components/checkout/PayPalCheckoutButton.tsx`
-  - improve displayed error messages so PayPal SDK errors and backend errors are distinguishable.
-- In `.env`
-  - replace the current function URLs with the exact URLs produced by the successful Firebase deploy.
+### Files to edit
+- `src/screens/LandingPage/sections/HeroSection/HeroSection.tsx` — restructure into two layouts:
+  - `lg:block hidden` → desktop overlay layout with `hero_kurt.png` as background.
+  - `lg:hidden block` → mobile layout with `up2.jpg` portrait on top + text section below.
+- Rest of homepage (Trending, Video, Hair Extensions, Treatments, Footer) untouched.
 
-## Expected outcome
-- `POST` to create order succeeds from localhost.
-- PayPal button no longer fails with `create_order_error: Failed to fetch`.
-- If backend config is still wrong, the UI will show the real backend error instead of a generic message.
-
-## Notes
-- Your `.env` format itself looks fine.
-- `firebase deploy --only functions` should still be run from the project root.
-- If the deployment output shows URLs different from the ones in `.env`, those deploy-returned URLs are the ones the frontend must use.
+No other files change.
