@@ -24,8 +24,21 @@ const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
+    // One-time reset to clear any legacy/demo items previously seeded into localStorage.
+    const CART_VERSION = "v2-user-only";
+    if (localStorage.getItem("cart_version") !== CART_VERSION) {
+      localStorage.removeItem("cart");
+      localStorage.setItem("cart_version", CART_VERSION);
+      return [];
+    }
     const savedCart = localStorage.getItem("cart");
-    return savedCart ? JSON.parse(savedCart) : [];
+    if (!savedCart) return [];
+    try {
+      const parsed = JSON.parse(savedCart);
+      return Array.isArray(parsed) ? parsed : [];
+    } catch {
+      return [];
+    }
   });
 
   useEffect(() => {
