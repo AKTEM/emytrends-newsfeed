@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { HeaderWithDropdown } from "../../../../components/shared/HeaderWithDropdown";
 import { Button } from "../../../../components/ui/button";
-import heroDesktop from "../../../../assets/hero_kurt.png.asset.json";
-import heroPortrait from "../../../../assets/hero_portrait.jpg.asset.json";
+
+const heroDesktop = { url: "/hero_kurt.png" };
+const heroPortrait = { url: "/hero_portrait.jpg" };
 
 export const HeroSection = (): JSX.Element => {
   const TextBlock = (
