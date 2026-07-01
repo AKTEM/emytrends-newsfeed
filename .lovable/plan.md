@@ -1,23 +1,20 @@
-## Hero section redesign
+## Fix hero images not loading on localhost
 
-Update the homepage hero to use the owner's photo, with different layouts for desktop and mobile.
+**Cause:** `hero_kurt.png` and `hero_portrait.jpg` are referenced via Lovable's CDN path `/__l5e/assets-v1/...` (through their `.asset.json` pointers). That route only exists on Lovable's preview/published infrastructure — the local Vite dev server has no handler for it, so both images 404 locally.
 
-### Assets
-- Upload `hero_kurt.png` (full desktop image) and `up2.jpg` (mobile portrait crop) via `lovable-assets` from `/mnt/user-uploads/`, save pointer JSONs to `src/assets/`.
+**Fix:** Move both hero images into `public/` so Vite serves them as plain static files (same approach that made the background image work locally).
 
-### Desktop (lg and up) — matches image 2
-- Full-width background image (`hero_kurt.png`) covering the hero area.
-- Overlay text on the left: "REDEFINE BEAUTY WITH EVERY STRAND" (white, large), subtitle "Explore luxurious wigs and extensions", and amber "SHOP NOW" button.
-- No split grid; text sits on top of the image (left-aligned, vertically centered).
+### Steps
 
-### Mobile (below lg) — matches image 4 behavior
-- Show only the portrait image (`up2.jpg`) at the top, full width, no text overlay.
-- Below the image: same text block ("REDEFINE BEAUTY WITH EVERY STRAND", subtitle, "SHOP NOW" button) on a dark background, stacked, as it currently is.
+1. Download the two images from their current CDN URLs into `public/`:
+   - `public/hero_kurt.png`
+   - `public/hero_portrait.jpg`
+2. Update `src/screens/LandingPage/sections/HeroSection/HeroSection.tsx`:
+   - Remove the two `.asset.json` imports.
+   - Reference the images as `/hero_kurt.png` and `/hero_portrait.jpg`.
+3. Delete the now-unused pointer files:
+   - `src/assets/hero_kurt.png.asset.json`
+   - `src/assets/hero_portrait.jpg.asset.json`
+4. Verify locally: hero shows on desktop (full-width image + overlay text) and mobile (portrait image on top, text below).
 
-### Files to edit
-- `src/screens/LandingPage/sections/HeroSection/HeroSection.tsx` — restructure into two layouts:
-  - `lg:block hidden` → desktop overlay layout with `hero_kurt.png` as background.
-  - `lg:hidden block` → mobile layout with `up2.jpg` portrait on top + text section below.
-- Rest of homepage (Trending, Video, Hair Extensions, Treatments, Footer) untouched.
-
-No other files change.
+No design/layout changes — only the image source paths change.
