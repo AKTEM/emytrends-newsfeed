@@ -230,35 +230,24 @@ export const ShopAllPage = () => {
                       <Heart className={`w-4 h-4 ${product.id && isInWishlist(product.id) ? "fill-white" : ""}`} />
                     </button>
                     <Link to={`/product/${product.id}`}>
-                      <Card className="group hover:shadow-lg transition-shadow duration-300">
-                        <CardContent className="p-0">
-                          <div className="relative overflow-hidden rounded-t-lg">
+                      <Card className="group border-none shadow-none bg-transparent hover:opacity-80 transition-opacity">
+                        <CardContent className="p-0 flex flex-col gap-4">
+                          <div className="relative overflow-hidden rounded-lg">
                             <img
                               src={product.images[0] || "/placeholder.png"}
                               alt={product.title}
                               className="w-full h-64 object-cover group-hover:scale-105 transition-transform duration-300"
                             />
                           </div>
-                          <div className="p-4">
-                            <h3 className="font-semibold text-foreground line-clamp-2 mb-2">
+                          <div className="flex items-start justify-between gap-2 w-full">
+                            <p className="text-black text-sm sm:text-base line-clamp-2 flex-1 min-w-0">
                               {product.title}
-                            </h3>
-                            <p className="text-primary font-bold text-lg">
+                            </p>
+                            <p className="text-black font-semibold text-base sm:text-lg whitespace-nowrap">
                               ${product.price}
                             </p>
-                            {product.colors && product.colors.length > 0 && (
-                              <div className="flex gap-2 mt-3">
-                                {product.colors.slice(0, 4).map((color, idx) => (
-                                  <div
-                                    key={idx}
-                                    className="w-6 h-6 rounded-full border-2 border-border"
-                                    style={{ backgroundColor: color }}
-                                    title={color}
-                                  />
-                                ))}
-                              </div>
-                            )}
                           </div>
+                          <ProductSwatches colors={product.colors} />
                         </CardContent>
                     </Card>
                   </Link>
