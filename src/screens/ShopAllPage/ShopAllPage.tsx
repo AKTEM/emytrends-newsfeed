@@ -9,6 +9,7 @@ import { useProducts } from "../../hooks/useProducts";
 import { useWishlist } from "../../contexts/WishlistContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { BackButton } from "../../components/shared/BackButton";
+import { ProductSwatches } from "../../components/shared/ProductSwatches";
 
 const filterCategories = {
   product: ["New Arrivals", "Tape-Ins", "Ponytails", "Clip-Ins", "Trending", "Best Selling"],
