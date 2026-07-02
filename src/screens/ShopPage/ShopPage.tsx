@@ -145,7 +145,7 @@ const categories = {
   hairExtensions: {
     shopAll: "Shop All",
     shopByProductType: [
-      { label: "Ponytail", path: "/shop/ponytail" },
+      { label: "Ponytail", path: "/shop/all?category=Clip-Ins" },
       { label: "Clip-Ins", path: "/shop/all?category=Clip-Ins" },
     ],
   },

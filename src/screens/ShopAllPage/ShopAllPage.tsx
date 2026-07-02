@@ -136,7 +136,7 @@ export const ShopAllPage = () => {
                 type="checkbox"
                 checked={selectedFilters[category].includes(item)}
                 onChange={() => toggleFilter(category, item)}
-                className="w-4 h-4 rounded border-border text-primary focus:ring-primary"
+                className="w-4 h-4 rounded border-border accent-[#E3A857] focus:ring-[#E3A857]"
               />
               <span className="text-sm text-muted-foreground">{item}</span>
             </label>
