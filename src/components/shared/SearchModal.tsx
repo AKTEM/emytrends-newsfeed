@@ -85,7 +85,7 @@ export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
     { title: "Care Guide", path: "/learn/care-guide", keywords: ["care", "maintenance", "wash", "style"] },
     { title: "Our World", path: "/our-world", keywords: ["about", "world", "story", "brand"] },
     { title: "Blog", path: "/blog", keywords: ["blog", "articles", "news", "posts"] },
-    { title: "Ponytails", path: "/ponytail", keywords: ["ponytail", "ponytails"] },
+    { title: "Ponytails", path: "/shop/all?category=Clip-Ins", keywords: ["ponytail", "ponytails"] },
   ];
 
   const query = searchQuery.toLowerCase();
