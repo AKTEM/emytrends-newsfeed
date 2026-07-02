@@ -5,6 +5,7 @@ import { Heart } from "lucide-react";
 import { useWishlist } from "../../../../contexts/WishlistContext";
 import { useAuth } from "../../../../contexts/AuthContext";
 import { useProducts } from "../../../../hooks/useProducts";
+import { ProductSwatches } from "../../../../components/shared/ProductSwatches";
 
 export const TrendingSection = (): JSX.Element | null => {
   const navigate = useNavigate();
