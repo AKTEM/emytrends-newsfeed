@@ -91,13 +91,16 @@ export const TrendingSection = (): JSX.Element | null => {
                       alt={product.title}
                       src={image}
                     />
-                    <div className="flex items-start justify-between gap-2 w-full">
-                      <p className="text-black text-sm sm:text-base line-clamp-2 flex-1 min-w-0">
-                        {product.title}
-                      </p>
-                      <p className="text-black font-semibold text-base sm:text-lg whitespace-nowrap">
-                        ${product.price}
-                      </p>
+                    <div className="flex flex-col items-start gap-3 w-full">
+                      <div className="flex items-start justify-between gap-2 w-full">
+                        <p className="text-black text-sm sm:text-base line-clamp-2 flex-1 min-w-0">
+                          {product.title}
+                        </p>
+                        <p className="text-black font-semibold text-base sm:text-lg whitespace-nowrap">
+                          ${product.price}
+                        </p>
+                      </div>
+                      <ProductSwatches colors={product.colors} />
                     </div>
                   </CardContent>
                 </Card>
