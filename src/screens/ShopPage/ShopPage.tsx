@@ -7,60 +7,6 @@ import { FooterSection } from "../LandingPage/sections/FooterSection";
 import { PromoBanner } from "../../components/shared/PromoBanner";
 import { TrendingSection } from "../LandingPage/sections/TrendingSection";
 
-const trendingProducts = [
-  {
-    id: 1,
-    image: "/img-20250902-wa0007.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    rating: "/frame-1000002342.svg",
-    price: "$50",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 2,
-    image: "/img-20250902-wa0004.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    rating: "/frame-1000002342.svg",
-    price: "$50",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 3,
-    image: "/img-20250902-wa0005.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    rating: "/frame-1000002342.svg",
-    price: "$50",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-  {
-    id: 4,
-    image: "/img-20250902-wa0002.png",
-    title: "silk Seam Clip-In Caramel Latter Roted Highlight",
-    rating: "/frame-1000002342.svg",
-    price: "$50",
-    colors: [
-      { name: "Black", color: "#1a1a1a" },
-      { name: "Blonde", color: "#d4b896" },
-      { name: "Dark Brown", color: "#4a3728" },
-      { name: "Auburn", color: "#6b3410" },
-    ],
-  },
-];
 
 const hairExtensionProducts = [
   {
