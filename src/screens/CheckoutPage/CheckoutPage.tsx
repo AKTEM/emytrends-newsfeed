@@ -120,7 +120,7 @@ export const CheckoutPage = (): JSX.Element => {
 
               {cartItems.length === 0 ? (
                 <button
-                  className="w-full bg-gold text-gold-foreground py-4 text-base font-bold mb-4 opacity-50 cursor-not-allowed"
+                  className="w-full bg-[#E3A857] text-black py-4 text-base font-bold mb-4 opacity-50 cursor-not-allowed"
                   disabled
                 >
                   CHECK OUT
