@@ -169,18 +169,18 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({
             <p className="text-base text-gray-600 mb-8">
               Do you really want to remove this item from cart?
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 sm:gap-6">
               <button
                 onClick={cancelRemove}
-                className="flex-1 py-3 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md"
+                className="flex-1 py-3 px-4 sm:px-6 mx-1 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md whitespace-nowrap"
               >
-                <Heart className="w-5 h-5" /> Save for later
+                <Heart className="w-5 h-5 shrink-0" /> Save for later
               </button>
               <button
                 onClick={confirmRemove}
-                className="flex-1 py-3 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md"
+                className="flex-1 py-3 px-4 sm:px-6 mx-1 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md whitespace-nowrap"
               >
-                <Trash2 className="w-5 h-5" /> Remove Item
+                <Trash2 className="w-5 h-5 shrink-0" /> Remove Item
               </button>
             </div>
           </div>
