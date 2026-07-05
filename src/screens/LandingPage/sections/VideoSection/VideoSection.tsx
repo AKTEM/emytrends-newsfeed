@@ -1,15 +1,31 @@
+import { useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../../../components/ui/button";
 
 export const VideoSection = (): JSX.Element => {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    v.muted = true;
+    v.defaultMuted = true;
+    const tryPlay = () => v.play().catch(() => {});
+    tryPlay();
+    document.addEventListener("visibilitychange", tryPlay);
+    return () => document.removeEventListener("visibilitychange", tryPlay);
+  }, []);
+
   return (
     <section className="relative w-full flex items-end justify-start py-12 sm:py-16 lg:py-[70px] min-h-[400px] sm:min-h-[500px] lg:min-h-[659px] overflow-hidden">
       {/* Background Video */}
       <video
+        ref={videoRef}
         autoPlay
         loop
         muted
         playsInline
+        preload="auto"
         className="absolute inset-0 w-full h-full object-cover z-0"
       >
         <source src="/kuthair-video.mp4" type="video/mp4" />

@@ -61,8 +61,8 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({
         onClick={onClose}
       />
 
-      <div className="fixed top-0 right-0 h-full w-full sm:w-[600px] bg-white z-50 shadow-2xl transform transition-transform overflow-y-auto">
-        <div className="flex flex-col h-full">
+      <div className="fixed top-0 right-0 h-[100dvh] max-h-screen w-full sm:w-[600px] bg-white z-50 shadow-2xl transform transition-transform flex flex-col">
+        <div className="flex flex-col h-full min-h-0">
           <div className="flex items-center justify-between px-6 py-6 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-black">YOUR CART</h2>
             <button
@@ -138,14 +138,14 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({
             </div>
           )}
 
-          <div className="border-t border-gray-200 px-6 py-6 bg-white">
-            <div className="flex items-center justify-between mb-6">
-              <p className="text-lg font-semibold text-black">ORDER TOTAL</p>
-              <p className="text-2xl font-bold text-black">${orderTotal.toFixed(2)}</p>
+          <div className="border-t border-gray-200 px-6 pt-4 pb-6 sm:py-6 bg-white shrink-0" style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 1rem)" }}>
+            <div className="flex items-center justify-between mb-4 sm:mb-6">
+              <p className="text-base sm:text-lg font-semibold text-black">ORDER TOTAL</p>
+              <p className="text-xl sm:text-2xl font-bold text-black">${orderTotal.toFixed(2)}</p>
             </div>
             <button
               onClick={handleCheckout}
-              className="w-full bg-black text-white py-4 text-center font-semibold hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-[#E3A857] text-black py-3 sm:py-4 text-center font-semibold hover:bg-[#d19a4a] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               disabled={items.length === 0}
             >
               CHECK OUT
@@ -169,18 +169,18 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({
             <p className="text-base text-gray-600 mb-8">
               Do you really want to remove this item from cart?
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4 sm:gap-6">
               <button
                 onClick={cancelRemove}
-                className="flex-1 py-3 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md"
+                className="flex-1 py-3 px-4 sm:px-6 mx-1 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md whitespace-nowrap"
               >
-                <Heart className="w-5 h-5" /> Save for later
+                <Heart className="w-5 h-5 shrink-0" /> Save for later
               </button>
               <button
                 onClick={confirmRemove}
-                className="flex-1 py-3 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md"
+                className="flex-1 py-3 px-4 sm:px-6 mx-1 bg-gold text-gold-foreground font-semibold hover:bg-gold/90 transition-colors flex items-center justify-center gap-2 rounded-md whitespace-nowrap"
               >
-                <Trash2 className="w-5 h-5" /> Remove Item
+                <Trash2 className="w-5 h-5 shrink-0" /> Remove Item
               </button>
             </div>
           </div>

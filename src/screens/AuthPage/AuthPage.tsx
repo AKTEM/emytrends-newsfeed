@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, FacebookAuthProvider, signInWithPopup, sendPasswordResetEmail } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../lib/firebase";
 import { Button } from "../../components/ui/button";
 import { Logo } from "../../components/shared/Logo";
@@ -110,20 +110,6 @@ export const AuthPage = (): JSX.Element => {
     }
   };
 
-  const handleFacebookSignIn = async () => {
-    setLoading(true);
-    setError("");
-
-    try {
-      const provider = new FacebookAuthProvider();
-      await signInWithPopup(auth, provider);
-      navigate("/");
-    } catch (err: any) {
-      setError(err.message || "Failed to sign in with Facebook");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleSubmit = activeTab === "signin" ? handleSignIn : handleRegister;
 
@@ -292,23 +278,6 @@ export const AuthPage = (): JSX.Element => {
                     </span>
                   </button>
 
-                  <button
-                    type="button"
-                    onClick={handleFacebookSignIn}
-                    disabled={loading}
-                    className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="#1877F2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                    </svg>
-                    <span className="text-sm font-medium text-gray-700">
-                      Continue with Facebook
-                    </span>
-                  </button>
                 </div>
 
                 <p className="text-center text-sm text-gray-600 mt-6">
@@ -478,23 +447,6 @@ export const AuthPage = (): JSX.Element => {
                     </span>
                   </button>
 
-                  <button
-                    type="button"
-                    onClick={handleFacebookSignIn}
-                    disabled={loading}
-                    className="w-full flex items-center justify-center gap-3 px-4 py-3 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <svg
-                      className="w-5 h-5"
-                      fill="#1877F2"
-                      viewBox="0 0 24 24"
-                    >
-                      <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                    </svg>
-                    <span className="text-sm font-medium text-gray-700">
-                      Continue with Facebook
-                    </span>
-                  </button>
                 </div>
 
                 <p className="text-center text-sm text-gray-600 mt-6">

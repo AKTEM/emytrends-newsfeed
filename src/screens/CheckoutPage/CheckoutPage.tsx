@@ -1,5 +1,6 @@
-import { ChevronLeftIcon, ChevronRightIcon, Minus, Plus } from "lucide-react";
+import { Minus, Plus } from "lucide-react";
 import { HeaderWithDropdown } from "../../components/shared/HeaderWithDropdown";
+import { PromoBanner } from "../../components/shared/PromoBanner";
 import { FooterSection } from "../LandingPage/sections/FooterSection";
 import { useCart } from "../../contexts/CartContext";
 import { BackButton } from "../../components/shared/BackButton";
@@ -10,17 +11,9 @@ export const CheckoutPage = (): JSX.Element => {
 
   return (
     <div className="bg-white w-full min-h-screen relative flex flex-col">
-      <header className="w-full bg-neutralneutral-1 sticky top-0 z-50">
-        <div className="flex h-10 items-center justify-between px-4 sm:px-8 lg:px-12 py-2 w-full max-w-[1264px] mx-auto">
-          <ChevronLeftIcon className="w-3 h-6 flex-shrink-0 hidden sm:block" />
-          <div className="inline-flex items-center justify-center gap-6 flex-1 px-2">
-            <div className="font-medium-body-large font-[number:var(--medium-body-large-font-weight)] text-textprimary-text text-[length:var(--medium-body-large-font-size)] tracking-[var(--medium-body-large-letter-spacing)] leading-[var(--medium-body-large-line-height)] text-center [font-style:var(--medium-body-large-font-style)] text-xs sm:text-sm md:text-base">
-              Get 50% Discount On Every Item Purchased On Christmas Day
-            </div>
-          </div>
-          <ChevronRightIcon className="w-3 h-6 flex-shrink-0 hidden sm:block" />
-        </div>
-      </header>
+      <div className="sticky top-0 z-50">
+        <PromoBanner />
+      </div>
 
       <HeaderWithDropdown />
 
@@ -127,7 +120,7 @@ export const CheckoutPage = (): JSX.Element => {
 
               {cartItems.length === 0 ? (
                 <button
-                  className="w-full bg-gold text-gold-foreground py-4 text-base font-bold mb-4 opacity-50 cursor-not-allowed"
+                  className="w-full bg-[#E3A857] text-black py-4 text-base font-bold mb-4 opacity-50 cursor-not-allowed"
                   disabled
                 >
                   CHECK OUT
