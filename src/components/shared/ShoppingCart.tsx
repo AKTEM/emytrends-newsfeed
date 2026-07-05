@@ -61,8 +61,8 @@ export const ShoppingCart: React.FC<ShoppingCartProps> = ({
         onClick={onClose}
       />
 
-      <div className="fixed top-0 right-0 h-full w-full sm:w-[600px] bg-white z-50 shadow-2xl transform transition-transform overflow-y-auto">
-        <div className="flex flex-col h-full">
+      <div className="fixed top-0 right-0 h-[100dvh] max-h-screen w-full sm:w-[600px] bg-white z-50 shadow-2xl transform transition-transform flex flex-col">
+        <div className="flex flex-col h-full min-h-0">
           <div className="flex items-center justify-between px-6 py-6 border-b border-gray-200">
             <h2 className="text-xl font-semibold text-black">YOUR CART</h2>
             <button
