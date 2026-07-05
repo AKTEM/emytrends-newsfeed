@@ -110,20 +110,6 @@ export const AuthPage = (): JSX.Element => {
     }
   };
 
-  const handleFacebookSignIn = async () => {
-    setLoading(true);
-    setError("");
-
-    try {
-      const provider = new FacebookAuthProvider();
-      await signInWithPopup(auth, provider);
-      navigate("/");
-    } catch (err: any) {
-      setError(err.message || "Failed to sign in with Facebook");
-    } finally {
-      setLoading(false);
-    }
-  };
 
   const handleSubmit = activeTab === "signin" ? handleSignIn : handleRegister;
 
