@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
-import { getAllProducts } from "../../lib/firebaseProducts";
-import { getAllOrders, getRecentOrders, Order, OrderStatus } from "../../lib/firebaseOrders";
-import { getAllBlogPosts } from "../../lib/firebaseBlogs";
+import { getProductCount } from "../../lib/firebaseProducts";
+import { getRecentOrders, getOrderCount, getPendingOrderCount, Order, OrderStatus } from "../../lib/firebaseOrders";
+import { getBlogPostCount } from "../../lib/firebaseBlogs";
 import { Package, ShoppingCart, FileText, DollarSign, TrendingUp } from "lucide-react";
 import { Badge } from "../../components/ui/badge";
 
@@ -34,33 +34,35 @@ export const AdminAnalytics = () => {
 
   const loadAnalytics = async () => {
     try {
-      const [products, orders, blogs, recent] = await Promise.all([
-        getAllProducts(),
-        getAllOrders(),
-        getAllBlogPosts(),
-        getRecentOrders(5),
+      // Counts use Firestore aggregation (1 read each). Revenue/AOV are
+      // computed from the 50 most recent orders — full-history revenue would
+      // require reading every order doc, which is expensive as the store grows.
+      const [productCount, orderCount, blogCount, pendingCount, recent] = await Promise.all([
+        getProductCount(),
+        getOrderCount(),
+        getBlogPostCount(),
+        getPendingOrderCount(),
+        getRecentOrders(50),
       ]);
 
-      const revenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
-      const pending = orders.filter(order => 
-        order.status === "order_placed" || order.status === "pending_confirmation"
-      ).length;
+      const revenue = recent.reduce((sum, order) => sum + order.totalAmount, 0);
 
       setStats({
-        totalProducts: products.length,
-        totalOrders: orders.length,
-        totalBlogs: blogs.length,
+        totalProducts: productCount,
+        totalOrders: orderCount,
+        totalBlogs: blogCount,
         totalRevenue: revenue,
-        pendingOrders: pending,
+        pendingOrders: pendingCount,
       });
 
-      setRecentOrders(recent);
+      setRecentOrders(recent.slice(0, 5));
     } catch (error) {
       console.error("Error loading analytics:", error);
     } finally {
       setLoading(false);
     }
   };
+
 
   const getStatusColor = (status: OrderStatus) => {
     switch (status) {

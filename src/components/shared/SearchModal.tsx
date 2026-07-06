@@ -1,8 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { SearchIcon, XIcon } from "lucide-react";
 import { Link } from "react-router-dom";
-import { useProducts } from "../../hooks/useProducts";
-import { Product } from "../../lib/firebaseProducts";
+import { getAllProducts, Product } from "../../lib/firebaseProducts";
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -12,8 +11,17 @@ interface SearchModalProps {
 export const SearchModal = ({ isOpen, onClose }: SearchModalProps) => {
   const [searchQuery, setSearchQuery] = useState("");
   const [searchResults, setSearchResults] = useState<Product[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
-  const { products } = useProducts();
+
+  // Only load products the first time the modal is opened.
+  useEffect(() => {
+    if (!isOpen || products.length > 0) return;
+    getAllProducts()
+      .then(setProducts)
+      .catch((e) => console.error("SearchModal products load failed:", e));
+  }, [isOpen, products.length]);
+
 
   useEffect(() => {
     if (isOpen && inputRef.current) {
