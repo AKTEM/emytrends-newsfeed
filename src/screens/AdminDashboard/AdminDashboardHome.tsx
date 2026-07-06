@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "../../components/ui/card";
 import { Package, ShoppingCart, FileText, TrendingUp } from "lucide-react";
-import { getAllProducts } from "../../lib/firebaseProducts";
-import { getAllOrders } from "../../lib/firebaseOrders";
-import { getAllBlogPosts } from "../../lib/firebaseBlogs";
+import { getProductCount } from "../../lib/firebaseProducts";
+import { getOrderCount, getRecentOrders } from "../../lib/firebaseOrders";
+import { getBlogPostCount } from "../../lib/firebaseBlogs";
 
 export const AdminDashboardHome = () => {
   const [stats, setStats] = useState({
@@ -17,16 +17,20 @@ export const AdminDashboardHome = () => {
   useEffect(() => {
     const loadStats = async () => {
       try {
-        const [products, orders, blogs] = await Promise.all([
-          getAllProducts(),
-          getAllOrders(),
-          getAllBlogPosts(),
+        // Counts use Firestore aggregation (1 billed read each) instead of
+        // fetching every document. Revenue is estimated from the 20 most recent
+        // orders — cheap and good enough for a dashboard glance.
+        const [productCount, orderCount, blogCount, recentOrders] = await Promise.all([
+          getProductCount(),
+          getOrderCount(),
+          getBlogPostCount(),
+          getRecentOrders(20),
         ]);
-        const revenue = orders.reduce((sum, order) => sum + order.totalAmount, 0);
+        const revenue = recentOrders.reduce((sum, o) => sum + o.totalAmount, 0);
         setStats({
-          totalProducts: products.length,
-          totalOrders: orders.length,
-          totalBlogs: blogs.length,
+          totalProducts: productCount,
+          totalOrders: orderCount,
+          totalBlogs: blogCount,
           totalRevenue: revenue,
         });
       } catch (error) {
@@ -42,13 +46,13 @@ export const AdminDashboardHome = () => {
     { title: "Total Products", value: stats.totalProducts, icon: Package, color: "text-blue-500" },
     { title: "Total Orders", value: stats.totalOrders, icon: ShoppingCart, color: "text-green-500" },
     { title: "Blog Posts", value: stats.totalBlogs, icon: FileText, color: "text-purple-500" },
-    { title: "Revenue", value: `$${stats.totalRevenue.toFixed(2)}`, icon: TrendingUp, color: "text-orange-500" },
+    { title: "Recent Revenue", value: `$${stats.totalRevenue.toFixed(2)}`, icon: TrendingUp, color: "text-orange-500" },
   ];
 
   return (
     <div className="w-full">
       <h1 className="text-xl sm:text-2xl lg:text-3xl font-bold mb-4 sm:mb-6 lg:mb-8">Dashboard Overview</h1>
-      
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
         {statCards.map((stat) => {
           const Icon = stat.icon;
