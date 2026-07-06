@@ -1,5 +1,11 @@
 import { useState, useEffect } from "react";
-import { getAllProducts, getProductsByCategory, getFeaturedProducts, Product } from "../lib/firebaseProducts";
+import {
+  getAllProducts,
+  getProductsByCategory,
+  getFeaturedProducts,
+  getTrendingProducts,
+  Product,
+} from "../lib/firebaseProducts";
 
 export const useProducts = (category?: string, featured?: boolean) => {
   const [products, setProducts] = useState<Product[]>([]);
@@ -7,30 +13,39 @@ export const useProducts = (category?: string, featured?: boolean) => {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    let cancelled = false;
     const fetchProducts = async () => {
       try {
         setLoading(true);
         let data: Product[];
-        
+
         if (featured) {
           data = await getFeaturedProducts();
+        } else if (category === "Trending") {
+          // Optimized path: fetches only 4 docs from Firestore.
+          data = await getTrendingProducts(4);
         } else if (category) {
           data = await getProductsByCategory(category);
         } else {
           data = await getAllProducts();
         }
-        
-        setProducts(data);
-        setError(null);
+
+        if (!cancelled) {
+          setProducts(data);
+          setError(null);
+        }
       } catch (err) {
         console.error("Error fetching products:", err);
-        setError("Failed to load products");
+        if (!cancelled) setError("Failed to load products");
       } finally {
-        setLoading(false);
+        if (!cancelled) setLoading(false);
       }
     };
 
     fetchProducts();
+    return () => {
+      cancelled = true;
+    };
   }, [category, featured]);
 
   return { products, loading, error };
