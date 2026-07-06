@@ -90,6 +90,8 @@ export const TrendingSection = (): JSX.Element | null => {
                       className="h-[200px] sm:h-[230px] lg:h-[258px] w-full object-cover rounded-lg"
                       alt={product.title}
                       src={image}
+                      loading="lazy"
+                      decoding="async"
                     />
                     <div className="flex flex-col items-start gap-3 w-full">
                       <div className="flex items-start justify-between gap-2 w-full">
