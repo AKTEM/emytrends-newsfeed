@@ -1,4 +1,4 @@
-import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDocs, getDoc, query, orderBy } from "firebase/firestore";
+import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, getDocs, getDoc, getCountFromServer, query, orderBy } from "firebase/firestore";
 import app from "./firebase";
 
 const db = getFirestore(app);
@@ -55,4 +55,10 @@ export const getAllBlogPosts = async (): Promise<BlogPost[]> => {
   const q = query(blogsCollection, orderBy("createdAt", "desc"));
   const querySnapshot = await getDocs(q);
   return querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as BlogPost));
+};
+
+// Aggregation — 1 billed read for a total count.
+export const getBlogPostCount = async (): Promise<number> => {
+  const snap = await getCountFromServer(blogsCollection);
+  return snap.data().count;
 };
