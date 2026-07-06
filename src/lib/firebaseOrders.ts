@@ -46,6 +46,7 @@ export interface Order {
   userEmail?: string;
   items: OrderItem[];
   totalAmount: number;
+  deliveryFee?: number;
   status: OrderStatus;
   shippingAddress: {
     name: string;
@@ -69,6 +70,11 @@ export const addOrder = async (order: Omit<Order, "id" | "createdAt" | "updatedA
     updatedAt: new Date(),
   });
   return docRef.id;
+};
+
+export const updateOrder = async (id: string, patch: Partial<Order>): Promise<void> => {
+  const orderRef = doc(db, "orders", id);
+  await updateDoc(orderRef, { ...patch, updatedAt: new Date() });
 };
 
 export const updateOrderStatus = async (
