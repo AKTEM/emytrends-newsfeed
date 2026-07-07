@@ -1,0 +1,42 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn()
+        && firestore.exists(/databases/(default)/documents/admins/$(request.auth.uid));
+    }
+
+    // Product images — public read, admin-only write. 5 MB cap.
+    match /products/{productId}/{fileName=**} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && (request.resource == null || request.resource.size < 5 * 1024 * 1024);
+    }
+
+    // Blog images — public read, admin-only write.
+    match /blogs/{blogId}/{fileName=**} {
+      allow read: if true;
+      allow write: if isAdmin()
+        && (request.resource == null || request.resource.size < 5 * 1024 * 1024);
+    }
+
+    // Per-user uploads (avatars, etc.).
+    match /users/{userId}/{fileName=**} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow read: if isAdmin();
+      allow write: if isSignedIn() && request.auth.uid == userId
+        && (request.resource == null || request.resource.size < 5 * 1024 * 1024);
+    }
+
+    // Default deny.
+    match /{allPaths=**} {
+      allow read, write: if false;
+    }
+  }
+}

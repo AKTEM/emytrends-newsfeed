@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useCart } from "../../contexts/CartContext";
 import { useAuth } from "../../contexts/AuthContext";
 import { createPayPalOrder, capturePayPalOrder } from "../../lib/paypal";
-import { addOrder, OrderItem } from "../../lib/firebaseOrders";
 
 interface Props {
   shippingAddress?: {
@@ -18,20 +17,28 @@ interface Props {
   };
 }
 
-const DEFAULT_ADDRESS = {
-  name: "",
-  address: "",
-  city: "",
-  state: "",
-  zipCode: "",
-  country: "",
-};
-
 export const PayPalCheckoutButton = ({ shippingAddress }: Props) => {
   const { cartItems, orderTotal, clearCart } = useCart();
   const { user } = useAuth();
   const navigate = useNavigate();
   const [error, setError] = useState<string | null>(null);
+
+  if (!user) {
+    return (
+      <div className="w-full">
+        <div className="p-3 bg-yellow-50 border border-yellow-200 text-yellow-800 text-sm rounded">
+          Please sign in to complete your purchase.
+        </div>
+        <button
+          type="button"
+          onClick={() => navigate("/auth")}
+          className="mt-3 w-full bg-[#E3A857] text-black font-semibold py-3 rounded"
+        >
+          Sign in to check out
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full">
@@ -46,7 +53,16 @@ export const PayPalCheckoutButton = ({ shippingAddress }: Props) => {
         createOrder={async () => {
           setError(null);
           try {
-            return await createPayPalOrder({ amount: orderTotal, currency: "USD" });
+            return await createPayPalOrder({
+              items: cartItems.map((c) => ({
+                productId: c.id,
+                quantity: c.quantity,
+                variantId: c.variant,
+                color: c.color,
+                length: c.variant,
+              })),
+              currency: "USD",
+            });
           } catch (e: any) {
             setError(e.message ?? "Failed to create PayPal order");
             throw e;
@@ -54,37 +70,9 @@ export const PayPalCheckoutButton = ({ shippingAddress }: Props) => {
         }}
         onApprove={async (data) => {
           try {
-            const capture = await capturePayPalOrder(data.orderID);
-
-            const items: OrderItem[] = cartItems.map((c) => ({
-              productId: c.id,
-              title: c.name,
-              price: c.price,
-              quantity: c.quantity,
-              image: c.image,
-              color: c.color,
-              length: c.variant,
-            }));
-
-            const orderId = await addOrder({
-              userId: user?.uid ?? "guest",
-              userEmail: user?.email ?? undefined,
-              items,
-              totalAmount: orderTotal,
-              status: "order_placed",
-              shippingAddress: shippingAddress ?? DEFAULT_ADDRESS,
-              paymentMethod: "paypal",
-              statusHistory: [
-                {
-                  status: "order_placed",
-                  date: new Date(),
-                  note: `PayPal capture ${capture?.id ?? data.orderID}`,
-                },
-              ],
-            });
-
+            const result = await capturePayPalOrder(data.orderID, shippingAddress);
             clearCart();
-            navigate(`/order-confirmation/${orderId}`);
+            navigate(`/order-confirmation/${result.orderId}`);
           } catch (e: any) {
             setError(e.message ?? "Payment capture failed");
           }

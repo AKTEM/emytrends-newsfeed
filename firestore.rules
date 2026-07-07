@@ -1,0 +1,74 @@
+rules_version = '2';
+
+// Least-privilege rules. Default deny; specific paths opened below.
+// Server-side (Cloud Functions with Admin SDK) bypasses these rules and
+// is the only writer for `orders` totals and status.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isAdmin() {
+      return isSignedIn()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // ---------- Public catalog: read-any, write-admin-only ----------
+    match /products/{productId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /siteSettings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    // ---------- Orders: owner-read, admin-full, no client price/status writes ----------
+    // Order creation is done by the PayPal Cloud Function with Admin SDK,
+    // so client create/update is disallowed here.
+    match /orders/{orderId} {
+      allow read: if isAdmin()
+        || (isSignedIn() && resource.data.userId == request.auth.uid);
+      allow create, update, delete: if isAdmin();
+    }
+
+    // ---------- Per-user data ----------
+    match /userProfiles/{userId} {
+      allow read, write: if isSignedIn() && request.auth.uid == userId;
+      allow read, write: if isAdmin();
+    }
+
+    match /addresses/{addressId} {
+      allow read, delete: if isSignedIn()
+        && resource.data.userId == request.auth.uid;
+      allow create: if isSignedIn()
+        && request.resource.data.userId == request.auth.uid;
+      allow update: if isSignedIn()
+        && resource.data.userId == request.auth.uid
+        && request.resource.data.userId == request.auth.uid;
+      allow read, write: if isAdmin();
+    }
+
+    // ---------- Admin registry ----------
+    // A user can read *their own* admin doc so AdminContext can check role.
+    // No client can write to admins/*.
+    match /admins/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow read: if isAdmin();
+      allow write: if false;
+    }
+
+    // Default deny for any collection not listed above.
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
