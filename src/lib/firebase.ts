@@ -6,6 +6,11 @@ import {
   persistentLocalCache,
   persistentMultipleTabManager,
 } from "firebase/firestore";
+import {
+  initializeAppCheck,
+  ReCaptchaV3Provider,
+  AppCheck,
+} from "firebase/app-check";
 
 const firebaseConfig = {
   apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
@@ -20,9 +25,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 
-// Enable Firestore persistent IndexedDB cache. Repeat reads for unchanged
-// documents are served locally at zero billed reads. Falls back gracefully
-// if persistence isn't supported (e.g. private browsing / SSR).
+// ---------- Firestore persistent cache ----------
 try {
   initializeFirestore(app, {
     localCache: persistentLocalCache({
@@ -30,10 +33,39 @@ try {
     }),
   });
 } catch (err) {
-  // Already initialized or persistence unsupported — safe to ignore.
   console.warn("Firestore persistent cache not enabled:", err);
 }
 
+// ---------- App Check (bot / abuse protection) ----------
+// Requires VITE_RECAPTCHA_SITE_KEY (reCAPTCHA v3 site key, publishable).
+// The matching secret is configured in the Firebase console → App Check.
+let appCheckInstance: AppCheck | null = null;
+if (typeof window !== "undefined") {
+  const siteKey = import.meta.env.VITE_RECAPTCHA_SITE_KEY;
+  if (siteKey) {
+    try {
+      // Allow the debug token flow in local dev.
+      if (import.meta.env.DEV) {
+        (self as any).FIREBASE_APPCHECK_DEBUG_TOKEN = true;
+      }
+      appCheckInstance = initializeAppCheck(app, {
+        provider: new ReCaptchaV3Provider(siteKey),
+        isTokenAutoRefreshEnabled: true,
+      });
+    } catch (err) {
+      console.warn("App Check initialization failed:", err);
+    }
+  } else {
+    console.warn(
+      "VITE_RECAPTCHA_SITE_KEY is not set. App Check is disabled. " +
+        "Add it to .env to enable bot/abuse protection."
+    );
+  }
+}
+
+export const getAppCheckInstance = (): AppCheck | null => appCheckInstance;
+
+// ---------- Analytics ----------
 if (typeof window !== "undefined" && import.meta.env.VITE_FIREBASE_MEASUREMENT_ID) {
   isSupported()
     .then((supported) => {
